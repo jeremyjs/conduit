@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
@@ -38,5 +39,6 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'devise'
+gem 'devise', '~> 3.0.0'
 gem 'devise_ldap_authenticatable'
+gem 'net-ldap', '~> 0.3.1'
