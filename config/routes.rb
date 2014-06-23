@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/dashboard'
+
   resources :query_tables
 
   resources :queries
