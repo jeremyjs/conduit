@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'haml'
 gem 'rails', '4.1.1'
 gem 'sqlite3'
@@ -14,7 +13,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'spring',        group: :development
-
+gem 'imgkit'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
