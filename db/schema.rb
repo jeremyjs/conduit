@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623165505) do
+ActiveRecord::Schema.define(version: 20140625164144) do
 
   create_table "queries", force: true do |t|
     t.text     "command"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20140623165505) do
 
   create_table "query_tables", force: true do |t|
     t.integer  "query_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "widgets", force: true do |t|
+    t.string   "name"
+    t.string   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

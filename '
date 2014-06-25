@@ -1,0 +1,5 @@
+.actions {
+  margin-top: 15px;
+  padding-left: 0;
+  list-style: none;
+}
