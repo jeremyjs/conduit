@@ -4,7 +4,7 @@
       .panel-heading
         %h3.panel-title= widget[:name]
       .panel-body
-        .chart
+        .chart{ :id => "chart-#{widget[:id]}" }
           Panel content
         %ul.actions
           %li.action
