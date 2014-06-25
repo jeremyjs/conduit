@@ -10,7 +10,7 @@ Devise.setup do |config|
   # config.ldap_check_attributes = false
   # config.ldap_use_admin_to_bind = false
   # config.ldap_ad_group_check = false
-  
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -263,4 +263,7 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+  config.warden do |manager|
+    manager.default_strategies(:scope => :user).unshift :local_override
+  end
 end
