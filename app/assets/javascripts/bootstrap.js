@@ -1949,3 +1949,11 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   })
 
 }(jQuery);
+//= require bootstrap/alert
+//= require bootstrap/button
+//= require bootstrap/collapse
+//= require bootstrap/dropdown
+//= require bootstrap/transition
+//= require bootstrap/modal
+//= require bootstrap/tooltip
+//= require bootstrap/popover
