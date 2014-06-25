@@ -12,5 +12,5 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'spring',        group: :development
+gem "erb2haml", :group => :development
 
-gem 'sdoc', '~> 0.4.0',          group: :doc
