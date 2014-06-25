@@ -1,0 +1,12 @@
+.widgets
+  - @widgets.each do |widget|
+    .widget.panel.panel-default
+      .panel-heading
+        %h3.panel-title= widget[:name]
+      .panel-body
+        .chart{ :id => "chart-#{widget[:id]}" }
+          Panel content
+        %ul.actions
+          %li.action
+            %button.save Save
+
