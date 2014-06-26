@@ -1,6 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
   chart1 = c3.generate(
     bindto: "#chart-1"
@@ -61,7 +58,6 @@ $ ->
   })
 
   charts = [chart1, chart2, chart3]
-  console.log(charts)
 
   $('.hide-data').on('click', ->
     chart1.hide(['data2'])

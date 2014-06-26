@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :widgets
 
-  root 'home#dashboard'
+  root 'query_tables#index'
   get 'home/dashboard'
 
   resources :query_tables

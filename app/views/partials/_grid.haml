@@ -1,20 +1,5 @@
-%button.hide-data Hide Data2
-%button.show-data Show Data2
-
 .gridster
   %ul
-    %li.grid-object{"data-col" => "1", "data-row" => "1", "data-sizex" => "4", "data-sizey" => "3"}
-      = render partial: 'widgets/widget', locals: { index: 0 }
-    %li.grid-object{"data-col" => "1", "data-row" => "2", "data-sizex" => "3", "data-sizey" => "3"}
-      = render partial: 'widgets/widget', locals: { index: 1 }
-    %li.grid-object{"data-col" => "1", "data-row" => "3", "data-sizex" => "3", "data-sizey" => "3"}
-      = render partial: 'widgets/widget', locals: { index: 2 }
-    %li.grid-object{"data-col" => "2", "data-row" => "1", "data-sizex" => "2", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "2", "data-row" => "2", "data-sizex" => "2", "data-sizey" => "2"}
-    %li.grid-object{"data-col" => "4", "data-row" => "1", "data-sizex" => "1", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "4", "data-row" => "2", "data-sizex" => "2", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "4", "data-row" => "3", "data-sizex" => "1", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "5", "data-row" => "1", "data-sizex" => "1", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "5", "data-row" => "3", "data-sizex" => "1", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "6", "data-row" => "1", "data-sizex" => "1", "data-sizey" => "1"}
-    %li.grid-object{"data-col" => "6", "data-row" => "2", "data-sizex" => "1", "data-sizey" => "2"}
+    - @widgets.each_with_index do |w, i|
+      %li.grid-object{"data-col" => w[:col], "data-row" => w[:row], "data-sizex" => w[:x], "data-sizey" => w[:y]}
+        = render partial: 'widgets/widget', locals: { index: i }

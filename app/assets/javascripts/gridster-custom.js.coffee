@@ -1,20 +1,31 @@
+widget_height = 140
+widget_width = 140
+
+resizeChart = (ui)->
+  $chart = getChart(ui)
+  console.log($chart)
+  # new_height = 0.8 * $chart.height
+  $chart.resize()
+
+getChart = (ui)->
+  $(ui.$helper.context.parentElement).find('.chart')
+
 $ ->
   $(".gridster ul").gridster({
     widget_margins: [10, 10],
-    widget_base_dimensions: [140, 140]
+    widget_base_dimensions: [widget_height, widget_width]
     widget_selector: '.grid-object'
     resize:
       enabled: true
-      start: (event, ui) -> 
-        chart_num = $(ui.$helper.context.parentElement).find('.chart').attr('id').slice(-1)
-        @resizeInterval = 
+      start: (event, ui) ->
+        console.log(ui)
+        @resizeInterval =
           setInterval ->
-            $('#chart-'+chart_num).resize()
+            resizeChart(ui)
           , 333
-      stop: (event, ui) -> 
-        chart_num = $(ui.$helper.context.parentElement).find('.chart').attr('id').slice(-1)
+      stop: (event, ui) ->
         clearInterval(@resizeInterval)
         setTimeout ->
-          $('#chart-'+chart_num).resize()
+          resizeChart(ui)
         , 200
   })
