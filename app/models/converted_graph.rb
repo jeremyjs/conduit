@@ -1,0 +1,2 @@
+class ConvertedGraph < Graph
+end
