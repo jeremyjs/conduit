@@ -4,4 +4,5 @@
 //= require jquery_gridster
 //= require d3_v3_min
 //= require c3
+//= require c3ext
 //= require dashboard
