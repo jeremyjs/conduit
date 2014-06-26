@@ -3,7 +3,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require gridster-custom
-//= require jquery_gridster
-//= require d3_v3_min
+//= require jquery-gridster
+//= require d3-v3-min
 //= require c3
 //= require dashboard
