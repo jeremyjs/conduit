@@ -1,3 +1,8 @@
+@log = ->
+  console.log("log")
+
+window.charts = []
+
 $ ->
   chart1 = c3.generate(
     bindto: "#chart-1"
@@ -57,7 +62,10 @@ $ ->
     }
   })
 
-  charts = [chart1, chart2, chart3]
+  window.charts =
+    "chart-1": chart1
+    "chart-2": chart2
+    "chart-3": chart3
 
   $('.hide-data').on('click', ->
     chart1.hide(['data2'])
