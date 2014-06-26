@@ -1,15 +1,23 @@
 .gridster {
-  background-color: #ddd;
+  background-color: none;
 
   ul {
     list-style-type: none;
 
     li {
-      background-color: #eee;
+      background-color: #ddd;
+      border-radius: 5px;
     }
   }
-}
 
+  .preview-holder {
+    background-color: #ddd;
+  }
+}
+.panel {
+  height: 100%;
+}
 .panel-body {
+  height: 100%;
   overflow: hidden;
 }
