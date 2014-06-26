@@ -1,0 +1,2 @@
+module IssuedGraphsHelper
+end

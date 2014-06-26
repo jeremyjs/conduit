@@ -1,0 +1,2 @@
+class Graph < Widget
+end

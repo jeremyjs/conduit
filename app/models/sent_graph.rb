@@ -1,0 +1,2 @@
+class SentGraph < Graph
+end

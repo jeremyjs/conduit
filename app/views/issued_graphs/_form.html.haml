@@ -1,0 +1,11 @@
+= form_for(@issued_graph) do |f|
+  - if @issued_graph.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@issued_graph.errors.count, "error")
+        prohibited this issued_graph from being saved:
+      %ul
+        - @issued_graph.errors.full_messages.each do |message|
+          %li= message
+  .actions
+    = f.submit
