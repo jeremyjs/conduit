@@ -1,0 +1,2 @@
+class ImportedGraph < Graph
+end

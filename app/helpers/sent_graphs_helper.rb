@@ -1,0 +1,2 @@
+module SentGraphsHelper
+end
