@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %strong Query:
+  = @query_table.query_id
+= link_to 'Edit', edit_query_table_path(@query_table)
+|
+\#{link_to 'Back', query_tables_path}
