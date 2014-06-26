@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard - Conduit</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="/assets/sb-admin.css" rel="stylesheet">
+    <link href="/assets/font-awesome.css" rel="stylesheet" >
+
+    <!-- Page Specific CSS -->
+    <link href="/assets/morris-0.4.3.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Conduit</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right navbar-user">
+          <li class="dropdown user-dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+          </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <h1>Conduit <small>Leads Analytics</small></h1>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-1 col-lg-offset-1">
+            <form class="form-inline" role="form">
+              <div class="form-group">
+                <!-- <label for="lead-provider">Lead Provider</label> -->
+                <button style="margin-left: 30px; margin-top: 4px;">KPI</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-8">
+            <form class="form-inline" role="form">
+              <div class="form-group">
+                <!-- <label for="lead-provider">Lead Provider</label> -->
+                <select class="form-control" id="lead-provider">
+                  <option value="data1">Lead Provider 1</option>
+                  <option value="data2">Lead Provider 2</option>
+                  <option value="data3">Lead Provider 3</option>
+                </select>
+              </div>
+            </form>
+            <br/>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Statistics: October 1, 2013 - October 31, 2013</h3>
+              </div>
+              <div class="panel-body">
+                <div id="morris-chart-area"></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-money"></i> Recent Transactions</h3>
+              </div>
+              <div class="panel-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped tablesorter">
+                    <thead>
+                      <tr>
+                        <th>Order # <i class="fa fa-sort"></i></th>
+                        <th>Order Date <i class="fa fa-sort"></i></th>
+                        <th>Order Time <i class="fa fa-sort"></i></th>
+                        <th>Amount (USD) <i class="fa fa-sort"></i></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>3326</td>
+                        <td>10/21/2013</td>
+                        <td>3:29 PM</td>
+                        <td>$321.33</td>
+                      </tr>
+                      <tr>
+                        <td>3325</td>
+                        <td>10/21/2013</td>
+                        <td>3:20 PM</td>
+                        <td>$234.34</td>
+                      </tr>
+                      <tr>
+                        <td>3324</td>
+                        <td>10/21/2013</td>
+                        <td>3:03 PM</td>
+                        <td>$724.17</td>
+                      </tr>
+                      <tr>
+                        <td>3323</td>
+                        <td>10/21/2013</td>
+                        <td>3:00 PM</td>
+                        <td>$23.71</td>
+                      </tr>
+                      <tr>
+                        <td>3322</td>
+                        <td>10/21/2013</td>
+                        <td>2:49 PM</td>
+                        <td>$8345.23</td>
+                      </tr>
+                      <tr>
+                        <td>3321</td>
+                        <td>10/21/2013</td>
+                        <td>2:23 PM</td>
+                        <td>$245.12</td>
+                      </tr>
+                      <tr>
+                        <td>3320</td>
+                        <td>10/21/2013</td>
+                        <td>2:15 PM</td>
+                        <td>$5663.54</td>
+                      </tr>
+                      <tr>
+                        <td>3319</td>
+                        <td>10/21/2013</td>
+                        <td>2:13 PM</td>
+                        <td>$943.45</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-right">
+                  <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.row -->
+
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    <!-- JavaScript -->
+    <script src="/assets/jquery-1.10.2.js"></script>
+    <script src="/assets/bootstrap.js"></script>
+
+    <!-- Page Specific Plugins -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+    <script src="/assets/morris/chart-data-morris.js"></script>
+    <script src="/assets/tablesorter/jquery.tablesorter.js"></script>
+    <script src="/assets/tablesorter/tables.js"></script>
+
+  </body>
+</html>

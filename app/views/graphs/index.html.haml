@@ -1,0 +1,15 @@
+%h1 Listing graphs
+%table
+  %thead
+    %tr
+      %th Query
+      %th{:colspan => "3"}
+  %tbody
+    - @graphs.each do |graph|
+      %tr
+        %td= graph.query_id
+        %td= link_to 'Show', graph
+        %td= link_to 'Edit', edit_graph_path(graph)
+        %td= link_to 'Destroy', graph, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Graph', new_graph_path

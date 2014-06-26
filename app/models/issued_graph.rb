@@ -1,0 +1,2 @@
+class IssuedGraph < Graph
+end

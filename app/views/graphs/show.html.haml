@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %strong Query:
+  = @graph.query_id
+= link_to 'Edit', edit_graph_path(@graph)
+|
+\#{link_to 'Back', graphs_path}
