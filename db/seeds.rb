@@ -147,6 +147,8 @@ first(c_s.received_time)desc;
 
 q = Query.find_or_create_by(command: lead_id_1210)
 puts q.errors.full_messages
+qt = QueryTable.find_or_create_by(query_id: q.id)
+puts qt.errors.full_messages
 
 model_lead_source_performance_06_12_2014 = %{
 
@@ -795,6 +797,8 @@ order by provider
 
 q = Query.find_or_create_by(command: model_lead_source_performance_06_12_2014)
 puts q.errors.full_messages
+qt = QueryTable.find_or_create_by(query_id: q.id)
+puts qt.errors.full_messages
 
 pitch_main_query_backup_0211 = %{
 --Query: Pitch_Main_Query_skhodukin.sql
@@ -886,6 +890,8 @@ order by provider, tier
 
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
+qt = QueryTable.find_or_create_by(query_id: q.id)
+puts qt.errors.full_messages
 
 tiers_1218 = %{
 --Query: Tiers_0514_smurzin.sql
@@ -975,3 +981,5 @@ order by provider, tier,  lead_source
 
 q = Query.find_or_create_by(command: tiers_1218)
 puts q.errors.full_messages
+qt = QueryTable.find_or_create_by(query_id: q.id)
+puts qt.errors.full_messages
