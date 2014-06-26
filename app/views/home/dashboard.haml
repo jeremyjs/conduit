@@ -1,0 +1,22 @@
+
+%br
+
+%button.hide-data Hide Data2
+%button.show-data Show Data2
+
+.row
+  .col-md-12
+    .row.widgets
+      - @widgets.each do |widget|
+        .col-md-4
+          .widget.panel.panel-default
+            .panel-heading
+              %h3.panel-title= widget[:name]
+            .panel-body
+              .chart{ :id => "chart-#{widget[:id]}" }
+                Panel content
+              %ul.actions
+                %li.action
+                  %button.save Edit
+                %li.action
+
