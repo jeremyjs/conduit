@@ -1,0 +1,17 @@
+<%= form_for(@issued_graph) do |f| %>
+  <% if @issued_graph.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@issued_graph.errors.count, "error") %> prohibited this issued_graph from being saved:</h2>
+
+      <ul>
+      <% @issued_graph.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
