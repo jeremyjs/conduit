@@ -983,3 +983,6 @@ q = Query.find_or_create_by(command: tiers_1218)
 puts q.errors.full_messages
 qt = QueryTable.find_or_create_by(query_id: q.id)
 puts qt.errors.full_messages
+
+g = Graph.find_or_create_by(name: "Test Graph", row: 1, column: 1, width: 1, height: 1)
+puts g.errors.full_messages

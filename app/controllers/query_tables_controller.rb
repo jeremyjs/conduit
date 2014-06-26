@@ -13,10 +13,10 @@ class QueryTablesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      table = [["1,1","1,2","1,3"],
+      mocked_json = [["1,1","1,2","1,3"],
                ["2,1","2,2","2,3"],
                ["3,1","3,2","3,3"]]
-      format.json { render json: table }
+      format.json { render json: mocked_json }
     end
   end
 
