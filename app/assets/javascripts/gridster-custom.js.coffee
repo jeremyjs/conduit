@@ -5,15 +5,16 @@ $ ->
     widget_selector: '.grid-object'
     resize:
       enabled: true
-      start: -> 
+      start: (event, ui) -> 
+        chart_num = $(ui.$helper.context.parentElement).find('.chart').attr('id').slice(-1)
         @resizeInterval = 
           setInterval ->
-            $('#chart-1').resize()
-            console.log('asdfadsf')
+            $('#chart-'+chart_num).resize()
           , 333
-      stop: -> 
+      stop: (event, ui) -> 
+        chart_num = $(ui.$helper.context.parentElement).find('.chart').attr('id').slice(-1)
         clearInterval(@resizeInterval)
         setTimeout ->
-          $('#chart-1').resize()
+          $('#chart-'+chart_num).resize()
         , 200
   })
