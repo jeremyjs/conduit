@@ -27,3 +27,4 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :testb
 gem "erb2haml", :group => :development
+gem 'pg'
