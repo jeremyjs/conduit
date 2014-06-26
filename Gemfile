@@ -14,4 +14,4 @@ gem 'uglifier', '>= 1.3.0'
 gem 'hpricot', '~> 0.8.6'
 gem 'spring',        group: :development
 gem "erb2haml", :group => :development
-
+gem 'pg'

@@ -18,7 +18,7 @@ class WidgetsControllerTest < ActionController::TestCase
 
   test "should create widget" do
     assert_difference('Widget.count') do
-      post :create, widget: { data: @widget.data, name: @widget.name }
+      post :create, widget: { column: @widget.column, height: @widget.height, name: @widget.name, row: @widget.row, width: @widget.width }
     end
 
     assert_redirected_to widget_path(assigns(:widget))
@@ -35,7 +35,11 @@ class WidgetsControllerTest < ActionController::TestCase
   end
 
   test "should update widget" do
+<<<<<<< HEAD
     patch :update, id: @widget, widget: { data: @widget.data, name: @widget.name }
+=======
+    patch :update, id: @widget, widget: { column: @widget.column, height: @widget.height, name: @widget.name, row: @widget.row, width: @widget.width }
+>>>>>>> models
     assert_redirected_to widget_path(assigns(:widget))
   end
 
