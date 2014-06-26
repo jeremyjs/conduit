@@ -5,6 +5,7 @@ class QueryTablesController < ApplicationController
   # GET /query_tables.json
   def index
     @query_tables = QueryTable.all
+    @widgets = [{id: 1, name: "Name", data: ""}, {id: 2, name: "Name", data: ""}, {id: 3, name: "Name", data: ""}]
   end
 
   # GET /query_tables/1
