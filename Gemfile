@@ -21,3 +21,26 @@ gem 'hpricot', '~> 0.8.6'
 gem 'spring',        group: :development
 gem "erb2haml", :group => :development
 gem 'pg'
+
+
+
+group :development, :test do
+  gem "rspec-rails", ">= 2.8.1"
+  gem 'factory_girl_rails'
+end
+
+group :test do
+      gem "selenium-webdriver", "~> 2.39.0"
+      gem "cucumber-rails", ">= 1.2.1"
+      gem "capybara", ">= 1.1.2"
+      gem "database_cleaner"
+      gem "pry"
+      gem 'shoulda-matchers'
+      gem "launchy"
+end
+
+
+
+
+
+
