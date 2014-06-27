@@ -32,8 +32,7 @@ siblingHeight = ($panel, $chart) ->
   sum
 
 $ ->
-  chart1 = {}
-  $.get '/graphs/1.json', (data) ->
+  chart1 = $.get '/graphs/1.json', (data) ->
     datas = []
     titles = {}
     typing = {}
@@ -45,7 +44,7 @@ $ ->
         col_vals = (val.value for val in graph.values)
         col_vals.unshift(graph.name)
         datas.push(col_vals)
-    chart1 = c3.generate(
+    window.charts.push({ "#chart-1": c3.generate(
       bindto: "#chart-1"
       data: {
         columns: datas
@@ -62,7 +61,7 @@ $ ->
         }
       }
       #axis: data_axis
-    )
+    )})
 
   chart2 = c3.generate({
     bindto: "#chart-2"
@@ -99,22 +98,22 @@ $ ->
     }
   })
 
-  window.charts =
-    "#chart-1": chart1
-    "#chart-2": chart2
-    "#chart-3": chart3
+  window.charts.concat([
+    { "#chart-2": chart2 }
+    { "#chart-3": chart3 }
+  ])
 
-  $('.hide-data').on('click', ->
-    chart1.hide(['data2'])
-    chart2.hide(['data2'])
-    chart3.hide(['data2'])
-  )
-
-  $('.show-data').on('click', ->
-    chart1.show(['data2'])
-    chart2.show(['data2'])
-    chart3.show(['data2'])
-  )
+#  $('.hide-data').on('click', ->
+#    chart1.hide(['data2'])
+#    chart2.hide(['data2'])
+#    chart3.hide(['data2'])
+#  )
+#
+#  $('.show-data').on('click', ->
+#    chart1.show(['data2'])
+#    chart2.show(['data2'])
+#    chart3.show(['data2'])
+#  )
 
   drawWidgets()
 
