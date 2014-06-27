@@ -32,28 +32,37 @@ siblingHeight = ($panel, $chart) ->
   sum
 
 $ ->
-  chart1 = c3.generate(
-    bindto: "#chart-1"
-    data:
-      columns: [
-        ["data1", 30, 200, 100, 400, 150, 250]
-        ["data2", 50, 20, 10, 40, 15, 25]
-      ]
-      axes: {
-        data1: 'y'
-        data2: 'y2'
-      }
-    axis: {
-      y2: {
-        tick: {
-          # format: d3.format("%")
-          format: (d)->
-            return d + "%"
+  chart1 = {}
+  $.get '/graphs/1.json', (data) ->
+    datas = []
+    titles = {}
+    typing = {}
+    for graph in data
+      do (graph) ->
+        titles[graph.name] = graph.name
+        typing[graph.name] = graph.type
+
+        col_vals = (val.value for val in graph.values)
+        col_vals.unshift(graph.name)
+        datas.push(col_vals)
+    chart1 = c3.generate(
+      bindto: "#chart-1"
+      data: {
+        columns: datas
+        #axes: titles
+        axes:  {
+          DescriptiveQueryName: 'y'
+          DescriptiveQueryName2: 'y2'
         }
-        show: true
+        types: typing
       }
-    }
-  )
+      axis: {
+        y2: {
+          show: true
+        }
+      }
+      #axis: data_axis
+    )
 
   chart2 = c3.generate({
     bindto: "#chart-2"
