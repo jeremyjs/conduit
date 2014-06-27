@@ -4,14 +4,14 @@
   %div
     = f.label :login
     %br/
-    = f.text_field :login, :autofocus => true
+    = f.text_field :login, :autofocus => true , :id => "sign_up_username"
   %div
     = f.label :password
     %br/
-    = f.password_field :password
+    = f.password_field :password , :id => "sign_up_password"
   %div
     = f.label :password_confirmation
     %br/
-    = f.password_field :password_confirmation
-  %div= f.submit "Sign up"
+    = f.password_field :password_confirmation , :id => "sign_up_confirm"
+  %div= f.submit "Sign up" , :id => "Sign Up"
 = render "devise/shared/links"
