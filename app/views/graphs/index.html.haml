@@ -7,7 +7,7 @@
   %tbody
     - @graphs.each do |graph|
       %tr
-        %td= graph.query_id
+        /%td= graph.query
         %td= link_to 'Show', graph
         %td= link_to 'Edit', edit_graph_path(graph)
         %td= link_to 'Destroy', graph, method: :delete, data: { confirm: 'Are you sure?' }

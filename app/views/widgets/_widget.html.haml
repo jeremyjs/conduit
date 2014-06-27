@@ -1,11 +1,12 @@
 .widget.panel.panel-default
   .panel-heading
-    %h3.panel-title= @widgets[index][:name]
+    %h3.panel-title= widget[:name]
   .panel-body
-    .chart{ :id => "chart-#{@widgets[index][:id]}" }
+    .chart{ :id => "chart-#{widget[:id]}" }
+
       Panel content
     %ul.actions
       %li.action
-        %button.save Edit
+        = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save"
       %li.action
 

@@ -20,10 +20,18 @@ $(window).resize( ->
   # reload the page
   location.reload()
 )
+
+tryDrawWidgets = ->
+  console.log("test")
+  if @drawWidgets
+    @drawWidgets()
+  else
+    setTimeout ->
+      tryDrawWidgets()
+    , 200
+
 $ ->
   setWidgetDimensions()
-
-  @drawWidgets() if @drawWidgets
 
   $(".grid").gridster({
     widget_margins: [10, 10],
@@ -43,3 +51,5 @@ $ ->
         , 200
   })
 
+$(document).ready(tryDrawWidgets)
+$(document).on('page:load', tryDrawWidgets)
