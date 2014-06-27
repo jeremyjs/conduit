@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  root 'query_tables#index'
-
-  get 'dashboard', to: 'home#dashboard'
+  root 'home#dashboard'
+  get 'dashboard', to: 'home#dashboard', as: :dashboard
   get 'home/dashboard'
 
   devise_for :users
