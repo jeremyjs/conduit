@@ -6,14 +6,14 @@ resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
   @drawChart(chartName(getChartElem(ui)))
 
-getChartElem = (ui) ->
-  getGridItem(ui).find('.chart')
-
 getGridItem = (ui)->
   $(ui.$helper.context.parentElement)
 
 chartName = ($chart) ->
   "#" + $chart.attr('id')
+
+getChartElem = (ui) ->
+  getGridItem(ui).find('.chart')
 
 # TODO: find a better way to handle responsiveness
 $(window).resize( ->
