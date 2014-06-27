@@ -1,9 +1,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require utils
 //= require bootstrap
-//= require jquery-gridster
+//= require jquery.gridster
 //= require grid
-//= require dashboard
+//= require charts
 //= require d3-v3-min
 //= require c3

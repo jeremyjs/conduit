@@ -1,34 +1,34 @@
-widget_height = 140
-widget_width = 140
+setWidgetDimensions = ->
+  window.widget_height = 128
+  window.widget_width = 128
 
-resizeChart = (ui)->
-  $grid_obj = getGridObj(ui)
-  $chart = getChart(ui)
+resizeChart = (ui) ->
+  $grid_item = getGridItem(ui)
+  @drawChart(chartName(getChartElem(ui)))
 
-  console.log($chart.height())
-  console.log($grid_obj.height())
+getChartElem = (ui) ->
+  getGridItem(ui).find('.chart')
 
-  new_height = 0.6 * $grid_obj.height()
-
-  console.log()
-  $chart = window.charts[chartName($chart)]
-
-  $chart.resize({height: new_height})
-
-getChart = (ui)->
-  getGridObj(ui).find('.chart')
-
-getGridObj = (ui)->
+getGridItem = (ui)->
   $(ui.$helper.context.parentElement)
 
-chartName = ($chart)->
-  $chart.attr('id')
+chartName = ($chart) ->
+  "#" + $chart.attr('id')
 
+# TODO: find a better way to handle responsiveness
+$(window).resize( ->
+  # reload the page
+  location.reload()
+)
 $ ->
+  setWidgetDimensions()
+
+  @drawWidgets() if @drawWidgets
+
   $(".grid").gridster({
     widget_margins: [10, 10],
-    widget_base_dimensions: [widget_height, widget_width]
-    widget_selector: '.grid-object'
+    widget_base_dimensions: [window.widget_width, window.widget_height]
+    widget_selector: '.grid-item'
     resize:
       enabled: true
       start: (event, ui) ->
@@ -42,3 +42,4 @@ $ ->
           resizeChart(ui)
         , 200
   })
+
