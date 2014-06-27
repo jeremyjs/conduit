@@ -4,6 +4,7 @@ window.charts = []
   for name, chart of window.charts
     @drawChart(name, chart)
 
+# can also use like @drawChart(name)
 @drawChart = (name, chart) ->
   chart = window.charts[name] unless chart
   $chart_elem = $(name)
@@ -12,17 +13,20 @@ window.charts = []
 
 calculateHeight = ($chart) ->
   $parent = $chart.parents('.grid-item').first()
-  parent_height = $parent.height()
-  header_height = $parent.find('.panel-heading').outerHeight()
   $panel = $parent.find('.panel-body')
-  panel_height = parent_height - header_height - ($panel.outerHeight() - $panel.height())
-  sibling_height = siblingHeight($panel)
+  $panel_header = $parent.find('.panel-heading')
+
+  parent_height = $parent.height()
+  header_height = $panel_header.outerHeight()
+  panel_padding_height = $panel.outerHeight() - $panel.height()
+  panel_height = parent_height - header_height - panel_padding_height
+  sibling_height = siblingHeight($panel, $chart)
 
   panel_height - sibling_height
 
-siblingHeight = ($panel) ->
+siblingHeight = ($panel, $chart) ->
   sum = 0
-  $panel.children().not('.chart').each( ->
+  $panel.children().not($chart).each( ->
     sum += $(this).outerHeight(true)
   )
   sum
