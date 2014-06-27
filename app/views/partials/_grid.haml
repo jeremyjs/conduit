@@ -1,8 +1,8 @@
 .gridster
   %ul.grid
     - @widgets.each_with_index do |w, i|
-      %li.grid-item{"data-col" => w[:col],
-                    "data-row" => w[:row],
+      %li.grid-item{"data-col" => 1,
+                    "data-row" => 1,
                     "data-sizex" => w[:width],
                     "data-sizey" => w[:height]}
-        = render partial: 'widgets/widget', locals: { index: i }
+        = render partial: 'widgets/widget', object: w

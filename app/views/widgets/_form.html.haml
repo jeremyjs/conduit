@@ -1,4 +1,4 @@
-= form_for @widget do |f|
+= form_for(@widget, html: {role: "form"}) do |f|
   - if @widget.errors.any?
     #error_explanation
       %h2= "#{pluralize(@widget.errors.count, "error")} prohibited this widget from being saved:"
@@ -6,11 +6,17 @@
         - @widget.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
+  .field.form-group
     = f.label :name
     = f.text_field :name
-  .field
-    = f.label :data
-    = f.text_field :data
+  .field.form-group
+    = f.label :graph
+    = f.number_field :graph
+  .field.form-group
+    = f.label :height
+    = f.text_field :height
+  .field.form-group
+    = f.label :width
+    = f.text_field :width
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', class: "btn btn-default"
