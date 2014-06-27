@@ -20,10 +20,18 @@ $(window).resize( ->
   # reload the page
   location.reload()
 )
+
+tryDrawWidgets = ->
+  console.log("test")
+  if @drawWidgets
+    @drawWidgets()
+  else
+    setTimeout ->
+      tryDrawWidgets()
+    , 200
+
 $ ->
   setWidgetDimensions()
-
-  @drawWidgets() if @drawWidgets
 
   $(".grid").gridster({
     widget_margins: [10, 10],
@@ -43,3 +51,13 @@ $ ->
         , 200
   })
 
+  margin_val = parseInt($('.grid').css('marginRight'))
+  console.log(margin_val)
+
+  $('.grid').css('marginRight', 0)
+  $('.grid').css('marginLeft', 0)
+
+  $('.container-fluid').children().css('marginRight', margin_val)
+  $('.container-fluid').children().css('marginLeft', margin_val)
+  $('.container-fluid').children().not('.gridster').css('paddingRight', 10)
+  $('.container-fluid').children().not('.gridster').css('paddingLeft', 10)

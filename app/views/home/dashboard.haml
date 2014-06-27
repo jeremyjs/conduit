@@ -1,6 +1,6 @@
 %ul.actions
   %li.action
-    %button.new Add Widget
+    = link_to "Add Widget", new_widget_path, class: "btn btn-default new"
 
 = render partial: 'partials/grid'
 
