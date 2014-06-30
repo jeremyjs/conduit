@@ -10,7 +10,10 @@
     %ul.nav.navbar-nav.navbar-right
       %li.dropdown
         %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-          John Doe (jdoe@email.com)
+          - if(current_user)
+            #{current_user.login}
+          - else
+            Please Sign In
           %b.caret
         %ul.dropdown-menu
           %li
