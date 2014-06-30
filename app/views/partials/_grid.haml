@@ -5,4 +5,8 @@
                     "data-row" => 1,
                     "data-sizex" => w[:width],
                     "data-sizey" => w[:height]}
-        = render partial: 'widgets/widget', object: w
+        - if w[:id] % 2 == 1
+          = render partial: 'widgets/widget', object: w
+        - else
+          = render partial: 'widgets/table', object: w
+

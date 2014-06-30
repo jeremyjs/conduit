@@ -31,6 +31,8 @@ tryDrawWidgets = ->
     , 200
 
 $ ->
+  $('.tables').dataTable()
+
   setWidgetDimensions()
 
   $(".grid").gridster({
