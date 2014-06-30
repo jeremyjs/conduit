@@ -1,5 +1,37 @@
 window.charts = []
 
+@ajax2Chart = (num) ->
+  globalData = null
+  $.get "/graphs/#{num}.json", (data) ->
+    globalData = data
+  console.info(globalData)
+  datas = []
+  titles = {}
+  typing = {}
+  for graph in globalData
+    titles[graph.name] = graph.name
+    typing[graph.name] = graph.type
+
+    col_vals = (val.value for val in graph.values)
+    col_vals.unshift(graph.name)
+    datas.push(col_vals)
+  {
+    bindto: "#chart-#{num}"
+    data: {
+      columns: datas
+      axes: {
+        DescriptiveQueryName: 'y'
+        DescriptiveQueryName2: 'y2'
+      }
+      types: typing
+    }
+    axis: {
+      y2: {
+        show: true
+      }
+    }
+  }
+
 @drawWidgets = ->
   for name, chart of window.charts
     @drawChart(name, chart)
@@ -31,37 +63,39 @@ siblingHeight = ($panel, $chart) ->
   )
   sum
 
-$ ->
-  chart1 = $.get '/graphs/1.json', (data) ->
-    datas = []
-    titles = {}
-    typing = {}
-    for graph in data
-      do (graph) ->
-        titles[graph.name] = graph.name
-        typing[graph.name] = graph.type
+#$ ->
+#  chart1 = $.get '/graphs/1.json', (data) ->
+#    datas = []
+#    titles = {}
+#    typing = {}
+#    for graph in data
+#      do (graph) ->
+#        titles[graph.name] = graph.name
+#        typing[graph.name] = graph.type
+#
+#        col_vals = (val.value for val in graph.values)
+#        col_vals.unshift(graph.name)
+#        datas.push(col_vals)
+#    window.charts.push({ "#chart-1": c3.generate(
+#      bindto: "#chart-1"
+#      data: {
+#        columns: datas
+#        #axes: titles
+#        axes:  {
+#          DescriptiveQueryName: 'y'
+#          DescriptiveQueryName2: 'y2'
+#        }
+#        types: typing
+#      }
+#      axis: {
+#        y2: {
+#          show: true
+#        }
+#      }
+#      #axis: data_axis
+#    )})
 
-        col_vals = (val.value for val in graph.values)
-        col_vals.unshift(graph.name)
-        datas.push(col_vals)
-    window.charts.push({ "#chart-1": c3.generate(
-      bindto: "#chart-1"
-      data: {
-        columns: datas
-        #axes: titles
-        axes:  {
-          DescriptiveQueryName: 'y'
-          DescriptiveQueryName2: 'y2'
-        }
-        types: typing
-      }
-      axis: {
-        y2: {
-          show: true
-        }
-      }
-      #axis: data_axis
-    )})
+  chart1 = c3.generate(ajax2Chart(1))
 
   chart2 = c3.generate({
     bindto: "#chart-2"
@@ -116,4 +150,5 @@ $ ->
 #  )
 
   drawWidgets()
+  console.log(ajax2Chart(1))
 
