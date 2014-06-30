@@ -1,11 +1,11 @@
 window.charts = [];
 
-this.ajax2Chart = function(num) {
+this.getChart = function(id) {
   var col_vals, data, datas, graph, titles, typing, val, i, len, dataArray;
-  var globalData = null;
+  var globalData;
   $.ajax(
   {
-    url: "/graphs/" + num + ".json",
+    url: "/graphs/" + id + ".json",
     async: false,
     success: function(data)
     {
@@ -34,7 +34,7 @@ this.ajax2Chart = function(num) {
     datas.push(col_vals);
   }
   return {
-    bindto: "#chart-" + num,
+    bindto: "#chart-" + id,
     data: {
       columns: datas,
       axes: {
@@ -96,31 +96,9 @@ var siblingHeight = function($panel, $chart) {
 };
 
 $(document).ready(function() {
-  var chart1Content = ajax2Chart(1);
-  var chart1 = c3.generate(chart1Content);
-  var chart2 = c3.generate({
-    bindto: "#chart-2",
-    data: {
-      columns: [['data1', 30, 200, 100, 400, 150, 250], ['data2', 130, 100, 140, 200, 150, 50]],
-      type: 'bar'
-    },
-    bar: {
-      width: {
-        ratio: 0.5
-      }
-    }
-  });
-  var chart3 = c3.generate({
-    bindto: "#chart-3",
-    data: {
-      columns: [['data1', 30, 20, 50, 40, 60, 50], ['data2', 200, 130, 90, 240, 130, 220], ['data3', 30, 20, 50, 40, 60, 50], ['data4', 200, 130, 90, 240, 130, 220]],
-      type: 'bar',
-      types: {
-        data3: 'line',
-        data4: 'line'
-      }
-    }
-  });
+  var chart1 = c3.generate(getChart(1));
+  var chart2 = c3.generate(getChart(2));
+  var chart3 = c3.generate(getChart(3));
   window.charts = {
       "#chart-1": chart1,
       "#chart-2": chart2,

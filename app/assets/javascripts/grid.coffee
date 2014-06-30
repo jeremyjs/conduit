@@ -1,6 +1,6 @@
-setWidgetDimensions = ->
-  window.widget_height = 128
-  window.widget_width = 128
+widgetDimensions = ->
+  # [height, width]
+  [128, 128]
 
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
@@ -34,11 +34,9 @@ $ ->
   $('.tables').dataTable
     sDom: 'C<"clear">lfrtip'
 
-  setWidgetDimensions()
-
   $(".grid").gridster({
-    widget_margins: [10, 10],
-    widget_base_dimensions: [window.widget_width, window.widget_height]
+    widget_margins: [10, 10]
+    widget_base_dimensions: [128, 128]
     widget_selector: '.grid-item'
     resize:
       enabled: true
@@ -55,7 +53,6 @@ $ ->
   })
 
   margin_val = parseInt($('.grid').css('marginRight'))
-  console.log(margin_val)
 
   $('.grid').css('marginRight', 0)
   $('.grid').css('marginLeft', 0)
