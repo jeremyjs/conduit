@@ -31,17 +31,23 @@
     %table.display.tables{ id: "table-#{table[:id]}", cellspacing: '0', width: '100%' }
       %thead
         %tr
-          - fake_structured_data.first.keys.each do |key|
-            %th #{key}
+          %th
+        -#
+            - fake_structured_data.first.keys.each do |key|
+              %th #{key}
+      %tbody
+        %tr
+          %td
+        -#
+          - fake_structured_data.each do |row|
+              - row.values.each do |value|
+              %td #{value}
       %tfoot
         %tr
-          - fake_structured_data.first.keys.each do |key|
-            %th #{key}
-      %tbody
-        - fake_structured_data.each do |row|
-          %tr
-            - row.values.each do |value|
-              %td #{value}
+          %th
+        -#
+            - fake_structured_data.first.keys.each do |key|
+              %th #{key}
     %ul.actions
       %li.action
         = link_to "Edit", edit_widget_path(table), class: "btn btn-default save"

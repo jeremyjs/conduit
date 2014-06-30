@@ -7,7 +7,8 @@
 //= require jquery.gridster
 //= require d3-v3-min
 //= require c3
-//= require dataTables/jquery.dataTables
-//= require dataTables/extras/dataTables.colVis
 //= require grid
 //= require charts
+//= require table
+//= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.colVis
