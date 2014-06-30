@@ -986,3 +986,7 @@ puts qt.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph")
 puts g.errors.full_messages
+g = Graph.find_or_create_by(name: "Test Graph 2")
+puts g.errors.full_messages
+g = Graph.find_or_create_by(name: "Test Graph 3")
+puts g.errors.full_messages
