@@ -5,7 +5,7 @@ gem 'rails', '4.1.1'
 
 gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.0.0'
-gem 'jquery-datatables-rails'
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem 'devise', '~> 3.0.0'
 gem 'devise_ldap_authenticatable'
 gem 'haml'
