@@ -9,3 +9,4 @@
 //= require charts
 //= require d3-v3-min
 //= require c3
+//= require dataTables/jquery.dataTables
