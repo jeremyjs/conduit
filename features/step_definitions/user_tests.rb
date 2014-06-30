@@ -14,7 +14,6 @@ def delete_user
 end
 
 def sign_in
-  visit 'users/sign_in'
   fill_in "login", :with => @visitor[:login]
   fill_in "password" , :with => @visitor[:password]
   click_button "Sign In" 
@@ -25,7 +24,8 @@ Given /^I exist as a user$/ do
 end
 
 Given /^I am not logged in$/ do
-  delete 'users/sign_out'
+  visit 'users/sign_in'
+  expect(page).to have_no_content(@visitor[:login])
 end
 
 When /^I sign in with valid credentials$/ do
@@ -33,8 +33,8 @@ When /^I sign in with valid credentials$/ do
   sign_in
 end
 
-Then /^I am redirected to the queries page$/ do
-  expect(page).to have_selector('h1' , :text => "Listing queries")
+Then /^I have signed in successfully$/ do
+  expect(page).to have_content(@visitor[:login])
 end
 
 When /^I return to the site$/ do
@@ -49,6 +49,11 @@ Given /^I am on the login page$/ do
   visit 'users/sign_in'
 end
  
+
+Then /^I am unable to sign up$/ do
+  expect(page).to have_content("prohibited this user from being saved")
+end
+
 Given /^I do not exist as a user$/ do
   create_visitor
   delete_user
@@ -68,7 +73,7 @@ Then /^I should not be able to log in$/ do
 end
 
 
-Given(/^I am logged in$/) do
+Given /^I am logged in$/ do
   visit 'users/sign_in'
   fill_in "login", :with => "nprabhu"
   fill_in "password" , :with => "Pepp.611" 
@@ -95,7 +100,7 @@ end
 When /^I provide a valid username and password$/ do
   provide_user_name(@visitor[:login])
   provide_password(@visitor[:password])
-  fill_in "sign_up_confirm" , :with => @visitor[:password_confirmnation]
+  provide_confirmation(@visitor[:password_confirmation])
   click_button "Sign Up"
 end
 
@@ -140,5 +145,12 @@ When /^I do not confirm my password$/ do
   click_button "Sign Up"
 end
 
+When /^I provide a password of less than 8 characters$/ do
+  provide_password("hello")
+end
 
+When /^I confirm the same$/ do
+  provide_confirmation("hello")
+  click_button "Sign Up"
+end
 
