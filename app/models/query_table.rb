@@ -1,3 +1,2 @@
-class QueryTable < ActiveRecord::Base
-  belongs_to :query
+class QueryTable < Widget
 end
