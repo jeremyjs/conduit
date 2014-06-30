@@ -31,7 +31,8 @@ tryDrawWidgets = ->
     , 200
 
 $ ->
-  $('.tables').dataTable()
+  $('.tables').dataTable
+    sDom: 'C<"clear">lfrtip'
 
   setWidgetDimensions()
 

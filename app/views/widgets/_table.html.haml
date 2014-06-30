@@ -1,3 +1,29 @@
+- fake_structured_data = []
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider2', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider3', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider4', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider6', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider7', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider8', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider8', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider8', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider8', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider8', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider2', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider3', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider4', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider5', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider1', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
+- fake_structured_data.push({ provider: 'provider5', first_kpi: '2100', second_kpi: '24155', third_kpi: '0.5' })
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title= table[:name]
@@ -5,56 +31,17 @@
     %table.display.tables{ id: "table-#{table[:id]}", cellspacing: '0', width: '100%' }
       %thead
         %tr
-          %th Name
-          %th Position
-          %th Office
-          %th Age
-          %th Start date
-          %th Salary
+          - fake_structured_data.first.keys.each do |key|
+            %th #{key}
       %tfoot
         %tr
-          %th Name
-          %th Position
-          %th Office
-          %th Age
-          %th Start date
-          %th Salary
+          - fake_structured_data.first.keys.each do |key|
+            %th #{key}
       %tbody
-        %tr
-          %td Tiger Nixon
-          %td System Architect
-          %td Edinburgh
-          %td 61
-          %td 2011/04/25
-          %td $320,800
-        %tr
-          %td Garrett Winters
-          %td Accountant
-          %td Tokyo
-          %td 63
-          %td 2011/07/25
-          %td $170,750
-        %tr
-          %td Ashton Cox
-          %td Junior Technical Author
-          %td San Francisco
-          %td 66
-          %td 2009/01/12
-          %td $86,000
-        %tr
-          %td Cedric Kelly
-          %td Senior Javascript Developer
-          %td Edinburgh
-          %td 22
-          %td 2012/03/29
-          %td $433,060
-        %tr
-          %td Airi Satou
-          %td Accountant
-          %td Tokyo
-          %td 33
-          %td 2008/11/28
-          %td $162,700
+        - fake_structured_data.each do |row|
+          %tr
+            - row.values.each do |value|
+              %td #{value}
     %ul.actions
       %li.action
         = link_to "Edit", edit_widget_path(table), class: "btn btn-default save"
