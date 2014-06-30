@@ -8,9 +8,9 @@ Feature: Sign In
     Given I exist as a user
       And I am not logged in
     When I sign in with valid credentials
-    Then I am redirected to the queries page
+    Then I have signed in successfully
     When I return to the sign in page
-    Then I am redirected to the queries page
+    Then I have signed in successfully
 
   Scenario: invalid username
     Given I am on the login page
