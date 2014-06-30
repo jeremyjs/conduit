@@ -13,43 +13,46 @@ class QueryTablesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      mocked_json = [
-        {
-          provider: "provider",
-          first_kpi: "value",
-          second_kpi: "value",
-          third_kpi: "value",
-          nth_kpi: "value"
-        },
-        {
-          provider: "provider",
-          first_kpi: "value",
-          second_kpi: "value",
-          third_kpi: "value",
-          nth_kpi: "value"
-        },
-        {
-          provider: "provider",
-          first_kpi: "value",
-          second_kpi: "value",
-          third_kpi: "value",
-          nth_kpi: "value"
-        },
-        {
-          provider: "provider",
-          first_kpi: "value",
-          second_kpi: "value",
-          third_kpi: "value",
-          nth_kpi: "value"
-        },
-        {
-          provider: "provider",
-          first_kpi: "value",
-          second_kpi: "value",
-          third_kpi: "value",
-          nth_kpi: "value"
-        }
-      ]
+      mocked_json = {
+        id: @query_table.id,
+        data: [
+          {
+            provider: "provider",
+            first_kpi: "value",
+            second_kpi: "value",
+            third_kpi: "value",
+            nth_kpi: "value"
+          },
+          {
+            provider: "provider",
+            first_kpi: "value",
+            second_kpi: "value",
+            third_kpi: "value",
+            nth_kpi: "value"
+          },
+          {
+            provider: "provider",
+            first_kpi: "value",
+            second_kpi: "value",
+            third_kpi: "value",
+            nth_kpi: "value"
+          },
+          {
+            provider: "provider",
+            first_kpi: "value",
+            second_kpi: "value",
+            third_kpi: "value",
+            nth_kpi: "value"
+          },
+          {
+            provider: "provider",
+            first_kpi: "value",
+            second_kpi: "value",
+            third_kpi: "value",
+            nth_kpi: "value"
+          }
+        ]
+      }
       format.json { render json: mocked_json }
     end
   end
