@@ -14,7 +14,7 @@ class GraphsController < ApplicationController
       format.html
       mocked_json = [
         {
-          name: "Descriptive Query Name",
+          name: "DescriptiveQueryName",
           values: [
             {
               value: 42,
@@ -26,6 +26,24 @@ class GraphsController < ApplicationController
             },
             {
               value: 25,
+              time: 1403808458
+            }
+          ],
+          type: "bar"
+        },
+        {
+          name: "DescriptiveQueryName2",
+          values: [
+            {
+              value: 63,
+              time: 1403808191
+            },
+            {
+              value: 33,
+              time: 1403808440
+            },
+            {
+              value: 93,
               time: 1403808458
             }
           ],
