@@ -20,6 +20,7 @@
             %a{href: "#"} Account
           %li
             %a{href: "#"} Queries
-          %li.divider
-          %li
-            %a{href: "#"} Logout
+          - if(current_user)
+            %li.divider
+            %li
+              = button_to 'Log Out' , destroy_user_session_path , :method => 'delete' , :id => 'Log Out'

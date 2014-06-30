@@ -74,19 +74,17 @@ end
 
 
 Given /^I am logged in$/ do
+  create_new_user
   visit 'users/sign_in'
-  fill_in "login", :with => "nprabhu"
-  fill_in "password" , :with => "Pepp.611" 
-  click_button "Sign In" 
+  sign_in
 end
 
 When(/^I click the sign out button$/) do
-  delete 'users/sign_out'
+  click_button "Log Out"
 end
 
 Then(/^I should be logged out$/) do
-  visit 'users/sign_in'
-  expect(page).to have_selector('h2' , :text => "Sign in")
+  expect(page).to have_no_content(@visitor[:login])
 end
 
 
