@@ -82,12 +82,9 @@ getDataColumns = (data_array) ->
     drawChart(name, chart)
 
 $ ->
-  chart1 = c3.generate(getChart(1))
-  chart2 = c3.generate(getChart(2))
-  chart3 = c3.generate(getChart(3))
-  @charts =
-    "#chart-1": chart1
-    "#chart-2": chart2
-    "#chart-3": chart3
+  $(".chart").each (index, element) =>
+    id = $(element).attr("id").substring(6)
+    eval("chart" + id + " = c3.generate(getChart(" + id + "))")
+    @charts["#chart-" + id] = eval("chart" + id)
   drawWidgets()
 
