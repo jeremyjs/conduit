@@ -9,6 +9,5 @@
 //= require c3
 //= require grid
 //= require charts
-//= require table
 //= require dataTables/jquery.dataTables
 //= require dataTables/extras/dataTables.colVis
