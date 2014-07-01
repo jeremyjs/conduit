@@ -17,39 +17,39 @@ class QueryTablesController < ApplicationController
         id: @query_table.id,
         data: [
           {
-            provider: "provider",
-            first_kpi: "value",
-            second_kpi: "value",
-            third_kpi: "value",
-            nth_kpi: "value"
+            provider: "provider#{@query_table.id}",
+            first_kpi: "#{10000+rand(5000)}",
+            second_kpi: "#{5000+rand(2500)}",
+            third_kpi: "#{7000+rand(8500)}",
+            nth_kpi: "#{8000+rand(2100)}"
           },
           {
-            provider: "provider",
-            first_kpi: "value",
-            second_kpi: "value",
-            third_kpi: "value",
-            nth_kpi: "value"
+            provider: "provider#{@query_table.id}",
+            first_kpi: "#{10000+rand(5000)}",
+            second_kpi: "#{5000+rand(2500)}",
+            third_kpi: "#{7000+rand(8500)}",
+            nth_kpi: "#{8000+rand(2100)}"
           },
           {
-            provider: "provider",
-            first_kpi: "value",
-            second_kpi: "value",
-            third_kpi: "value",
-            nth_kpi: "value"
+            provider: "provider#{@query_table.id}",
+            first_kpi: "#{10000+rand(5000)}",
+            second_kpi: "#{5000+rand(2500)}",
+            third_kpi: "#{7000+rand(8500)}",
+            nth_kpi: "#{8000+rand(2100)}"
           },
           {
-            provider: "provider",
-            first_kpi: "value",
-            second_kpi: "value",
-            third_kpi: "value",
-            nth_kpi: "value"
+            provider: "provider#{@query_table.id}",
+            first_kpi: "#{10000+rand(5000)}",
+            second_kpi: "#{5000+rand(2500)}",
+            third_kpi: "#{7000+rand(8500)}",
+            nth_kpi: "#{8000+rand(2100)}"
           },
           {
-            provider: "provider",
-            first_kpi: "value",
-            second_kpi: "value",
-            third_kpi: "value",
-            nth_kpi: "value"
+            provider: "provider#{@query_table.id}",
+            first_kpi: "#{10000+rand(5000)}",
+            second_kpi: "#{5000+rand(2500)}",
+            third_kpi: "#{7000+rand(8500)}",
+            nth_kpi: "#{8000+rand(2100)}"
           }
         ]
       }
