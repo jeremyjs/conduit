@@ -1,29 +1,3 @@
-- fake_structured_data = []
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2102', second_kpi: '24155', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider2', first_kpi: '2100', second_kpi: '24215', third_kpi: '0.6' })
-- fake_structured_data.push({ provider: 'provider3', first_kpi: '2103', second_kpi: '21155', third_kpi: '0.7' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2101', second_kpi: '25155', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider4', first_kpi: '2112', second_kpi: '63155', third_kpi: '0.8' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2102', second_kpi: '21255', third_kpi: '0.8' })
-- fake_structured_data.push({ provider: 'provider6', first_kpi: '2110', second_kpi: '24625', third_kpi: '0.9' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2102', second_kpi: '72155', third_kpi: '0.4' })
-- fake_structured_data.push({ provider: 'provider7', first_kpi: '2112', second_kpi: '82155', third_kpi: '0.3' })
-- fake_structured_data.push({ provider: 'provider8', first_kpi: '2132', second_kpi: '63155', third_kpi: '0.2' })
-- fake_structured_data.push({ provider: 'provider8', first_kpi: '2610', second_kpi: '43255', third_kpi: '0.4' })
-- fake_structured_data.push({ provider: 'provider8', first_kpi: '2712', second_kpi: '33455', third_kpi: '0.3' })
-- fake_structured_data.push({ provider: 'provider8', first_kpi: '2182', second_kpi: '24155', third_kpi: '0.1' })
-- fake_structured_data.push({ provider: 'provider8', first_kpi: '2880', second_kpi: '51215', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2548', second_kpi: '53112', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2453', second_kpi: '62555', third_kpi: '0.7' })
-- fake_structured_data.push({ provider: 'provider2', first_kpi: '2450', second_kpi: '23125', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2154', second_kpi: '21125', third_kpi: '0.8' })
-- fake_structured_data.push({ provider: 'provider3', first_kpi: '2165', second_kpi: '11157', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2760', second_kpi: '14167', third_kpi: '0.9' })
-- fake_structured_data.push({ provider: 'provider4', first_kpi: '2186', second_kpi: '23155', third_kpi: '0.6' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2970', second_kpi: '77155', third_kpi: '0.5' })
-- fake_structured_data.push({ provider: 'provider5', first_kpi: '2109', second_kpi: '84335', third_kpi: '0.2' })
-- fake_structured_data.push({ provider: 'provider1', first_kpi: '2480', second_kpi: '12155', third_kpi: '0.1' })
-- fake_structured_data.push({ provider: 'provider5', first_kpi: '2123', second_kpi: '24175', third_kpi: '0.2' })
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title= table[:name]
@@ -32,22 +6,12 @@
       %thead
         %tr
           %th
-        -#
-            - fake_structured_data.first.keys.each do |key|
-              %th #{key}
       %tbody
         %tr
           %td
-        -#
-          - fake_structured_data.each do |row|
-              - row.values.each do |value|
-              %td #{value}
       %tfoot
         %tr
           %th
-        -#
-            - fake_structured_data.first.keys.each do |key|
-              %th #{key}
     %ul.actions
       %li.action
         = link_to "Edit", edit_widget_path(table), class: "btn btn-default save"
