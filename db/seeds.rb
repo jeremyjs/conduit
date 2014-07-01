@@ -976,13 +976,13 @@ order by provider, tier,  lead_source
 q = Query.find_or_create_by(command: tiers_1218)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph")
+g = Graph.find_or_create_by(name: "Test Graph", height: 2, width: 3)
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph 2")
+g = Graph.find_or_create_by(name: "Test Graph 2", height: 4, width: 4)
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph 3")
+g = Graph.find_or_create_by(name: "Test Graph 3n", height: 2, width: 3)
 puts g.errors.full_messages
 
 puts "There are now #{Query.count} queries and #{Graph.count} graphs."
