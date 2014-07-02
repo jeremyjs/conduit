@@ -5,7 +5,6 @@ class QueryTablesController < ApplicationController
   # GET /query_tables.json
   def index
     @query_tables = QueryTable.all
-    @widgets = [{id: 1, name: "Name", data: ""}, {id: 2, name: "Name", data: ""}, {id: 3, name: "Name", data: ""}]
   end
 
   # GET /query_tables/1
@@ -13,47 +12,7 @@ class QueryTablesController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      mocked_json = {
-        id: @query_table.id,
-        data: [
-          {
-            provider: "provider#{@query_table.id}",
-            first_kpi: "#{10000+rand(5000)}",
-            second_kpi: "#{5000+rand(2500)}",
-            third_kpi: "#{7000+rand(8500)}",
-            nth_kpi: "#{8000+rand(2100)}"
-          },
-          {
-            provider: "provider#{@query_table.id}",
-            first_kpi: "#{10000+rand(5000)}",
-            second_kpi: "#{5000+rand(2500)}",
-            third_kpi: "#{7000+rand(8500)}",
-            nth_kpi: "#{8000+rand(2100)}"
-          },
-          {
-            provider: "provider#{@query_table.id}",
-            first_kpi: "#{10000+rand(5000)}",
-            second_kpi: "#{5000+rand(2500)}",
-            third_kpi: "#{7000+rand(8500)}",
-            nth_kpi: "#{8000+rand(2100)}"
-          },
-          {
-            provider: "provider#{@query_table.id}",
-            first_kpi: "#{10000+rand(5000)}",
-            second_kpi: "#{5000+rand(2500)}",
-            third_kpi: "#{7000+rand(8500)}",
-            nth_kpi: "#{8000+rand(2100)}"
-          },
-          {
-            provider: "provider#{@query_table.id}",
-            first_kpi: "#{10000+rand(5000)}",
-            second_kpi: "#{5000+rand(2500)}",
-            third_kpi: "#{7000+rand(8500)}",
-            nth_kpi: "#{8000+rand(2100)}"
-          }
-        ]
-      }
-      format.json { render json: mocked_json }
+      format.json { render json: @query_table }
     end
   end
 
