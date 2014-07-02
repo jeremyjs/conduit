@@ -64,27 +64,9 @@ getDataColumns = (data_array) ->
   new_height = calculateHeight($chart_elem)
   chart.resize({ height: new_height })
 
-@calculateHeight = ($chart) ->
-  $parent = $chart.parents('.grid-item').first()
-  $panel = $parent.find('.panel-body')
-  $panel_header = $parent.find('.panel-heading')
-  parent_height = $parent.height()
-  header_height = $panel_header.outerHeight()
-  panel_padding_height = $panel.outerHeight() - $panel.height()
-  panel_height = parent_height - header_height - panel_padding_height
-  sibling_height = siblingHeight($panel, $chart)
-
-  panel_height - sibling_height
-
-
-@drawWidgets = () ->
-  for name, chart of @charts
-    drawChart(name, chart)
-
-$ ->
-  $(".chart").each (index, element) =>
-    id = $(element).attr("id").substring(6)
-    eval("chart" + id + " = c3.generate(getChart(" + id + "))")
-    @charts["#chart-" + id] = eval("chart" + id)
-  drawWidgets()
-
+@generateCharts = ->
+  $(".chart").each ->
+    name = '#' + this.id
+    id = this.id.substring(6)
+    chart = getChart(id)
+    charts[name] = c3.generate(chart)
