@@ -1,6 +1,6 @@
 @tables = {}
 
-@getTable = (id) ->
+@getTableData = (id) ->
   globalData = null
   $.ajax(
     url: "/query_tables/" + id + ".json"
@@ -10,7 +10,7 @@
   )
   globalData
 
-@generateHeaders = (table) ->
+generateHeaders = (table) ->
   table_id = '#table-' + table.id
   headers = table.data[0]
 
@@ -19,7 +19,7 @@
   for key of headers
     $header_row.append("<th>" + key + "</th>")
 
-@generateBody = (table) ->
+generateBody = (table) ->
   table_id = '#table-' + table.id
   $table_body = $(table_id).children("tbody").empty()
   table_data = table.data
@@ -31,7 +31,7 @@
     for key, value of row
       $row.append("<td>" + value + "</td>")
 
-@generateFooter = (table) ->
+generateFooter = (table) ->
   table_id = '#table-' + table.id
   footers = table.data[0]
 
@@ -47,7 +47,7 @@
   generateFooter(table)
 
 @drawTable = (name, table) ->
-  table = @tables[name] unless table
+  table = tables[name] unless table
   $table_elem = $(name + '_wrapper')
   new_height = calculateHeight($table_elem)
   $table_elem.css('height', calculateHeight($table_elem))
@@ -61,7 +61,6 @@
   $('.tables').each ->
     name = '#' + this.id
     id = this.id.substring(6)
-    table = getTable(id)
-    renderTable(table)
+    renderTable(getTableData(id))
     tables[name] = $(this).dataTable(defaultOptions)
 

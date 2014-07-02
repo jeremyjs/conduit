@@ -1,6 +1,6 @@
 @charts = {}
 
-@chartAjax = (id) ->
+@getChartData = (id) ->
   data = null
   $.ajax
     url: "/graphs/#{id}.json"
@@ -22,7 +22,7 @@ getTypes = (data_array) ->
   types
 
 # return [["column1", 1, 6... ], ["column2", 2, 5... ]]
-getDataColumns = (data_array) ->
+getColumns = (data_array) ->
   columns = []
   for graph in data_array
     value_hashes = graph.values
@@ -32,15 +32,15 @@ getDataColumns = (data_array) ->
     columns.push(data_column)
   columns
 
-@getChart = (id) ->
-  data_array = chartAjax(id)
-  titles = getTitles(data_array)
-  types = getTypes(data_array)
-  data = getDataColumns(data_array)
+@renderChart = (id) ->
+  chart_data = getChartData(id)
+  titles = getTitles(chart_data)
+  types = getTypes(chart_data)
+  columns = getColumns(chart_data)
   chart =
     bindto: "#chart-#{id}"
     data:
-      columns: data
+      columns: columns
       axes:
         DescriptiveQueryName: 'y'
         DescriptiveQueryName2: 'y2'
@@ -48,14 +48,16 @@ getDataColumns = (data_array) ->
     axis:
       y2:
         show: true
+  c3.generate(chart)
 
 @siblingHeight = ($panel, $chart) ->
-  $panel.children().not($chart).get().reduce (sum, self) ->
+  other_children_array = $panel.children().not($chart).get()
+  other_children_array.reduce (sum, self) ->
     sum + $(self).outerHeight(true)
   , 0
 
 @drawChart = (name, chart) ->
-  chart = @charts[name] unless chart
+  chart = charts[name] unless chart
   $chart_elem = $(name)
   new_height = calculateHeight($chart_elem)
   chart.resize({ height: new_height })
@@ -64,5 +66,4 @@ getDataColumns = (data_array) ->
   $(".chart").each ->
     name = '#' + this.id
     id = this.id.substring(6)
-    chart = getChart(id)
-    charts[name] = c3.generate(chart)
+    charts[name] = renderChart(id)
