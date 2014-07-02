@@ -7,31 +7,30 @@
     async: false
     success: (response) ->
       data = response
-  return data
+  data
 
 getTitles = (data_array) ->
   titles = {}
   for graph in data_array
     titles[graph.name] = graph.name
-  return titles
+  titles
 
 getTypes = (data_array) ->
   types = {}
   for graph in data_array
     types[graph.name] = graph.type
-  return types
+  types
 
 # return [["column1", 1, 6... ], ["column2", 2, 5... ]]
 getDataColumns = (data_array) ->
   columns = []
   for graph in data_array
     value_hashes = graph.values
-    data_column = []
-    data_column.push(graph.name)
+    data_column = [ graph.name ]
     for value_hash in value_hashes
       data_column.push(value_hash.value)
     columns.push(data_column)
-  return columns
+  columns
 
 @getChart = (id) ->
   data_array = chartAjax(id)
@@ -49,14 +48,11 @@ getDataColumns = (data_array) ->
     axis:
       y2:
         show: true
-  return chart
 
 @siblingHeight = ($panel, $chart) ->
-  sum = 0
-  $panel.children().not($chart).each( ->
-    sum += $(this).outerHeight(true)
-  )
-  return sum
+  $panel.children().not($chart).get().reduce (sum, self) ->
+    sum + $(self).outerHeight(true)
+  , 0
 
 @drawChart = (name, chart) ->
   chart = @charts[name] unless chart
