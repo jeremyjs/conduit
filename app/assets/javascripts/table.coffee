@@ -46,8 +46,10 @@
   generateFooter(table)
 
 $ ->
-  table = @getTable(2)
-  @renderTable(table)
+  $(".display.tables").each (index, element) =>
+    id = $(element).attr("id").substring(6)
+    table = @getTable(id)
+    @renderTable(table)
 
   $('.tables').dataTable
     sDom: 'C<"clear">lfrtip'
