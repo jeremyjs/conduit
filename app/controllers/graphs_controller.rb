@@ -32,7 +32,7 @@ class GraphsController < ApplicationController
 
     respond_to do |format|
       if @graph.save
-        format.html { redirect_to @graph, notice: 'Graph was successfully created.' }
+        format.html { redirect_to dashboard_path, notice: 'Graph was successfully created.' }
         format.json { render :show, status: :created, location: @graph }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class GraphsController < ApplicationController
   def update
     respond_to do |format|
       if @graph.update(graph_params)
-        format.html { redirect_to @graph, notice: 'Graph was successfully updated.' }
+        format.html { redirect_to dashboard_path, notice: 'Graph was successfully updated.' }
         format.json { render :show, status: :ok, location: @graph }
       else
         format.html { render :edit }
