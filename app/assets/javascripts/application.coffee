@@ -12,3 +12,4 @@
 //= require table
 //= require dataTables/jquery.dataTables
 //= require dataTables/extras/dataTables.colVis
+//= require onepagescroll

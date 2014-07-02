@@ -80,3 +80,4 @@ $ ->
   $('.container-fluid').children().not('.gridster').css('paddingLeft', 10)
 
   drawWidgets()
+  onePageScroll('.main')
