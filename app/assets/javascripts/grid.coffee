@@ -80,6 +80,6 @@ $ ->
   $('.container-fluid').children().not('.gridster').css('paddingLeft', 10)
 
   drawWidgets()
-  $('#fullpage').fullpage
+  $('.fullpage').fullpage
     sectionsColor: ['#666', '#888', '#aaa']
     navigation: true
