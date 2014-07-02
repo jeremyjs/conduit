@@ -1,26 +1,9 @@
 %nav.navbar.navbar-default{role: "navigation"}
   .navbar-header
-    %button.navbar-toggle{"data-target" => "#navbar-collapse-1", "data-toggle" => "collapse", type: "button"}
-      %span.sr-only Toggle navigation
-      %span.icon-bar
-      %span.icon-bar
-      %span.icon-bar
-    %a.navbar-brand{href: root_path} Conduit
-  #navbar-collapse-1.collapse.navbar-collapse
-    %ul.nav.navbar-nav.navbar-right
-      %li.dropdown
-        %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-          - if(current_user)
-            #{current_user.login}
-          - else
-            Please Sign In
-          %b.caret
-        %ul.dropdown-menu
-          %li
-            %a{href: "#"} Account
-          %li
-            %a{href: "#"} Queries
-          - if(current_user)
-            %li.divider
-            %li
-              = button_to 'Log Out' , destroy_user_session_path , :method => 'delete' , :id => 'Log Out'
+    = link_to "Conduit", root_path, class: "navbar-brand"
+  .navbar-right
+    - if(current_user)
+      #{current_user.login}
+      = link_to 'Log Out' , destroy_user_session_path , :method => 'delete' , :id => 'Log Out', :class => 'btn btn-default navbar-btn'
+    - else
+      = link_to 'Sign in', new_user_session_path, :class => 'btn btn-default navbar-btn'
