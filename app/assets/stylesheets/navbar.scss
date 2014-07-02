@@ -1,3 +1,13 @@
 .navbar-right {
   padding-right: 15px;
 }
+
+nav {
+  position: fixed;
+  z-index: 3;
+}
+
+.navbar-conduit {
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
