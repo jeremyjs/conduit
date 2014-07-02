@@ -4,7 +4,7 @@ class Widget < ActiveRecord::Base
   end
 
   def self.all_descendants
-    all = self.all
+    all = []
     self.descendants.each do |desc|
       all << desc.all
     end
