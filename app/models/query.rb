@@ -5,25 +5,25 @@ class Query < ActiveRecord::Base
   has_many :query_tables
 
   def execute
-    queries = []
+    values = []
     conn = PG.connect(host: 'qassdb-27-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
     conn.exec(self.command) do |result|
       result.each do |row|
-        queries << row
+        values << row
       #  puts "%s\t%s" % row.values_at('id', 'email')
       end
     end
-    queries
+    values
   end
 
   def self.execute(command)
-    queries = []
+    values = []
     conn = PG.connect(host: 'qassdb-27-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
     conn.exec(command) do |result|
       result.each do |row|
-        queries << row
+        values << row
       end
     end
-    queries
+    values
   end
 end
