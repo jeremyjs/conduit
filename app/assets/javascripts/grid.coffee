@@ -80,4 +80,6 @@ $ ->
   $('.container-fluid').children().not('.gridster').css('paddingLeft', 10)
 
   drawWidgets()
-  onePageScroll('.main')
+  $('#fullpage').fullpage
+    sectionsColor: ['#666', '#888', '#aaa']
+    navigation: true
