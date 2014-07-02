@@ -1,3 +1,5 @@
+@tables = {}
+
 @getTable = (id) ->
   globalData = null
   $.ajax(
@@ -29,7 +31,6 @@
     for key, value of row
       $row.append("<td>" + value + "</td>")
 
-
 @generateFooter = (table) ->
   table_id = '#table-' + table.id
   footers = table.data[0]
@@ -45,12 +46,22 @@
   generateBody(table)
   generateFooter(table)
 
-$ ->
-  $(".display.tables").each (index, element) =>
-    id = $(element).attr("id").substring(6)
-    table = @getTable(id)
-    @renderTable(table)
+@drawTable = (name, table) ->
+  table = @tables[name] unless table
+  $table_elem = $(name + '_wrapper')
+  new_height = calculateHeight($table_elem)
+  $table_elem.css('height', calculateHeight($table_elem))
+  defaultOptions.sScrollY = calculateHeight($table_elem)
+  table.fnAdjustColumnSizing()
 
-  $('.tables').dataTable
+@generateTables = ->
+  @defaultOptions =
     sDom: 'C<"clear">lfrtip'
+
+  $('.tables').each ->
+    name = '#' + this.id
+    id = this.id.substring(6)
+    table = getTable(id)
+    renderTable(table)
+    tables[name] = $(this).dataTable(defaultOptions)
 
