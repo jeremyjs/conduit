@@ -2,8 +2,8 @@
   %ul.grid
     - @widgets.each_with_index do |w, i|
       %li.grid-item{id: "widget-#{w.id}",
-                    "data-col" => 1,
-                    "data-row" => 1,
+                    "data-col" => w[:column] || 1,
+                    "data-row" => w[:row] || 1,
                     "data-sizex" => w[:width],
                     "data-sizey" => w[:height]}
         - if w.class == Graph
