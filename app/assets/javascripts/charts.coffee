@@ -62,8 +62,12 @@ getColumns = (data_array) ->
   new_height = calculateHeight($chart_elem)
   chart.resize({ height: new_height })
 
+@getId = (name) ->
+  name.slice(-1)
+
 @generateCharts = ->
   $(".chart").each ->
     name = '#' + this.id
-    id = this.id.substring(6)
+    id = getId(this.id)
     charts[name] = renderChart(id)
+

@@ -4,7 +4,22 @@ widgetDimensions = ->
 
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
+  saveWidgetSize($grid_item)
   @drawChart(chartName(getChartElem(ui)))
+
+saveWidgetSize = ($grid_item) ->
+  name = $grid_item[0].id
+  id = getId(name)
+  height = $grid_item.attr('data-sizey')
+  width = $grid_item.attr('data-sizex')
+  $.post "/widgets/" + id,
+    id: id
+    _method: 'patch'
+    commit: 'Save'
+    widget:
+      height: height
+      width: width
+    , (data) -> console.log("Successfully posted.")
 
 getGridItem = (ui)->
   $(ui.$helper.context.parentElement)
