@@ -8,7 +8,7 @@
   )
   globalData
 
-generateHeaders = (table) ->
+@generateHeaders = (table) ->
   table_id = '#table-' + table.id
   headers = table.data[0]
 
@@ -48,4 +48,7 @@ generateHeaders = (table) ->
 $ ->
   table = @getTable(2)
   @renderTable(table)
+
+  $('.tables').dataTable
+    sDom: 'C<"clear">lfrtip'
 
