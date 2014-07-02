@@ -1,7 +1,8 @@
 .gridster
   %ul.grid
     - @widgets.each_with_index do |w, i|
-      %li.grid-item{"data-col" => 1,
+      %li.grid-item{id: "widget-#{w.id}",
+                    "data-col" => 1,
                     "data-row" => 1,
                     "data-sizex" => w[:width],
                     "data-sizey" => w[:height]}
