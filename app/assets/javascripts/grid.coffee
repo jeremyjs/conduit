@@ -94,9 +94,8 @@ $ ->
         , 200
     draggable:
       stop: (event, ui) ->
-        console.log ui
-        $grid_item = getDraggableGridItem(ui)
-        saveWidget($grid_item)
+        $('.grid-item').each ->
+          saveWidget $(this)
 
   margin_val = parseInt($('.grid').css('marginRight'))
 
