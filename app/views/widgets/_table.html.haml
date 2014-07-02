@@ -1,23 +1,17 @@
-- query_table = QueryTableWidget.find(table[:id])
-
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title= table[:name]
   .panel-body
-    %table.display.tables{ id: "table-#{query_table.id}", cellspacing: '0', width: '100%' }
+    %table.display.tables{ id: "table-#{table[:id]}", cellspacing: '0', width: '100%' }
       %thead
         %tr
-          - query_table.data.first.attributes.keys.each do |key|
-            %th #{key}
+          %th
       %tbody
-        - query_table.data.each do |row|
-          %tr
-            - row.attributes.values.each do |value|
-              %td #{value}
+        %tr
+          %td
       %tfoot
         %tr
-          - query_table.data.first.attributes.keys.each do |key|
-            %th #{key}
+          %th
     %ul.actions
       %li.action
         = link_to "Edit", edit_widget_path(table), class: "btn btn-default save"

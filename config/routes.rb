@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   root 'home#dashboard'
   get 'dashboard', to: 'home#dashboard', as: :dashboard
   get 'home/dashboard'
-  get '/query_table_widgets/:id', to: 'query_tables#show'
 
   devise_for :users
 
