@@ -51,3 +51,6 @@ $ ->
     table = @getTable(id)
     @renderTable(table)
 
+  $('.tables').dataTable
+    sDom: 'C<"clear">lfrtip'
+
