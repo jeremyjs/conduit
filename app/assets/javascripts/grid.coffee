@@ -31,9 +31,6 @@ tryDrawWidgets = ->
     , 200
 
 $ ->
-  $('.tables').dataTable
-    sDom: 'C<"clear">lfrtip'
-
   $(".grid").gridster({
     widget_margins: [10, 10]
     widget_base_dimensions: [128, 128]
