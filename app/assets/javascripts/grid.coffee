@@ -4,14 +4,17 @@ widgetDimensions = ->
 
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
-  saveWidgetSize($grid_item)
+  saveWidget($grid_item)
   @drawChart(chartName(getChartElem(ui)))
 
-saveWidgetSize = ($grid_item) ->
+saveWidget = ($grid_item) ->
+  console.log($grid_item)
   name = $grid_item[0].id
   id = getId(name)
   height = $grid_item.attr('data-sizey')
   width = $grid_item.attr('data-sizex')
+  row = $grid_item.attr('data-row')
+  column = $grid_item.attr('data-col')
   $.post "/widgets/" + id,
     id: id
     _method: 'patch'
@@ -19,10 +22,15 @@ saveWidgetSize = ($grid_item) ->
     widget:
       height: height
       width: width
+      row: row
+      column: column
     , (data) -> console.log("Successfully posted.")
 
-getGridItem = (ui)->
+getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
+
+getDraggableGridItem = (ui) ->
+  $(ui.$helper.context)
 
 chartName = ($chart) ->
   "#" + $chart.attr('id')
@@ -52,6 +60,8 @@ $(window).resize ->
     drawChart(name, chart)
   for name, table of @tables
     drawTable(name, table)
+  $('.grid-item').each ->
+    saveWidget $(this)
 
 tryDrawWidgets = ->
   console.log("test")
@@ -66,7 +76,7 @@ $ ->
   generateCharts()
   generateTables()
 
-  $(".grid").gridster({
+  $(".grid").gridster
     widget_margins: [10, 10]
     widget_base_dimensions: [128, 128]
     widget_selector: '.grid-item'
@@ -82,7 +92,10 @@ $ ->
         setTimeout ->
           resizeChart(ui)
         , 200
-  })
+    draggable:
+      stop: (event, ui) ->
+        $('.grid-item').each ->
+          saveWidget $(this)
 
   margin_val = parseInt($('.grid').css('marginRight'))
 
