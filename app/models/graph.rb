@@ -5,15 +5,15 @@ class Graph < Widget
         name: "DescriptiveQueryName",
         values: [
           {
-            value: 42,
+            value: 100+rand(100),
             time: 1403808191
           },
           {
-            value: 75,
+            value: 75+rand(50),
             time: 1403808440
           },
           {
-            value: 25,
+            value: 25+rand(75),
             time: 1403808458
           }
         ],
@@ -23,15 +23,15 @@ class Graph < Widget
         name: "DescriptiveQueryName2",
         values: [
           {
-            value: 63,
+            value: 63+rand(120),
             time: 1403808191
           },
           {
-            value: 33,
+            value: 33+rand(122),
             time: 1403808440
           },
           {
-            value: 93,
+            value: 93+rand(123),
             time: 1403808458
           }
         ],
