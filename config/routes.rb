@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :pages
+
   root 'home#dashboard'
   get 'dashboard', to: 'home#dashboard', as: :dashboard
   get 'home/dashboard'

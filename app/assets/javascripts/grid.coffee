@@ -1,6 +1,14 @@
-widgetDimensions = ->
-  # [height, width]
-  [128, 128]
+widgetDimensions =
+  height: 128
+  width: 128
+
+widgetPadding =
+  height: 10
+  width: 10
+
+widgetOuterDimensions = ->
+  height: widgetDimensions["height"] + widgetPadding["height"] * 2
+  width: widgetDimensions["width"] + widgetPadding["width"] * 2
 
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
@@ -8,13 +16,14 @@ resizeChart = (ui) ->
   @drawChart(chartName(getChartElem(ui)))
 
 saveWidget = ($grid_item) ->
-  console.log($grid_item)
   name = $grid_item[0].id
   id = getId(name)
   height = $grid_item.attr('data-sizey')
   width = $grid_item.attr('data-sizex')
   row = $grid_item.attr('data-row')
   column = $grid_item.attr('data-col')
+  console.log row
+  console.log column
   $.post "/widgets/" + id,
     id: id
     _method: 'patch'
@@ -24,7 +33,8 @@ saveWidget = ($grid_item) ->
       width: width
       row: row
       column: column
-    , (data) -> console.log("Successfully posted.")
+    , ->
+      console.log "saved"
 
 getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
@@ -76,10 +86,22 @@ $ ->
   generateCharts()
   generateTables()
 
+  window_height = $(window).height()
+  window_width = $(window).width()
+
+  rows = Math.floor(window_height / widgetOuterDimensions()["height"])
+  console.log window_width
+  console.log widgetOuterDimensions()["width"]
+  columns = Math.floor(window_width / widgetOuterDimensions()["width"])
+  columns -= 1
+  console.log columns
+
   $(".grid").gridster
     widget_margins: [10, 10]
     widget_base_dimensions: [128, 128]
     widget_selector: '.grid-item'
+    min_cols: columns
+    max_cols: columns
     resize:
       enabled: true
       start: (event, ui) ->
@@ -94,20 +116,23 @@ $ ->
         , 200
     draggable:
       stop: (event, ui) ->
-        $('.grid-item').each ->
+        $grid = getGridItem(ui)
+        console.log $grid
+        $grid.children('.grid-item').each ->
           saveWidget $(this)
 
   margin_val = parseInt($('.grid').css('marginRight'))
 
-  $('.grid').css('marginRight', 0)
-  $('.grid').css('marginLeft', 0)
+  container_class = '.fullpage .section'
 
-  $('.container-fluid').children().css('marginRight', margin_val)
-  $('.container-fluid').children().css('marginLeft', margin_val)
-  $('.container-fluid').children().not('.gridster').css('paddingRight', 10)
-  $('.container-fluid').children().not('.gridster').css('paddingLeft', 10)
+  $(container_class).children().css('marginRight', margin_val)
+  $(container_class).children().css('marginLeft', margin_val)
+  $(container_class).children().not('.gridster').css('paddingRight', 10)
+  $(container_class).children().not('.gridster').css('paddingLeft', 10)
 
   drawWidgets()
+
   $('.fullpage').fullpage
-    sectionsColor: ['#666', '#888', '#aaa']
     navigation: true
+    verticalCentered: false
+
