@@ -1,4 +1,5 @@
 class Graph < Widget
+  belongs_to :query
   def as_json(options)
     [
       {
