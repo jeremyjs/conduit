@@ -1,5 +1,5 @@
  def create_visitor
-  @visitor ||= { :login => "Testy McUserton",  :password => "changeme", :password_confirmation => "changeme" }
+   @visitor ||= {:email => "testy_mcuserton@example.com", :login => "Testy McUserton",  :password => "changeme", :password_confirmation => "changeme" }
  end
 
 def create_new_user
@@ -80,7 +80,7 @@ Given /^I am logged in$/ do
 end
 
 When(/^I click the sign out button$/) do
-  click_button "Log Out"
+  click_link "Log Out"
 end
 
 Then(/^I should be logged out$/) do
@@ -95,12 +95,14 @@ Given /^I am not signed up$/ do
   visit 'users/sign_up'
 end
 
-When /^I provide a valid username and password$/ do
-  provide_user_name(@visitor[:login])
-  provide_password(@visitor[:password])
-  provide_confirmation(@visitor[:password_confirmation])
-  click_button "Sign Up"
+When /^I provide a valid email$/ do
+  provide_email(@visitor[:email])
 end
+
+When /^I provide a valid password$/ do
+  provide_password(@visitor[:password])
+end
+
 
 def provide_user_name(user_name)
   fill_in "sign_up_username", :with => user_name
@@ -117,12 +119,8 @@ end
 When /^I do not provide a password$/ do
   provide_password("")
   provide_confirmation("")
-  click_button "Sign Up"
 end
 
-Then /^I am redirected to the errors page$/ do
-  expect(page).to have_selector('h2' , :text => 'Request')
-end
 
 def provide_confirmation(confirm)
   fill_in "sign_up_confirm" , :with => confirm
@@ -134,12 +132,16 @@ When /^my passwords do not match$/ do
   click_button "Sign Up"
 end
 
-When /^I provide a password$/ do
-  provide_password(@visitor[:password])
-end
 
 When /^I do not confirm my password$/ do
   provide_confirmation("")
+end
+
+When /^I click the sign up button$/ do
+  click_sign_up
+end
+
+def click_sign_up
   click_button "Sign Up"
 end
 
@@ -148,7 +150,23 @@ When /^I provide a password of less than 8 characters$/ do
 end
 
 When /^I confirm the same$/ do
-  provide_confirmation("hello")
-  click_button "Sign Up"
+  provide_confirmation(@visitor[:password_confirmation])
 end
 
+When /^my password and its confirmation are less than 8 characters$/ do
+  provide_password("hello")
+  provide_confirmation("hello")
+end
+
+When /^I do not provide an email$/ do
+  provide_email("")
+end
+
+When /^I do not provide a valid email$/ do
+  provide_email("hello@com")
+end
+
+
+def provide_email(email)
+  fill_in "sign_up_email" , :with => email
+end
