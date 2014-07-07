@@ -987,6 +987,8 @@ g = Graph.find_or_create_by(name: "Test Graph 3", height: 2, width: 3)
 puts g.errors.full_messages
 
 qt = QueryTable.find_or_create_by(name: "Test Query Table", height: 4, width: 4)
+qt.query = Query.first
+qt.save
 puts qt.errors.full_messages
 
 puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{QueryTable.count} query_tables, and #{Graph.count} graphs."
