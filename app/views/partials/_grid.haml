@@ -1,6 +1,6 @@
 .gridster
   %ul.grid
-    - @widgets.each_with_index do |w, i|
+    - filtered_widgets.each do |w|
       %li.grid-item{id: "widget-#{w.id}",
                     "data-col" => w[:column] || 1,
                     "data-row" => w[:row] || 1,
