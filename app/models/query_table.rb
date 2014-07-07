@@ -1,4 +1,5 @@
 class QueryTable < Widget
+  belongs_to :query
   def as_json(options)
     {
       id: self.id,
