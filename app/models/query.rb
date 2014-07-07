@@ -7,7 +7,7 @@ class Query < ActiveRecord::Base
 
   def execute
     values = []
-    conn = PG.connect(host: 'qassdb-27-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
+    conn = PG.connect(host: 'qassdb-38-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
     res = conn.exec(self.command)
     self.query_result = res
     res
