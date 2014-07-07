@@ -10,4 +10,8 @@ class Widget < ActiveRecord::Base
     end
     all
   end
+
+  def self.last_page
+    Widget.order('page DESC').first.page
+  end
 end
