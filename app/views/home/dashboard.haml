@@ -1,12 +1,4 @@
 .fullpage
-  .section
-    %ul.actions
-      %li.action
-        = link_to "Add Widget", new_widget_path, class: "btn btn-default new"
-    = render partial: 'partials/grid'
-  .section
-    = render partial: 'partials/grid'
-  .section
-    = render partial: 'partials/grid'
-
-
+  - Widget.last_page.times do |page|
+    .section
+      = render partial: 'partials/grid', locals: {filtered_widgets: @widgets.where(page: page+1)}
