@@ -978,15 +978,24 @@ q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph", height: 2, width: 3)
+g.page = 1
+g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 2", height: 4, width: 4)
+g.page = 3
+g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 3", height: 2, width: 3)
+g.page = 3
+g.save
 puts g.errors.full_messages
 
 qt = QueryTable.find_or_create_by(name: "Test Query Table", height: 4, width: 4)
+qt.query = Query.first
+qt.page = 1
+qt.save
 puts qt.errors.full_messages
 
 puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{QueryTable.count} query_tables, and #{Graph.count} graphs."

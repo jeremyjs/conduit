@@ -11,9 +11,12 @@
     = f.text_field :name
   .field.form-group
     = f.label :height
-    = f.text_field :height
+    = f.number_field :height
   .field.form-group
     = f.label :width
-    = f.text_field :width
+    = f.number_field :width
+  .field.form-group
+    = f.label :page
+    = f.number_field :page
   .actions
     = f.submit 'Save', class: "btn btn-default"

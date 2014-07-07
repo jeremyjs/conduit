@@ -1,6 +1,6 @@
 .gridster
   %ul.grid
-    - @widgets.each_with_index do |w, i|
+    - filtered_widgets.each do |w|
       %li.grid-item{id: "widget-#{w.id}",
                     "data-col" => w[:column] || 1,
                     "data-row" => w[:row] || 1,
@@ -11,5 +11,5 @@
         - elsif w.class == QueryTable
           = render partial: 'widgets/table', object: w
         - else
-          = render partial: 'widget/widget', object: w
+          = render partial: 'widgets/widget', object: w
 
