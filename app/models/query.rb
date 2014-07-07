@@ -17,9 +17,6 @@ class Query < ActiveRecord::Base
     values = []
     conn = PG.connect(host: 'qassdb-27-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
     res = conn.exec(command)
-    res.each do |row|
-      puts row
-    end
     res
   end
 end
