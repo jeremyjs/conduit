@@ -22,8 +22,6 @@ saveWidget = ($grid_item) ->
   width = $grid_item.attr('data-sizex')
   row = $grid_item.attr('data-row')
   column = $grid_item.attr('data-col')
-  console.log row
-  console.log column
   $.post "/widgets/" + id,
     id: id
     _method: 'patch'
@@ -34,7 +32,6 @@ saveWidget = ($grid_item) ->
       row: row
       column: column
     , ->
-      console.log "saved"
 
 getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
@@ -71,13 +68,21 @@ $(window).resize ->
     saveWidget $(this)
 
 tryDrawWidgets = ->
-  console.log("test")
   if @drawWidgets
     @drawWidgets()
   else
     setTimeout ->
       tryDrawWidgets()
     , 200
+
+justifyContainerElements = ->
+  margin_val = parseInt($('.grid').css('marginRight'))
+  container_class = '.fullpage .section'
+
+  $(container_class).children().css('marginRight', margin_val)
+  $(container_class).children().css('marginLeft', margin_val)
+  $(container_class).children().not('.gridster').css('paddingRight', 10)
+  $(container_class).children().not('.gridster').css('paddingLeft', 10)
 
 setGridPadding = ->
   grid_total_padding = parseInt( $('.grid').css('padding-left'), 10) +
@@ -96,10 +101,7 @@ $ ->
   grid_max_width = window_width
 
   rows = Math.floor(window_height / widgetOuterDimensions()["height"])
-  console.log window_width
-  console.log widgetOuterDimensions()["width"]
   columns = Math.floor(grid_max_width / widgetOuterDimensions()["width"])
-  console.log columns
 
   $(".grid").gridster
     widget_margins: [10, 10]
@@ -125,14 +127,7 @@ $ ->
         $grid.children('.grid-item').each ->
           saveWidget $(this)
 
-  margin_val = parseInt($('.grid').css('marginRight'))
-
-  container_class = '.fullpage .section'
-
-  $(container_class).children().css('marginRight', margin_val)
-  $(container_class).children().css('marginLeft', margin_val)
-  $(container_class).children().not('.gridster').css('paddingRight', 10)
-  $(container_class).children().not('.gridster').css('paddingLeft', 10)
+  justifyContainerElements()
 
   drawWidgets()
 
