@@ -39,9 +39,6 @@ saveWidget = ($grid_item) ->
 getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
 
-getDraggableGridItem = (ui) ->
-  $(ui.$helper.context)
-
 chartName = ($chart) ->
   "#" + $chart.attr('id')
 
@@ -82,18 +79,26 @@ tryDrawWidgets = ->
       tryDrawWidgets()
     , 200
 
+setGridPadding = ->
+  grid_total_padding = parseInt( $('.grid').css('padding-left'), 10) +
+                       parseInt( $('.container-fluid').css('padding-left'), 10) +
+                       parseInt( $('.container-fluid').css('padding-right'), 10) +
+                       $('#fp-nav').outerWidth(true)
+
+  $('.grid').css('padding-left', grid_total_padding)
+
 $ ->
   generateCharts()
   generateTables()
 
   window_height = $(window).height()
   window_width = $(window).width()
+  grid_max_width = window_width
 
   rows = Math.floor(window_height / widgetOuterDimensions()["height"])
   console.log window_width
   console.log widgetOuterDimensions()["width"]
-  columns = Math.floor(window_width / widgetOuterDimensions()["width"])
-  columns -= 1
+  columns = Math.floor(grid_max_width / widgetOuterDimensions()["width"])
   console.log columns
 
   $(".grid").gridster
@@ -104,20 +109,19 @@ $ ->
     max_cols: columns
     resize:
       enabled: true
-      start: (event, ui) ->
+      start: (event, ui, $widget) ->
         @resizeInterval =
           setInterval ->
             resizeChart(ui)
           , 333
-      stop: (event, ui) ->
+      stop: (event, ui, $widget) ->
         clearInterval(@resizeInterval)
         setTimeout ->
           resizeChart(ui)
         , 200
     draggable:
-      stop: (event, ui) ->
-        $grid = getGridItem(ui)
-        console.log $grid
+      stop: (event, ui, $widget) ->
+        $grid = $(event.target).closest('.grid')
         $grid.children('.grid-item').each ->
           saveWidget $(this)
 
@@ -135,4 +139,6 @@ $ ->
   $('.fullpage').fullpage
     navigation: true
     verticalCentered: false
+
+  setGridPadding()
 
