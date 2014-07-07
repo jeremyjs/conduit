@@ -32,7 +32,7 @@ class QueryTablesController < ApplicationController
 
     respond_to do |format|
       if @query_table.save
-        format.html { redirect_to @query_table, notice: 'Query table was successfully created.' }
+        format.html { redirect_to dashboard_path, notice: 'Query table was successfully created.' }
         format.json { render :show, status: :created, location: @query_table }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class QueryTablesController < ApplicationController
   def update
     respond_to do |format|
       if @query_table.update(query_table_params)
-        format.html { redirect_to @query_table, notice: 'Query table was successfully updated.' }
+        format.html { redirect_to dashboard_path, notice: 'Query table was successfully updated.' }
         format.json { render :show, status: :ok, location: @query_table }
       else
         format.html { render :edit }
@@ -73,6 +73,6 @@ class QueryTablesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def query_table_params
-      params.require(:query_table).permit(:query_id)
+      params.require(:query_table).permit(:name, :row, :column, :width, :height, :page, :query_id)
     end
 end

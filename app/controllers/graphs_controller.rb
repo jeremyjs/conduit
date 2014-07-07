@@ -73,6 +73,6 @@ class GraphsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def graph_params
-      params.require(:graph).permit(:query_id)
+      params.require(:graph).permit(:name, :row, :column, :width, :height, :page, :query_id)
     end
 end
