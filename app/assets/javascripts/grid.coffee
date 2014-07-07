@@ -95,12 +95,14 @@ $ ->
   generateCharts()
   generateTables()
 
-  window_height = $(window).height()
-  window_width = $(window).width()
-  grid_max_width = window_width
+  max_height = $(window).height()
+  max_width = $(window).width() -
+              parseInt( $('.container-fluid').css('padding-left'), 10) -
+              parseInt( $('.container-fluid').css('padding-right'), 10) -
+              $('#fp-nav').outerWidth(true)
 
-  rows = Math.floor(window_height / widgetOuterDimensions["height"])
-  columns = Math.floor(grid_max_width / widgetOuterDimensions["width"])
+  rows = Math.floor(max_height  / widgetOuterDimensions["height"])
+  columns = Math.floor(max_width / widgetOuterDimensions["width"])
 
   $(".grid").gridster
     widget_margins: [
