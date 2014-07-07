@@ -31,7 +31,6 @@ saveWidget = ($grid_item) ->
       width: width
       row: row
       column: column
-    , ->
 
 getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
@@ -111,18 +110,18 @@ $ ->
     max_cols: columns
     resize:
       enabled: true
-      start: (event, ui, $widget) ->
+      start: (event, ui) ->
         @resizeInterval =
           setInterval ->
             resizeChart(ui)
           , 333
-      stop: (event, ui, $widget) ->
+      stop: (event, ui) ->
         clearInterval(@resizeInterval)
         setTimeout ->
           resizeChart(ui)
         , 200
     draggable:
-      stop: (event, ui, $widget) ->
+      stop: (event, ui) ->
         $grid = $(event.target).closest('.grid')
         $grid.children('.grid-item').each ->
           saveWidget $(this)
