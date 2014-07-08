@@ -51,6 +51,15 @@ class WidgetsController < ApplicationController
     end
   end
 
+  def update_page
+    respond_to do |format|
+      widget = Widget.find(params[:id])
+      widget.page = params[:page]
+      widget.save!
+      format.html { render nothing: true }
+    end
+  end
+
   # DELETE /widgets/1
   # DELETE /widgets/1.json
   def destroy
