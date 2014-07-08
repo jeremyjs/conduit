@@ -9,6 +9,7 @@
 #= require d3-v3-min
 #= require c3
 #= require grid
+#= require widget
 #= require charts
 #= require table
 #= require dataTables/jquery.dataTables
