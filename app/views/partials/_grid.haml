@@ -1,5 +1,5 @@
 .gridster
-  %ul.grid
+  %ul.grid{id: "page-#{page}"}
     - filtered_widgets.each do |w|
       %li.grid-item{id: "widget-#{w.id}",
                     "data-col" => w[:column] || 1,
