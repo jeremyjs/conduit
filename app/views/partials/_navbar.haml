@@ -5,6 +5,5 @@
     - if(current_user)
       #{current_user.login}
       = link_to 'Log Out' , destroy_user_session_path , :method => 'delete' , :id => 'Log Out', :class => 'btn btn-default navbar-btn'
-      = link_to "Add Widget", new_widget_path, class: "btn btn-default navbar-btn new"
     - else
       = link_to 'Sign in', new_user_session_path, :class => 'btn btn-default navbar-btn'
