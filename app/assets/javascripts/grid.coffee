@@ -1,14 +1,14 @@
-widgetDimensions =
-  height: 128
-  width: 128
+gridUnits =
+  height: 64
+  width: 64
 
 widgetPadding =
   height: 10
   width: 10
 
-widgetOuterDimensions = ->
-  height: widgetDimensions["height"] + widgetPadding["height"] * 2
-  width: widgetDimensions["width"] + widgetPadding["width"] * 2
+widgetOuterDimensions =
+  height: gridUnits["height"] + widgetPadding["height"] * 2
+  width: gridUnits["width"] + widgetPadding["width"] * 2
 
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
@@ -95,16 +95,24 @@ $ ->
   generateCharts()
   generateTables()
 
-  window_height = $(window).height()
-  window_width = $(window).width()
-  grid_max_width = window_width
+  max_height = $(window).height()
+  max_width = $(window).width() -
+              parseInt( $('.container-fluid').css('padding-left'), 10) -
+              parseInt( $('.container-fluid').css('padding-right'), 10) -
+              $('#fp-nav').outerWidth(true)
 
-  rows = Math.floor(window_height / widgetOuterDimensions()["height"])
-  columns = Math.floor(grid_max_width / widgetOuterDimensions()["width"])
+  rows = Math.floor(max_height  / widgetOuterDimensions["height"])
+  columns = Math.floor(max_width / widgetOuterDimensions["width"])
 
   $(".grid").gridster
-    widget_margins: [10, 10]
-    widget_base_dimensions: [128, 128]
+    widget_margins: [
+      widgetPadding['width']
+      widgetPadding['height']
+    ]
+    widget_base_dimensions: [
+      gridUnits['width']
+      gridUnits['height']
+    ]
     widget_selector: '.grid-item'
     min_cols: columns
     max_cols: columns
