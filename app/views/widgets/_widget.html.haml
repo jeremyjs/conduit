@@ -1,6 +1,7 @@
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
+    = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save widget-page-selector widget-edit-button"
     %select.form-control.widget-page-selector{id: "widget-page-selector-#{widget[:id]}", for_widget: widget[:id]}
       %option{disabled: true, selected: true} #
       - Widget.last_page.times do |i|
@@ -9,8 +10,4 @@
     .chart{ :id => "chart-#{widget[:id]}" }
 
       Panel content
-    %ul.actions
-      %li.action
-        = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save"
-      %li.action
 
