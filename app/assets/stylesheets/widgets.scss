@@ -5,9 +5,24 @@
 .widgets {
   margin-top: 20px;
 }
+
 .actions {
   margin-top: 10px;
   margin-bottom: 0;
   padding-left: 0;
   list-style: none;
+}
+
+.widget-title {
+  display: inline;
+}
+
+.widget-page-selector {
+  display: inline;
+  width: 50px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 4px;
+  margin-top: 4px;
 }
