@@ -34,7 +34,7 @@ end
 
 group :test do
       gem "selenium-webdriver", "~> 2.39.0"
-      gem "cucumber-rails", ">= 1.2.1"
+      gem "cucumber-rails", ">= 1.2.1" , :require => false
       gem "capybara", ">= 1.1.2"
       gem "database_cleaner"
       gem "pry"
