@@ -6,17 +6,12 @@ class Query < ActiveRecord::Base
   serialize :query_result, PG::Result
 
   def execute
-    values = []
     conn = PG.connect(host: 'qassdb-38-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
-    res = conn.exec(self.command)
-    self.query_result = res
-    res
+    self.query_result = conn.exec(self.command)
   end
 
   def self.execute(command)
-    values = []
     conn = PG.connect(host: 'qassdb-27-nut.cashnetusa.com', port: 5432, dbname: 'cnuapp_prod_uk', user: 'cnuapp', password: 'cnuappukqa')
-    res = conn.exec(command)
-    res
+    self.query_result = conn.exec(command)
   end
 end
