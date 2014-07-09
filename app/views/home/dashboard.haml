@@ -4,4 +4,4 @@
       .actions
         - Widget.descendants.each do |desc|
           = link_to image_tag("#{desc.to_s.underscore}.png", height: '22'), new_widget_path(widget: { page: page+1 }), class: "btn btn-default navbar-btn new"
-      = render partial: 'partials/grid', locals: {filtered_widgets: @widgets.where(page: page+1)}
+      = render partial: 'partials/grid', locals: {page: page+1, filtered_widgets: @widgets.where(page: page+1)}
