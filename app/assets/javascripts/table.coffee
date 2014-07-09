@@ -57,6 +57,7 @@ generateFooter = (table) ->
 @generateTables = ->
   @defaultOptions =
     sDom: 'C<"clear">lfrtip'
+    sScrollY: '235px'
 
   $('.tables').each ->
     name = '#' + this.id

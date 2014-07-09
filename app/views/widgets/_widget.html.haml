@@ -3,9 +3,11 @@
     %h3.panel-title.widget-title= widget[:name]
     = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save widget-page-selector widget-edit-button"
     %select.form-control.widget-page-selector{id: "widget-page-selector-#{widget[:id]}", for_widget: widget[:id]}
-      %option{disabled: true, selected: true} #
       - Widget.last_page.times do |i|
-        %option{value: i+1} #{i+1}
+        - if i+1 == widget[:page]
+          %option{disabled: true, selected: true, value: i+1} #{i+1}
+        - else
+          %option{value: i+1} #{i+1}
   .panel-body
     .chart{ :id => "chart-#{widget[:id]}" }
 

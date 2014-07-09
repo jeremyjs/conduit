@@ -3,9 +3,11 @@
     %h3.panel-title.widget-title= table[:name]
     = link_to "Edit", edit_widget_path(table), class: "btn btn-default save widget-page-selector widget-edit-button"
     %select.form-control.widget-page-selector{id: "widget-page-selector-#{table[:id]}", for_widget: table[:id]}
-      %option{disabled: true, selected: true} #
       - Widget.last_page.times do |i|
-        %option{value: i+1} #{i+1}
+        - if i+1 == table[:page]
+          %option{disabled: true, selected: true, value: i+1} #{i+1}
+        - else
+          %option{value: i+1} #{i+1}
   .panel-body
     %table.display.tables{ id: "table-#{table[:id]}", cellspacing: '0', width: '100%' }
       %thead

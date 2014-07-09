@@ -992,7 +992,7 @@ g.page = 3
 g.save
 puts g.errors.full_messages
 
-qt = QueryTable.find_or_create_by(name: "Test Query Table", height: 8, width: 8)
+qt = QueryTable.find_or_create_by(name: "Test Query Table", height: 6, width: 8)
 qt.query = Query.first
 qt.page = 1
 qt.save
