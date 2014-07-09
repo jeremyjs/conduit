@@ -142,7 +142,7 @@ $ ->
   $('.fullpage').fullpage
     navigation: true
     verticalCentered: false
-    normalScrollElements: '.dataTables_scroll'
+    normalScrollElements: '.panel-body'
 
   setGridPadding()
 
