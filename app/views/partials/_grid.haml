@@ -6,10 +6,4 @@
                     "data-row" => w[:row] || 1,
                     "data-sizex" => w[:width],
                     "data-sizey" => w[:height]}
-        - if w.class == Graph
-          = render partial: 'widgets/widget', object: w
-        - elsif w.class == QueryTable
-          = render partial: 'widgets/table', object: w
-        - else
-          = render partial: 'widgets/widget', object: w
-
+        = render partial: 'widgets/widget', object: w
