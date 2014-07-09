@@ -129,6 +129,7 @@ $ ->
           resizeChart(ui)
         , 200
     draggable:
+      handle: '.panel-heading'
       stop: (event, ui) ->
         $grid = $(event.target).closest('.grid')
         $grid.children('.grid-item').each ->
