@@ -14,7 +14,7 @@ class WidgetsController < ApplicationController
 
   # GET /widgets/new
   def new
-    @widget = Widget.new
+    @widget = Widget.new(widget_params)
   end
 
   # GET /widgets/1/edit
