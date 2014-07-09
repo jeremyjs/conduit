@@ -1,4 +1,12 @@
 class Widget < ActiveRecord::Base
+  def initialize(attributes = {})
+    super
+    self.name ||= "Untitled #{self.class.to_s}"
+    self.width ||= 6
+    self.height ||= 4
+    self.row ||= 1
+    self.column ||= 1
+  end
   def self.descendants
     ObjectSpace.each_object(Class).select { |klass| klass < self }
   end

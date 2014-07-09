@@ -18,5 +18,7 @@
   .field.form-group
     = f.label :page
     = f.number_field :page
+  .field.form-group
+    = f.hidden_field :type
   .actions
     = f.submit 'Save', class: "btn btn-default"
