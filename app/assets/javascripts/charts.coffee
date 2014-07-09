@@ -48,6 +48,8 @@ getColumns = (data_array) ->
     axis:
       y2:
         show: true
+    zoom:
+      enabled: true
   c3.generate(chart)
 
 @siblingHeight = ($panel, $chart) ->
