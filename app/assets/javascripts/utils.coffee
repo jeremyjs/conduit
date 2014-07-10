@@ -10,3 +10,6 @@
       sum += $(this)
     )
   sum
+
+@darkenColor = (color, percent) ->
+  Colors.darken(color, percent)

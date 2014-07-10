@@ -4,6 +4,7 @@
 #= require jquery.turbolinks
 #= require jquery.ui.all
 #= require utils
+#= require color
 #= require bootstrap
 #= require jquery.gridster
 #= require d3-v3-min

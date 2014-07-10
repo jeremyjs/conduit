@@ -1,108 +1,22 @@
 class QueryTable < Widget
   belongs_to :query
+
+  def rand_string
+    "#{10000+rand(5000)}"
+  end
+
   def as_json(options)
     {
       id: self.id,
-      data: [
+      data: 10.times.map do
         {
           provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
-        },
-        {
-          provider: "provider#{self.id}",
-          first_kpi: "#{10000+rand(5000)}",
-          second_kpi: "#{5000+rand(2500)}",
-          third_kpi: "#{7000+rand(8500)}",
-          nth_kpi: "#{8000+rand(2100)}"
+          first_kpi: rand_string,
+          second_kpi: rand_string,
+          third_kpi: rand_string,
+          nth_kpi: rand_string
         }
-      ]
+      end
     }
   end
 end
