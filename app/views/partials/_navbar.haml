@@ -5,5 +5,6 @@
     - if(current_user)
       #{current_user.login}
       = link_to 'Log Out' , destroy_user_session_path , :method => 'delete' , :id => 'Log Out', :class => 'btn btn-default navbar-btn'
+      = link_to 'Send Email' , email_path , :id => 'Send Email' ,:class => 'btn btn-success navbar-btn'
     - else
       = link_to 'Sign in', new_user_session_path, :class => 'btn btn-default navbar-btn'
