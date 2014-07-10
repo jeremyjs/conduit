@@ -140,7 +140,6 @@ GEM
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
     pg (0.17.1)
-    pg_to_csv (0.0.1)
     polyglot (0.3.5)
     pry (0.10.0)
       coderay (~> 1.1.0)
@@ -256,7 +255,6 @@ DEPENDENCIES
   launchy
   net-ldap (~> 0.3.1)
   pg
-  pg_to_csv
   pry
   rails (= 4.1.1)
   rspec-rails (>= 2.8.1)

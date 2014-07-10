@@ -24,7 +24,6 @@ gem 'hpricot', '~> 0.8.6'
 gem 'spring',        group: :development
 gem "erb2haml", :group => :development
 gem 'pg'
-gem 'pg_to_csv'
 
 
 
