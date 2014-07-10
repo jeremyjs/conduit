@@ -947,7 +947,7 @@ and c_s.incoming_brand_id <>'11'
 and c_s.received_time >= '%{start_time}'
 AND c_s.received_time <= '%{end_time}'
 
-AND c_s.source_type_cd = '%{provider%}'
+AND c_s.source_type_cd = '%{provider}'
 --and c_s.source_type_cd not like '%%cpf%%'
 --and c_s. lead_source not in ('999_0','173_400078','999_300000')
 
