@@ -947,7 +947,7 @@ and c_s.incoming_brand_id <>'11'
 and c_s.received_time >= '%{start_time}'
 AND c_s.received_time <= '%{end_time}'
 
-AND c_s.source_type_cd = 't3uk'
+AND c_s.source_type_cd = '%{provider%}'
 --and c_s.source_type_cd not like '%%cpf%%'
 --and c_s. lead_source not in ('999_0','173_400078','999_300000')
 
@@ -972,7 +972,7 @@ puts q.errors.full_messages
 
 
 q = Query.find_or_create_by(command: tiers_1218)
-q.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59"}
+q.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59", provider: "t3uk"}
 q.save
 puts q.errors.full_messages
 
