@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'home#dashboard', as: :dashboard
   get 'home/dashboard'
 
+  get 'email' , to: 'home#email' , as: :email
+
   devise_for :users
   resources :issued_graphs
   resources :converted_graphs
