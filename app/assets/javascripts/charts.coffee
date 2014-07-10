@@ -32,19 +32,25 @@ getColumns = (data_array) ->
     columns.push(data_column)
   columns
 
+getColors = (data_array) ->
+  colors = {}
+  for graph in data_array
+    colors[graph.name] = graph.color
+  colors
+
 @renderChart = (id) ->
   chart_data = getChartData(id)
   titles = getTitles(chart_data)
   types = getTypes(chart_data)
   columns = getColumns(chart_data)
+  colors = getColors(chart_data)
   chart =
     bindto: "#chart-#{id}"
     data:
+      titles: titles
       columns: columns
-      axes:
-        DescriptiveQueryName: 'y'
-        DescriptiveQueryName2: 'y2'
       types: types
+      colors: colors
     axis:
       y2:
         show: true
