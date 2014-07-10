@@ -128,7 +128,7 @@ WHERE
 c_s.incoming_brand_id <>'11' and
 c_s.received_time >= timestamp '2013-11-01 00:00:00' -- Will pull everything for today
 AND c_s.received_time < timestamp '2013-11-30 23:59:59'
---and c_s.source_type_cd not like '%cpf%'
+--and c_s.source_type_cd not like '%%cpf%%'
 and c_s.source_type_cd = 'loanmachinefccpf'
 --and c_s.lead_source = '9194420'
 and c_s.type_cd in ('import','pass_active_customer','lead_reject_import')
@@ -144,7 +144,6 @@ c_s.id
 ORDER BY
 first(c_s.received_time)desc;
 }
-
 
 model_lead_source_performance_06_12_2014 = %{
 
@@ -825,7 +824,7 @@ CASE WHEN (c_s.group_cd is null) or substring(c_s.group_cd from length(c_s.group
 THEN c_s.source_type_cd ELSE c_s.group_cd END as provider
 ,CASE when substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9') 
 then c_s.group_cd ELSE 'other' END AS tier
-,case when (c_s.source_type_cd like '%cpf%') then 'cpf'
+,case when (c_s.source_type_cd like '%%cpf%%') then 'cpf'
 else 'cpl' end as lead_type
 ,extract(week from c_s.received_time)as week
 ,extract(month from c_s.received_time)as month
@@ -945,11 +944,11 @@ c_s.country_cd='GB' and
 c_s.type_cd IS NOT NULL
 and c_s.type_cd not in ('seo')
 and c_s.incoming_brand_id <>'11'
-and c_s.received_time >= '2013-06-03 00:00:00'
-AND c_s.received_time <= '2013-06-03 23:59:59'
+and c_s.received_time >= '%{start_time}'
+AND c_s.received_time <= '%{end_time}'
 
 AND c_s.source_type_cd = 't3uk'
---and c_s.source_type_cd not like '%cpf%'
+--and c_s.source_type_cd not like '%%cpf%%'
 --and c_s. lead_source not in ('999_0','173_400078','999_300000')
 
 GROUP BY provider--,ttt
@@ -971,7 +970,10 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: model_lead_source_performance_06_12_2014)
 puts q.errors.full_messages
 
+
 q = Query.find_or_create_by(command: tiers_1218)
+q.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59"}
+q.save
 puts q.errors.full_messages
 
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
