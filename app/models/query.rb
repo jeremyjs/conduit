@@ -28,6 +28,7 @@ class Query < ActiveRecord::Base
     else
       self.command.scan(/\%{(.*?)}/).flatten
     end
+
   end
   def initialize_variables_hash
     extract_variable_names.each do |variable|
