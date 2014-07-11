@@ -1,5 +1,8 @@
 @tables = {}
 
+columns = []
+hidden_columns = []
+
 @getTableData = (id) ->
   globalData = null
   $.ajax(
@@ -8,7 +11,23 @@
     success: (data) ->
       globalData = data
   )
+
+  for key of globalData.data[0]
+    columns.push(key)
+
+  for column in globalData.hide
+    hidden_columns.push(column)
+
+  determineHiddenColumns()
   globalData
+
+determineHiddenColumns = () ->
+  table_options = []
+  for hidden_column in hidden_columns
+    table_options.push({visible: false, targets: columns.indexOf(hidden_column)})
+
+  table_options
+
 
 generateHeaders = (table) ->
   table_id = '#table-' + table.id
@@ -58,10 +77,14 @@ generateFooter = (table) ->
   @defaultOptions =
     sDom: 'C<"clear">lfrtip'
     sScrollY: '235px'
+    sScrollX: true
 
   $('.tables').each ->
     name = '#' + this.id
     id = this.id.substring(6)
     renderTable(getTableData(id))
+
+    defaultOptions.columnDefs = determineHiddenColumns()
+
     tables[name] = $(this).dataTable(defaultOptions)
 

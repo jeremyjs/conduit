@@ -8,6 +8,7 @@ class QueryTable < Widget
   def as_json(options)
     {
       id: self.id,
+      hide: ["provider", "nth_kpi"], 
       data: 10.times.map do
         {
           provider: "provider#{self.id}",
