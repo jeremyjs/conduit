@@ -1,22 +1,17 @@
 class QueryTable < Widget
   belongs_to :query
 
-  def rand_string
-    "#{10000+rand(5000)}"
-  end
-
   def as_json(options)
+    #if not self.query.query_result
+    self.query.execute
+    #end
     {
       id: self.id,
-      data: 10.times.map do
-        {
-          provider: "provider#{self.id}",
-          first_kpi: rand_string,
-          second_kpi: rand_string,
-          third_kpi: rand_string,
-          nth_kpi: rand_string
-        }
-      end
+      hide: [
+        "total_sent",
+        "month",
+      ],
+      data: self.query.query_result.to_a
     }
   end
 end
