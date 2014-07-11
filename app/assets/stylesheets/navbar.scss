@@ -12,4 +12,11 @@ nav {
   border: none;
   border-bottom: solid;
   margin-bottom: 0px;
+  padding-top: 2px;
+
+  .navbar-right {
+    .btn {
+      padding: 6px;
+    }
+  }
 }
