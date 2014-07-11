@@ -87,4 +87,3 @@ generateFooter = (table) ->
     defaultOptions.columnDefs = determineHiddenColumns()
 
     tables[name] = $(this).dataTable(defaultOptions)
-
