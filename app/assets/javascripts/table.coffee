@@ -58,10 +58,10 @@ generateFooter = (table) ->
   @defaultOptions =
     sDom: 'C<"clear">lfrtip'
     sScrollY: '235px'
+    sScrollX: true
 
   $('.tables').each ->
     name = '#' + this.id
     id = this.id.substring(6)
     renderTable(getTableData(id))
     tables[name] = $(this).dataTable(defaultOptions)
-
