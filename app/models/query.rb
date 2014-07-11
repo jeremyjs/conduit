@@ -3,7 +3,7 @@ class Query < ActiveRecord::Base
   validates :command, presence: true
 
   has_many :query_tables
-  serialize :query_result, PG::Result
+  serialize :query_result, Array
   serialize :variables, Hash
 
   def initialize(attributes = {})
@@ -13,12 +13,12 @@ class Query < ActiveRecord::Base
 
   def execute
     conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
-    self.query_result = conn.exec(self.command % self.variables)
+    self.query_result = conn.exec(self.command % self.variables).to_a
   end
 
   def self.execute(command)
     conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
-    self.query_result = conn.exec(command)
+    self.query_result = conn.exec(command).to_a
   end
 
   private
