@@ -23,7 +23,7 @@ class Query < ActiveRecord::Base
 
   private
   def extract_variable_names
-    self.command.scan(/\%{(.*?)}/).flatten
+    self.command.nil? ?  [] : self.command.scan(/\%{(.*?)}/).flatten
   end
   def initialize_variables_hash
     extract_variable_names.each do |variable|
