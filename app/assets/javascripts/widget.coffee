@@ -23,3 +23,7 @@ $ ->
       dataType: "json"
       complete: ->
         location.reload()
+
+  $('.widget-settings-toggle').click ->
+    $(this).parents().eq(2).find('.panel-body').toggle()
+    $(this).parents().eq(2).find('.panel-settings').toggle()
