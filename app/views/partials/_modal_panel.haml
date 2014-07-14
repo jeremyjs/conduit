@@ -1,0 +1,10 @@
+%nav#menu.modal-panel{role: 'navigation'}
+  %h1 Add Widgets
+  - widget_types = Widget.descendants.map { |klass| klass.to_s }.sort
+  - widget_types.each do |widget_type|
+    -if widget_type == "QueryTable" #temporary, because QueryTable adding is currently broken
+      %a.btn.btn-default.navbar-btn.new.disabled{widget_type: widget_type}
+        %img{src:"/assets/#{widget_type.underscore}.png", height: 22}
+    -else
+      %a.btn.btn-default.navbar-btn.new{widget_type: widget_type}
+        %img{src:"/assets/#{widget_type.underscore}.png", height: 22}
