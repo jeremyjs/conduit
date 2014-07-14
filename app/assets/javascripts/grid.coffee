@@ -139,10 +139,5 @@ $ ->
 
   drawWidgets()
 
-  $('.fullpage').fullpage
-    navigation: true
-    verticalCentered: false
-    normalScrollElements: '.panel-body'
-
   setGridPadding()
 
