@@ -4,18 +4,6 @@ $ ->
       id: $(this).attr('for_widget')
       page: $(this).val()
 
-    #current_widget = $(this).parents().eq(2)
-    #current_widget_sizex = current_widget.attr('data-sizex')
-    #current_widget_sizey = current_widget.attr('data-sizey')
-
-    #from_grid = $(this).parents().eq(3).gridster().data('gridster')
-    #from_grid.remove_widget(current_widget)
-
-    #console.log(current_widget)
-
-    #to_grid = $('#page-'+data.page).gridster().data('gridster')
-    #to_grid.add_widget(current_widget.html(), current_widget_sizex, current_widget_sizey)
-
     $.ajax
       type: "post"
       data: data
@@ -23,6 +11,15 @@ $ ->
       dataType: "json"
       complete: ->
         location.reload()
-        console.log('reloading...')
-      
-    
+  
+  $('.new').click ->
+    $.ajax
+      type: "post"
+      data:
+        widget:
+          page: window.currentPage
+          type: $(this).attr('widget_type')
+      url: "/widgets"
+      dataType: "json"
+      complete: ->
+        location.reload()
