@@ -10,6 +10,12 @@ class Query < ActiveRecord::Base
     initialize_variables_hash
   end
 
+  def has_changed
+    if self.command_changed? || self.variables_changed?
+      self.execute
+    end
+  end
+
   def execute
     conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
     self.query_result = conn.exec(self.command % self.variables).to_a
