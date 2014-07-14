@@ -9,6 +9,10 @@
   .field.form-group
     = label_tag 'name'
     = text_field_tag 'widget[name]', @widget.name
+  - if @widget.class == QueryTable
+    .field.form-group
+      = label_tag 'query'
+      = select_tag 'widget[query]', options_from_collection_for_select(Query.all, "id", "name", @widget.query.id)
   .field.form-group
     = label_tag 'height'
     = number_field_tag 'widget[height]', @widget.height
