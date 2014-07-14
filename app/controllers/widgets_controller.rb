@@ -43,6 +43,11 @@ class WidgetsController < ApplicationController
   # PATCH/PUT /widgets/1.json
   def update
     respond_to do |format|
+      if params.has_key?('variables')
+        @widget.query.variables = params['variables']
+        @widget.query.save
+        params.except!('variables')
+      end
       if @widget.update(widget_params)
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
