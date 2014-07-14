@@ -1,0 +1,2 @@
+$ ->
+  $('.menu-link').bigSlide()
