@@ -5,7 +5,7 @@ class QueryTable < Widget
 
   def initialize(attributes = {})
     super
-    self.query ||= Query.find(3)
+    self.query_id ||= 3
   end
 
   def query_changed
