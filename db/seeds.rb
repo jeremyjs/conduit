@@ -7,6 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 lead_id_1210 = %{
+ --lead_id_1210
  --conv_summary_uk_(lead_id)_09-21-09.sql
 
 --9/26/2008 - added bank wizard (Marina)
@@ -146,6 +147,7 @@ first(c_s.received_time)desc;
 }
 
 model_lead_source_performance_06_12_2014 = %{
+--model_lead_source_performance_06_12_2014
 
 
 
@@ -791,6 +793,7 @@ order by provider
 }
 
 pitch_main_query_backup_0211 = %{
+--pitch_main_query_backup_0211
 --Query: Pitch_Main_Query_skhodukin.sql
 --Update QQ Leads queries to no longer double-count issued loans for customers imported from >1 provider
 --Owner: MGreen
@@ -879,6 +882,7 @@ order by provider, tier
 }
 
 tiers_1218 = %{
+--tiers_1218
 --Query: Tiers_0514_smurzin.sql
 --Update QQ Leads queries to no longer double-count issued loans for customers imported from >1 provider
 --Owner: M Green

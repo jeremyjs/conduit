@@ -1,5 +1,4 @@
 class Query < ActiveRecord::Base
-  require 'pg'
   validates :command, presence: true
 
   has_many :query_tables
@@ -18,7 +17,11 @@ class Query < ActiveRecord::Base
 
   def self.execute(command)
     conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
-    self.query_result = conn.exec(command).to_a
+    conn.exec(command).to_a
+  end
+
+  def name
+    self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
   end
 
   private
