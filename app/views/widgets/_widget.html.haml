@@ -1,7 +1,7 @@
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
-    %a.btn.btn-default.widget-edit-button.widget-page-selector.widget-settings-toggle $
+    %a.btn.btn-default.widget-settings-toggle $$$
   .panel-body
     - if widget.class == QueryTable
       = render partial: 'widgets/table', object: widget
