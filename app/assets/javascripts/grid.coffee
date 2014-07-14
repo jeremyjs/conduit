@@ -95,7 +95,7 @@ $ ->
   generateCharts()
   generateTables()
 
-  max_height = $(window).height()
+  max_height = $(window).height()-$('.navbar-conduit').height()
   max_width = $(window).width() -
               parseInt( $('.container-fluid').css('padding-left'), 10) -
               parseInt( $('.container-fluid').css('padding-right'), 10) -
