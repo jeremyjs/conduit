@@ -43,18 +43,16 @@ class WidgetsController < ApplicationController
   # PATCH/PUT /widgets/1.json
   def update
     respond_to do |format|
-      if widget_params.has_key?('query') and @widget.query_id != widget_params['query']
+      if widget_params.has_key?('query') and @widget.query_id != widget_params['query'].to_i
         @widget.query = Query.find(widget_params['query'])
         @widget.query.save
-        params['widget'].except!('query')
-        params.except!('variables')
+        @widget.save
       end
       if params.has_key?('variables')
         @widget.query.variables = params['variables']
         @widget.query.save
-        params.except!('variables')
       end
-      if @widget.update(widget_params)
+      if @widget.update(widget_params.except('query', 'variables'))
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else
