@@ -13,7 +13,6 @@ $ ->
         location.reload()
   
   $('.new').click ->
-    console.log(window.currentPage)
     $.ajax
       type: "post"
       data:
