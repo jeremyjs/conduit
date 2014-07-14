@@ -3,7 +3,7 @@
     .section{id: "page-#{page+1}"}
       = render partial: 'partials/grid', locals: {page: page+1, filtered_widgets: @widgets.where(page: page+1)}
 
-%nav#menu.panel{role: 'navigation'}
+%nav#menu.modal-panel{role: 'navigation'}
   %h1 Add Widgets
   - Widget.last_page.times do |page|
     - Widget.descendants.each do |desc|
