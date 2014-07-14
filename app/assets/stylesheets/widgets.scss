@@ -27,9 +27,11 @@
   margin-top: 4px;
 
   &.widget-edit-button {
-    right: 54px;
     padding: 5px 0 0 0;
     height: 35px;
   }
 }
 
+.panel-settings {
+  display: none;
+}
