@@ -1,4 +1,13 @@
 .modal-panel {
   padding-top: 50px;
   z-index: 99;
+  background-color: #343434;
+  padding-left: 8px;
+
+  .navbar-brand {
+    color: #fff;
+    font-weight: 100;
+    width: 100%;
+    margin-left: -15px;
+  }
 }
