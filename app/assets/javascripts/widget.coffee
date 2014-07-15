@@ -29,34 +29,40 @@ $ ->
     $(this).parents().eq(2).find('.panel-settings').toggle()
 
   $('.edit-widget-btn').click ->
-    current_widget = $(this).parent().find('.current-widget').val()
+    outer = $(this).parent()
+
+    getKeys = (selector) ->
+      outer.find(selector).map ->
+        $(this).attr('key')
+  
+    getValues = (selector) ->
+      outer.find(selector).map ->
+        $(this).val()
+
+    current_widget = outer.find('.current-widget').val()
+
     data =
       widget: {}
       variables: {}
 
-    widget_attributes = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
-    widget = $(this).parent().find(widget_attributes).map ->
-      $(this).attr('key')
-    widget_values = $(this).parent().find(widget_attributes).map ->
-      $(this).val()
+    widget_fields = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
+    widget_keys = getKeys(widget_fields)
+    widget_values = getValues(widget_fields)
 
-    widget.push('query')
-    if $(this).parent().find('.query-type').val() == null
-      widget_values.push $(this).parent().find('.current-query').val()
+    widget_keys.push('query')
+    if outer.find('.query-type').val() == null
+      widget_values.push outer.find('.current-query').val()
     else
-      widget_values.push $(this).parent().find('.query-type').val()
+      widget_values.push outer.find('.query-type').val()
 
+    variables_fields = 'input.widget-variables'
+    variables_keys = getKeys(variables_fields)
+    variables_values = getValues(variables_fields)
 
-    widget_variables = 'input.widget-variables'
-    variables = $(this).parent().find(widget_variables).map ->
-      $(this).attr('key')
-    variables_values = $(this).parent().find(widget_variables).map ->
-      $(this).val()
-
-    for w_attr, i in widget
+    for w_attr, i in widget_keys
       data.widget[w_attr] = widget_values[i]
 
-    for v_attr, i in variables
+    for v_attr, i in variables_keys
       data.variables[v_attr] = variables_values[i]
 
     $.ajax
