@@ -976,7 +976,6 @@ puts q.errors.full_messages
 
 
 q = Query.find_or_create_by(command: tiers_1218)
-q.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59", provider: "t3uk"}
 q.save
 puts q.errors.full_messages
 
@@ -985,22 +984,26 @@ puts q.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph", height: 5, width: 7)
 g.page = 1
+g.query_id = 3
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 2", height: 5, width: 7)
 g.page = 3
+g.query_id = 3
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 3", height: 5, width: 7)
 g.page = 3
+g.query_id = 3
 g.save
 puts g.errors.full_messages
 
 t = Table.find_or_create_by(name: "Test Table", height: 5, width: 7)
 t.query = Query.find(3)
 t.page = 1
+t.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59", provider: "t3uk"}
 t.save
 puts t.errors.full_messages
 
