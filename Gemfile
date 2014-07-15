@@ -25,8 +25,7 @@ gem 'spring',        group: :development
 gem "erb2haml", :group => :development
 gem 'pg'
 gem 'quiet_assets', group: :development
-
-
+gem 'whenever', :require => false
 
 group :development, :test do
   gem "rspec-rails", ">= 2.8.1"
@@ -42,9 +41,3 @@ group :test do
   gem 'shoulda-matchers'
   gem "launchy"
 end
-
-
-
-
-
-
