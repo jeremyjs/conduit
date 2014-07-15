@@ -53,9 +53,3 @@
 @getId = (name) ->
   name.slice(-1)
 
-# @generateCharts = ->
-#   $(".chart").each ->
-#     name = '#' + this.id
-#     id = getId(this.id)
-#     charts[name] = renderChart(id)
-
