@@ -7,7 +7,7 @@ describe Query do
     expect(query).to be_valid
   end
 
-  it {should have_many(:query_tables)}
+  it {should have_many(:tables)}
 
   it "should return a postgres result which is stored in query_result on executing its command" do
     query = Query.new

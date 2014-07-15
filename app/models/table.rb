@@ -1,4 +1,4 @@
-class QueryTable < Widget
+class Table < Widget
   belongs_to :query
 
   after_update :query_changed

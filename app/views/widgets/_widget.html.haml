@@ -3,9 +3,9 @@
     %h3.panel-title.widget-title= widget[:name]
     %a.btn.btn-default.widget-settings-toggle $$$
   .panel-body
-    - if widget.class == QueryTable
+    - if widget.class == Table
       = render partial: 'widgets/table', object: widget
-    - else 
+    - else
       = render partial: 'widgets/chart', object: widget
   .panel-settings
     = render partial: 'widgets/settings', locals: {widget: widget}

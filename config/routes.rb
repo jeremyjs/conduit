@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :sent_graphs
   resources :graphs
   resources :widgets
-  resources :query_tables
+  resources :tables
   resources :queries
 
   post '/widget/update_page', to: 'widgets#update_page'
