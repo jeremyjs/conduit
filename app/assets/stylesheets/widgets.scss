@@ -29,6 +29,17 @@
   height: 35px;
 }
 
+.panel {
+  height: 100%;
+  overflow: hidden;
+}
+
+.panel-body {
+  height: 100%;
+  overflow: hidden;
+  padding: 5px 0 5px 0;
+}
+
 .panel-settings {
   display: none;
   height: 100%;
