@@ -6,7 +6,7 @@ hidden_columns = []
 @getTableData = (id) ->
   globalData = null
   $.ajax(
-    url: "/query_tables/" + id + ".json"
+    url: "/tables/" + id + ".json"
     async: false
     success: (data) ->
       globalData = data
