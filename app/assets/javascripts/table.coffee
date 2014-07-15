@@ -75,9 +75,14 @@ generateFooter = (table) ->
 
 @generateTables = ->
   @defaultOptions =
-    sDom: 'C<"clear">lfrtip'
+    sDom: 'TC<"clear">lfrtip'
     sScrollY: '175px'
     sScrollX: true
+    stateSave: true
+    tableTools: {
+      aButtons: [ "copy", "csv" ]
+      sSwfPath: "/copy_csv_xls_pdf.swf"
+    }
 
   $('.tables').each ->
     name = '#' + this.id

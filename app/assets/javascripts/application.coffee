@@ -15,6 +15,7 @@
 #= require table
 #= require dataTables/jquery.dataTables
 #= require dataTables/extras/dataTables.colVis
+#= require dataTables/extras/dataTables.tableTools
 #= require jquery.fullPage
 #= require bigSlide
 #= require dashboard
