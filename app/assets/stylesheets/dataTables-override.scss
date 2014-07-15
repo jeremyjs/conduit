@@ -10,14 +10,36 @@
   }
 }
 
-.dataTables_info {
-  font-size: 10px;
-}
-
-.dataTables_paginate {
+.dataTables_info, .dataTables_paginate {
   font-size: 10px;
 }
 
 table.dataTable {
   font-size: 10px;
+}
+
+.dataTables_length, .dataTables_info {
+  padding-left: 5px;
+}
+
+.dataTables_filter {
+  label {
+    input {
+      padding: 0;
+    }
+  }
+}
+
+div.ColVis {
+  margin-bottom: 0;
+
+  button {
+    height:20px;
+    font-size: 10px;
+    padding: 0 5px 0 5px;
+  }
+}
+
+table.dataTable {
+  margin-top: 0 !important;
 }
