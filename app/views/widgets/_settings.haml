@@ -1,8 +1,2 @@
 .settings
-  = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save"
-  %select.form-control{id: "widget-page-selector-#{widget[:id]}", for_widget: widget[:id]}
-    - Widget.last_page.times do |page|
-      - if page+1 == widget[:page]
-        %option{disabled: true, selected: true, value: page+1} #{page+1}
-      - else
-        %option{value: page+1} #{page+1}
+  = render partial: 'widgets/form', locals: {widget: widget}
