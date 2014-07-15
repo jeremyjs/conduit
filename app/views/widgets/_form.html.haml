@@ -21,6 +21,5 @@
   - widget.query.variables.each do |variable, value|
     %label #{variable.to_s}
     %input.widget-variables{key: variable.to_s, value: value.to_s}
-/= hidden_field_tag 'widget[type]', widget.type
 
 %a.btn.btn-default.edit-widget-btn Save
