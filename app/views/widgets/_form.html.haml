@@ -9,7 +9,7 @@
   .field.form-group
     = label_tag 'name'
     = text_field_tag 'widget[name]', @widget.name
-  - if @widget.class == QueryTable
+  - if @widget.class == Table
     .field.form-group
       = label_tag 'query'
       = select_tag 'widget[query]', options_from_collection_for_select(Query.all, "id", "name", @widget.query.id)
@@ -25,7 +25,7 @@
   .field.form-group
     = hidden_field_tag 'widget[type]', @widget.type
   %h3 Variables
-  - if @widget.class == QueryTable
+  - if @widget.class == Table
     - @widget.query.variables.each do |variable, value|
       .field.form-group
         = label_tag variable.to_s
