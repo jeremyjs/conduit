@@ -76,7 +76,7 @@ generateFooter = (table) ->
 @generateTables = ->
   @defaultOptions =
     sDom: 'C<"clear">lfrtip'
-    sScrollY: '175px'
+    sScrollY: '220px'
     sScrollX: true
 
   $('.tables').each ->
