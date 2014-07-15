@@ -6,10 +6,6 @@ Rails.application.routes.draw do
   get 'email' , to: 'home#email' , as: :email
 
   devise_for :users
-  resources :issued_graphs
-  resources :converted_graphs
-  resources :imported_graphs
-  resources :sent_graphs
   resources :graphs
   resources :widgets
   resources :tables
