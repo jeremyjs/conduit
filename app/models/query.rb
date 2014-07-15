@@ -3,13 +3,6 @@ class Query < ActiveRecord::Base
 
   has_many :widgets
 
-
- # def has_changed
-  #  if self.command_changed? || self.variables_changed?
-   #   self.execute
-   # end
-  #
- # end
   def has_changed
     #rerun all widgtes when the command of a query changes
   end
