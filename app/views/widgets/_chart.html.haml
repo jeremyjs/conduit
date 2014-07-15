@@ -1,1 +1,12 @@
 .chart{ :id => "chart-#{chart[:id]}" }
+:javascript
+  var id = "#{chart[:id]}";
+  var name = "#chart-" + id;
+  var chart = $(name);
+  if("#{chart[:filter]}" === "qq_leads_funnel") {
+    charts[name] = renderQQLeadsFunnelChart(id);
+  }
+  else {
+    charts[name] = renderChart(id);
+  }
+
