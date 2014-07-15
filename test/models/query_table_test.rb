@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class QueryTableTest < ActiveSupport::TestCase
+class TableTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

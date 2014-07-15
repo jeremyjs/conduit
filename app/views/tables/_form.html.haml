@@ -1,11 +1,11 @@
-= form_for(@query_table) do |f|
-  - if @query_table.errors.any?
+= form_for(@table) do |f|
+  - if @table.errors.any?
     #error_explanation
       %h2
-        = pluralize(@query_table.errors.count, "error")
+        = pluralize(@table.errors.count, "error")
         prohibited this query_table from being saved:
       %ul
-        - @query_table.errors.full_messages.each do |message|
+        - @table.errors.full_messages.each do |message|
           %li= message
   .field
     = f.label :query_id
