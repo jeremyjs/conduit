@@ -40,7 +40,7 @@ class TablesControllerTest < ActionController::TestCase
   end
 
   test "should destroy table" do
-    assert_difference('QueryTable.count', -1) do
+    assert_difference('Table.count', -1) do
       delete :destroy, id: @table
     end
 
