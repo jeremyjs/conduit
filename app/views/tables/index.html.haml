@@ -1,0 +1,16 @@
+%h1 Listing tables
+%table
+  %thead
+    %tr
+      %th Query
+      %th{:colspan => "3"}
+  %tbody
+    - @tables.each do |table|
+      %tr
+        %td= table.query_id
+        %td= link_to 'Show', table
+        %td= link_to 'Edit', edit_table_path(table)
+        %td= link_to 'Destroy', table, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Table', new_table_path
+
