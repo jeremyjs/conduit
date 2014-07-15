@@ -1,2 +1,0 @@
-class IssuedGraph < Graph
-end
