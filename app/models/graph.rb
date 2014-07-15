@@ -36,7 +36,8 @@ class Graph < Widget
           name: "#{name_array[i]}_#{type}",
           values: vh,
           type: type,
-          color: color_array[i]
+          color: color_array[i],
+          y2: true
         }
       end
     end.flatten

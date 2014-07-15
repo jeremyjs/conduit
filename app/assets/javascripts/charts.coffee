@@ -9,20 +9,20 @@
       data = response
   data
 
-getTitles = (data_array) ->
+@getTitles = (data_array) ->
   titles = {}
   for graph in data_array
     titles[graph.name] = graph.name
   titles
 
-getTypes = (data_array) ->
+@getTypes = (data_array) ->
   types = {}
   for graph in data_array
     types[graph.name] = graph.type
   types
 
 # return [["column1", 1, 6... ], ["column2", 2, 5... ]]
-getColumns = (data_array) ->
+@getColumns = (data_array) ->
   columns = []
   for graph in data_array
     value_hashes = graph.values
@@ -32,31 +32,11 @@ getColumns = (data_array) ->
     columns.push(data_column)
   columns
 
-getColors = (data_array) ->
+@getColors = (data_array) ->
   colors = {}
   for graph in data_array
     colors[graph.name] = graph.color
   colors
-
-@renderChart = (id) ->
-  chart_data = getChartData(id)
-  titles = getTitles(chart_data)
-  types = getTypes(chart_data)
-  columns = getColumns(chart_data)
-  colors = getColors(chart_data)
-  chart =
-    bindto: "#chart-#{id}"
-    data:
-      titles: titles
-      columns: columns
-      types: types
-      colors: colors
-    axis:
-      y2:
-        show: true
-    zoom:
-      enabled: true
-  c3.generate(chart)
 
 @siblingHeight = ($panel, $chart) ->
   other_children_array = $panel.children().not($chart).get()
@@ -73,9 +53,9 @@ getColors = (data_array) ->
 @getId = (name) ->
   name.slice(-1)
 
-@generateCharts = ->
-  $(".chart").each ->
-    name = '#' + this.id
-    id = getId(this.id)
-    charts[name] = renderChart(id)
+# @generateCharts = ->
+#   $(".chart").each ->
+#     name = '#' + this.id
+#     id = getId(this.id)
+#     charts[name] = renderChart(id)
 
