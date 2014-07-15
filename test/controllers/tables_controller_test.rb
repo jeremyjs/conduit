@@ -1,14 +1,14 @@
 require 'test_helper'
 
-class QueryTablesControllerTest < ActionController::TestCase
+class TablesControllerTest < ActionController::TestCase
   setup do
-    @query_table = query_tables(:one)
+    @table = tables(:one)
   end
 
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:query_tables)
+    assert_not_nil assigns(:tables)
   end
 
   test "should get new" do
@@ -16,34 +16,34 @@ class QueryTablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create query_table" do
-    assert_difference('QueryTable.count') do
-      post :create, query_table: { query_id: @query_table.query_id }
+  test "should create table" do
+    assert_difference('Table.count') do
+      post :create, table: { query_id: @table.query_id }
     end
 
-    assert_redirected_to query_table_path(assigns(:query_table))
+    assert_redirected_to table_path(assigns(:table))
   end
 
-  test "should show query_table" do
-    get :show, id: @query_table
+  test "should show table" do
+    get :show, id: @table
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @query_table
+    get :edit, id: @table
     assert_response :success
   end
 
-  test "should update query_table" do
-    patch :update, id: @query_table, query_table: { query_id: @query_table.query_id }
-    assert_redirected_to query_table_path(assigns(:query_table))
+  test "should update table" do
+    patch :update, id: @table, table: { query_id: @table.query_id }
+    assert_redirected_to table_path(assigns(:table))
   end
 
-  test "should destroy query_table" do
-    assert_difference('QueryTable.count', -1) do
-      delete :destroy, id: @query_table
+  test "should destroy table" do
+    assert_difference('Table.count', -1) do
+      delete :destroy, id: @table
     end
 
-    assert_redirected_to query_tables_path
+    assert_redirected_to tables_path
   end
 end
