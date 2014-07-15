@@ -10,13 +10,13 @@ end
 
 def delete_user
   @existing_user = User.where(:login => @visitor[:login]).first
-  User.destroy(@existing_user.id) unless @existing_user.nil? 
+  User.destroy(@existing_user.id) unless @existing_user.nil?
 end
 
 def sign_in
   fill_in "login", :with => @visitor[:login]
   fill_in "password" , :with => @visitor[:password]
-  click_button "Sign In" 
+  click_button "Sign In"
 end
 
 Given /^I exist as a user$/ do
@@ -48,7 +48,7 @@ end
 Given /^I am on the login page$/ do
   visit 'users/sign_in'
 end
- 
+
 
 Then /^I am unable to sign up$/ do
   expect(page).to have_content("prohibited this user from being saved")

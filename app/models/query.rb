@@ -1,7 +1,7 @@
 class Query < ActiveRecord::Base
   validates :command, presence: true
 
-  has_many :query_tables
+  has_many :tables
   serialize :query_result, Array
   serialize :variables, Hash
 

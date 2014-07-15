@@ -1,15 +1,11 @@
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
-    = link_to "Edit", edit_widget_path(widget), class: "btn btn-default save widget-page-selector widget-edit-button"
-    %select.form-control.widget-page-selector{id: "widget-page-selector-#{widget[:id]}", for_widget: widget[:id]}
-      - Widget.last_page.times do |page|
-        - if page+1 == widget[:page]
-          %option{disabled: true, selected: true, value: page+1} #{page+1}
-        - else
-          %option{value: page+1} #{page+1}
+    %a.btn.btn-default.widget-settings-toggle $$$
   .panel-body
-    - if widget.class == QueryTable
+    - if widget.class == Table
       = render partial: 'widgets/table', object: widget
-    - else 
+    - else
       = render partial: 'widgets/chart', object: widget
+  .panel-settings
+    = render partial: 'widgets/settings', locals: {widget: widget}
