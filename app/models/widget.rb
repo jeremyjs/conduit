@@ -18,7 +18,7 @@ class Widget < ActiveRecord::Base
 
   def has_changed
     #query id might remain the same but the command might have changed
-    if self.query_id_changed?
+    if self.query_id_changed? || self.query.command_changed?
       initialize_variables_hash
       execute_query
     else
