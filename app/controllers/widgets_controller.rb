@@ -47,6 +47,7 @@ class WidgetsController < ApplicationController
         @widget.query = Query.find(widget_params['query'])
         @widget.query.save
         @widget.save
+        params.except!('variables')
       end
       if params.has_key?('variables')
         @widget.query.variables = params['variables']
