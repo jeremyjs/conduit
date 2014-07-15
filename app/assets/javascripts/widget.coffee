@@ -1,17 +1,4 @@
 $ ->
-  $('.widget-page-selector').change ->
-    data =
-      id: $(this).attr('for_widget')
-      page: $(this).val()
-
-    $.ajax
-      type: "post"
-      data: data
-      url: "/widget/update_page/"
-      dataType: "json"
-      complete: ->
-        location.reload()
-  
   $('.new').click ->
     $.ajax
       type: "post"
@@ -65,10 +52,23 @@ $ ->
     for v_attr, i in variables_keys
       data.variables[v_attr] = variables_values[i]
 
+  
+
     $.ajax
       type: "patch"
       data: data
       url: "/widgets/"+current_widget
       dataType: "json"
       complete: ->
-        location.reload()
+        page_selector = outer.find('.widget-page-selector')
+        data =
+          id: page_selector.attr('for_widget')
+          page: page_selector.val() || page_selector.attr('current_page')
+
+        $.ajax
+          type: "post"
+          data: data
+          url: "/widget/update_page/"
+          dataType: "json"
+          complete: ->
+            location.reload()
