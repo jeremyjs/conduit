@@ -43,3 +43,13 @@ div.ColVis {
 table.dataTable {
   margin-top: 0 !important;
 }
+
+table.dataTable {
+  tbody {
+    tr {
+      td {
+        padding: 0 0 0 5px;
+      }
+    }
+  }
+}
