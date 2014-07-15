@@ -998,10 +998,10 @@ g.page = 3
 g.save
 puts g.errors.full_messages
 
-qt = QueryTable.find_or_create_by(name: "Test Query Table", height: 5, width: 7)
-qt.query = Query.find(3)
-qt.page = 1
-qt.save
-puts qt.errors.full_messages
+t = Table.find_or_create_by(name: "Test Table", height: 5, width: 7)
+t.query = Query.find(3)
+t.page = 1
+t.save
+puts t.errors.full_messages
 
-puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{QueryTable.count} query_tables, and #{Graph.count} graphs."
+puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{Table.count} tables, and #{Graph.count} graphs."
