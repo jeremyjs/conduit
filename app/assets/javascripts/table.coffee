@@ -78,6 +78,7 @@ generateFooter = (table) ->
     sDom: 'C<"clear">lfrtip'
     sScrollY: '220px'
     sScrollX: true
+    stateSave: true
 
   $('.tables').each ->
     name = '#' + this.id
