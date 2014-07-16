@@ -43,17 +43,17 @@ class WidgetsController < ApplicationController
   # PATCH/PUT /widgets/1.json
   def update
     respond_to do |format|
-      if widget_params.has_key?('query') and @widget.query_id != widget_params['query'].to_i
-        @widget.query = Query.find(widget_params['query'])
+      if widget_params.has_key?('query_id') and @widget.query_id != widget_params['query_id'].to_i
+        @widget.query = Query.find(widget_params['query_id'])
         @widget.query.save
         @widget.save
         params.except!('variables')
       end
-      if params.has_key?('variables')
-        @widget.query.variables = params['variables']
-        @widget.query.save
+      if widget_params.has_key?('variables')
+        @widget.variables = widget_params['variables']
+        @widget.save
       end
-      if @widget.update(widget_params.except('query', 'variables'))
+      if @widget.update(widget_params.except('query_id', 'variables'))
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else
@@ -90,6 +90,6 @@ class WidgetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def widget_params
-      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query)
+      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :provider] })
     end
 end
