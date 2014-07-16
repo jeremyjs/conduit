@@ -10,19 +10,19 @@
 .form-group
   %label{for: "widget-name-field-#{widget.id}"} Name
   %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
-/- if widget.class == Table
-/%input.current-query{type:'hidden', value: widget.query.id}
-/%select.query-type
-/- Query.all.each do |query|
-/- if query.id == widget.query.id
-/%option{value: query.id, disabled: true, selected: true} #{query.name}
-/- else 
-/%option{value: query.id} #{query.name}
-/%h3 Variables
-/- if widget.class == Table
-/- widget.query.variables.each do |variable, value|
-/%label #{variable.to_s}
-/%input.widget-variables{key: variable.to_s, value: value.to_s}
+
+%input.current-query{type:'hidden', value: widget.query_id}
+%select.query-type
+  - Query.all.each do |query|
+    - if query.id == widget.query_id
+      %option{value: query.id, disabled: true, selected: true} #{query.name}
+    - else
+      %option{value: query.id} #{query.name}
+
+%h3 Variables
+- widget.variables.each do |variable, value|
+  %label #{variable.to_s}
+  %input.widget-variables{key: variable.to_s, value: value.to_s}
 
 %input.current-widget{type:'hidden', value: widget.id}
 %a.btn.btn-default.edit-widget-btn
