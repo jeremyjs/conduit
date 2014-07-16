@@ -76,7 +76,7 @@ generateFooter = (table) ->
 @generateTables = ->
   @defaultOptions =
     sDom: 'TC<"clear">lfrtip'
-    sScrollY: '220px'
+    sScrollY: '260px'
     sScrollX: true
     stateSave: true
     tableTools: {
