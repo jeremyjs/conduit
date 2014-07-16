@@ -38,18 +38,6 @@
     colors[graph.name] = graph.color
   colors
 
-@siblingHeight = ($panel, $chart) ->
-  other_children_array = $panel.children().not($chart).get()
-  other_children_array.reduce (sum, self) ->
-    sum + $(self).outerHeight(true)
-  , 0
-
-@drawChart = (name, chart) ->
-  chart = charts[name] unless chart
-  $chart_elem = $(name)
-  new_height = calculateHeight($chart_elem)
-  chart.resize({ height: new_height })
-
 @getId = (name) ->
   name.slice(-1)
 
