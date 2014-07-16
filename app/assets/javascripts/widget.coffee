@@ -29,14 +29,14 @@ $ ->
     current_widget = outer.find('.current-widget').val()
 
     data =
-      widget: {}
-      variables: {}
+      widget:
+        variables: {}
 
     widget_fields = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
     widget_keys = getKeys(widget_fields)
     widget_values = getValues(widget_fields)
 
-    widget_keys.push('query')
+    widget_keys.push('query_id')
     if outer.find('.query-type').val() == null
       widget_values.push outer.find('.current-query').val()
     else
@@ -50,9 +50,7 @@ $ ->
       data.widget[w_attr] = widget_values[i]
 
     for v_attr, i in variables_keys
-      data.variables[v_attr] = variables_values[i]
-
-  
+      data.widget.variables[v_attr] = variables_values[i]
 
     $.ajax
       type: "patch"
