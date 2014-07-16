@@ -2,11 +2,14 @@
 :javascript
   var id = "#{chart[:id]}";
   var name = "#chart-" + id;
-  var chart = $(name);
+  var chart = getChartData(id)
   if("#{chart[:filter]}" === "qq_leads_funnel") {
-    charts[name] = renderQQLeadsFunnelChart(id);
+    charts[name] = renderQQLeadsFunnelChart(chart);
+  }
+  else if("#{chart[:filter]}" === "bar_line") {
+    charts[name] = renderBarLineChart(chart);
   }
   else {
-    charts[name] = renderChart(id);
+    charts[name] = renderChart(chart);
   }
 
