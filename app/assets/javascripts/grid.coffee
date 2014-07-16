@@ -63,8 +63,6 @@ $(window).resize ->
     drawChart(name, chart)
   for name, table of @tables
     drawTable(name, table)
-  $('.grid-item').each ->
-    saveWidget $(this)
 
 tryDrawWidgets = ->
   if @drawWidgets
