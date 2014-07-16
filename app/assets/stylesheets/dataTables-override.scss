@@ -40,6 +40,23 @@ div.ColVis {
   }
 }
 
+div.DTTT_container {
+  margin: 0;
+
+  a.DTTT_button {
+    padding: 0;
+    padding-top: 1px;
+    height: 20px;
+
+    span {
+      position: relative;
+      bottom: 2px;
+      padding: 0 5px;
+      font-size: 10px;
+    }
+  }
+}
+
 table.dataTable {
   margin-top: 0 !important;
 }
