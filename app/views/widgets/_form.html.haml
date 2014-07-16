@@ -25,4 +25,6 @@
   %input.widget-variables{key: variable.to_s, value: value.to_s}
 
 %input.current-widget{type:'hidden', value: widget.id}
-%a.btn.btn-default.edit-widget-btn Save
+%a.btn.btn-default.edit-widget-btn
+  = icon('save')
+  Save
