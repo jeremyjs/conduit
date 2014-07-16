@@ -97,6 +97,7 @@ generateFooter = (table) ->
              }
              {
                sExtends: "pdf"
+               sPdfOrientation: "landscape"
                sButtonText: "PDF"
                mColumns: "visible"
              }
