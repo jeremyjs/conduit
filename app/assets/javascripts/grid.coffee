@@ -13,7 +13,7 @@ widgetOuterDimensions =
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
   saveWidget($grid_item)
-  @drawChart(chartName(getChartElem(ui)))
+  drawChart(chartName(getChartElem(ui)))
 
 saveWidget = ($grid_item) ->
   name = $grid_item[0].id
