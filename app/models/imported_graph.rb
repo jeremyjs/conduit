@@ -1,2 +1,0 @@
-class ImportedGraph < Graph
-end
