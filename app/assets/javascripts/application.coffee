@@ -2,7 +2,7 @@
 #= require jquery_ujs
 #= require turbolinks
 #= require jquery.turbolinks
-#= require jquery.ui.all
+#= require jquery-ui
 #= require utils
 #= require color
 #= require bootstrap
