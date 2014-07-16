@@ -92,7 +92,6 @@ setGridPadding = ->
   $('.grid').css('padding-left', grid_total_padding)
 
 $ ->
-  generateCharts()
   generateTables()
 
   max_height = $(window).height()-$('.navbar-conduit').height()

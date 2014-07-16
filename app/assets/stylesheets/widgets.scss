@@ -29,18 +29,50 @@
   height: 35px;
 }
 
+.panel {
+  height: 100%;
+  overflow: hidden;
+}
+
+.panel-body {
+  height: 100%;
+  overflow: hidden;
+  padding: 5px 0 5px 0;
+}
+
 .panel-settings {
   display: none;
+  height: 100%;
 }
 
 .settings {
+  padding: 10px;
+
   .btn {
     width: 50px;
     height: 35px;
     padding: 5px 0 0 0;
   }
 
-  .form-control {
+  .edit-widget-btn { 
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .widget-page-selector {
     width: 50px;
+  }
+
+  label {
+    width: 100px;
+    text-align: right;
+  }
+
+  input {
+    padding: 0;
+    font-size: 9pt;
   }
 }

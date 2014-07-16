@@ -1,7 +1,9 @@
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
-    %a.btn.btn-default.widget-settings-toggle $$$
+    %a.btn.btn-default.widget-settings-toggle
+      = icon('wrench')
+      Edit
   .panel-body
     - if widget.class == Table
       = render partial: 'widgets/table', object: widget
