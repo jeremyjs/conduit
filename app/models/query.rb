@@ -3,13 +3,22 @@ class Query < ActiveRecord::Base
 
   has_many :widgets
 
+  before_save :has_changed
+
   def has_changed
-    #rerun all widgtes when the command of a query changes
+    if self.command_changed?
+      widgets = Widget.where(query_id:  self.id)
+      widgets.each do |w|
+        w.query.command = self.command
+        w.save
+      end
+    end
   end
 
   def self.execute(command)
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     conn.exec(command).to_a
+    conn.finish
   end
 
   def name
