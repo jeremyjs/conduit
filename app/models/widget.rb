@@ -42,6 +42,8 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  #Remember not to call self.save since it self.save is automatically called at the end of this method
+  #update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
     self.variables.each do |k,v|
       return true if v.nil?
@@ -49,7 +51,6 @@ class Widget < ActiveRecord::Base
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     self.query_result = conn.exec(self.query.command % self.variables).to_a
     self.last_executed = Time.now
-    self.save
   end
 
 
