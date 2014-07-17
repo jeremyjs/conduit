@@ -50,7 +50,7 @@ class Widget < ActiveRecord::Base
     self.variables.each do |k,v|
       return true if v.nil?
     end
-    conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
+    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     self.query_result = conn.exec(self.query.command % self.variables).to_a
     self.save
   end

@@ -96,6 +96,8 @@ GEM
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
     ffi (1.9.3)
+    figgy (0.9.1)
+      json
     font-awesome-sass (4.1.0)
       sass (~> 3.2)
     gherkin (2.12.2)
@@ -252,6 +254,7 @@ DEPENDENCIES
   devise_ldap_authenticatable
   erb2haml
   factory_girl_rails
+  figgy
   font-awesome-sass
   haml
   haml-rails
