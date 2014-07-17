@@ -17,6 +17,7 @@ describe Query do
     expect(new_query).to receive(:has_changed)
     expect(new_query.command_changed?).to eq(true)
     new_query.save
+    expect(new_query.command_changed?).to eq(false)
   end
 
   it "should be able to execute any command given"  do
