@@ -46,6 +46,16 @@ describe Widget do
     expect(@w.variables).to eq({customers: 6})
   end
 
+  it "does not add duplicate variables to the variable hash" do
+    query = Query.new
+    query.command = "SELECT id from customers LIMIT %{customers}  ORDER BY %{customers}"
+    query.save
+    w = Widget.new
+    w.query_id = query.id
+    w.save
+    expect(w.variables).to eq({customers: nil})
+  end
+
   it "should receive the has_changed callback before saving and should indicate a change in the query_id when the query_id has been set" do
     new_widget = Widget.new
     new_widget.query_id = @w.query_id
@@ -84,7 +94,7 @@ describe Widget do
     expect(@w.variables).to eq({customers: 9})
   end
 
-  it "should the update the variables hash when the command of its query has been changed" do
+  it "should the update its variables hash when the command of its query has been changed" do
     expect(@w.variables).to eq({customers: nil})
     @w.query.command = "SELECT id from customers LIMIT 2"
     @w.save
@@ -95,19 +105,19 @@ describe Widget do
     expect(@w.query.command).to eq("SELECT id FROM customers LIMIT %{customers}")
     @query.command = @new_query.command
     @query.save
-    @w.reload 
-    expect(@w.query.command).to eq("SELECT id FROM customers LIMIT 10")
+    w = Widget.find_by(query_id: @query.id)
+    expect(w.query.command).to eq("SELECT id FROM customers LIMIT 10")
   end
 
-  it "should update its variables associated with itself when the command of the query has been changed" do
+  it "should update its variables when the command of the query has been changed" do
     expect(@w.variables).to eq({customers: nil})
     @query.command = @new_query.command
     @query.save
-    @w.reload
-    expect(@w.variables).to eq({})
+    w = Widget.find_by(query_id: @query.id)
+    expect(w.variables).to eq({})
   end
 
-  it "should update its variables associated with itself when it is assigned a different query" do
+  it "should update its variables when it is assigned a different query" do
     expect(@w.variables).to eq({customers: nil})
     @w.query_id = @new_query.id
     @w.save
