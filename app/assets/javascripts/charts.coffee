@@ -9,17 +9,11 @@
       data = response
   data
 
-@getTitles = (data_array) ->
-  titles = {}
+@getValsByAttr = (data_array, attr) ->
+  ret = {}
   for graph in data_array
-    titles[graph.name] = graph.name
-  titles
-
-@getTypes = (data_array) ->
-  types = {}
-  for graph in data_array
-    types[graph.name] = graph.type
-  types
+    ret[graph.name] = graph[attr]
+  ret
 
 # return [["column1", 1, 6... ], ["column2", 2, 5... ]]
 @getColumns = (data_array) ->
@@ -31,12 +25,6 @@
       data_column.push(value_hash.value)
     columns.push(data_column)
   columns
-
-@getColors = (data_array) ->
-  colors = {}
-  for graph in data_array
-    colors[graph.name] = graph.color
-  colors
 
 @getId = (name) ->
   name.slice(-1)

@@ -10,11 +10,6 @@ widgetOuterDimensions =
   height: gridUnits["height"] + widgetPadding["height"] * 2
   width: gridUnits["width"] + widgetPadding["width"] * 2
 
-resizeChart = (ui) ->
-  $grid_item = getGridItem(ui)
-  saveWidget($grid_item)
-  drawChart(chartName(getChartElem(ui)))
-
 saveWidget = ($grid_item) ->
   name = $grid_item[0].id
   id = getId(name)
@@ -32,25 +27,27 @@ saveWidget = ($grid_item) ->
       row: row
       column: column
 
+resizeWidget = (ui, event) ->
+  console.log event
+  $grid_item = getGridItem(ui)
+  $chart = $grid_item.find('.chart')
+  $table = $grid_item.find('.dataTables_wrapper')
+  console.log $chart
+  console.log $table
+  drawChart(getName($chart)) unless $chart.length == 0
+  drawTable(getName($table)) unless $table.length == 0 || event.type == "mousemove"
+
 getGridItem = (ui) ->
   $(ui.$helper.context.parentElement)
 
-chartName = ($chart) ->
-  "#" + $chart.attr('id')
+getName = ($item) ->
+  "#" + $item.attr('id').replace /_wrapper/, ""
 
-getChartElem = (ui) ->
-  getGridItem(ui).find('.chart')
-
-# TODO: find a better way to handle responsiveness
-$(window).resize ->
-  # reload the page
-  location.reload()
-
-@siblingHeight = ($panel, $item) ->
-  other_children_array = $panel.children().not($item).get()
-  other_children_array.reduce (sum, self) ->
-    sum + $(self).outerHeight(true)
-  , 0
+# @siblingHeight = ($panel, $item) ->
+#   other_children_array = $panel.children().not($item).get()
+#   other_children_array.reduce (sum, self) ->
+#     sum + $(self).outerHeight(true)
+#   , 0
 
 @calculateHeight = ($item) ->
   $parent = $item.parents('.grid-item').first()
@@ -101,17 +98,28 @@ setGridPadding = ->
 
   $('.grid').css('padding-left', grid_total_padding)
 
+getMaxRows = ->
+  max_height = $(window).height()-$('.navbar-conduit').height()
+  Math.floor(max_height  / widgetOuterDimensions["height"])
+
+getMaxColumns = ->
+  max_width = $(window).width() -
+    parseInt( $('.container-fluid').css('padding-left'), 10) -
+    parseInt( $('.container-fluid').css('padding-right'), 10) -
+    $('#fp-nav').outerWidth(true)
+  Math.floor(max_width / widgetOuterDimensions["width"])
+
+getGridDimensions = ->
+  [getMaxRows(), getMaxColumns()]
+
+# reload the page when the window is resized
+$(window).resize ->
+  location.reload()
+
 $ ->
   generateTables()
 
-  max_height = $(window).height()-$('.navbar-conduit').height()
-  max_width = $(window).width() -
-              parseInt( $('.container-fluid').css('padding-left'), 10) -
-              parseInt( $('.container-fluid').css('padding-right'), 10) -
-              $('#fp-nav').outerWidth(true)
-
-  rows = Math.floor(max_height  / widgetOuterDimensions["height"])
-  columns = Math.floor(max_width / widgetOuterDimensions["width"])
+  [rows, columns] = getGridDimensions()
 
   $(".grid").gridster
     widget_margins: [
@@ -130,13 +138,14 @@ $ ->
       start: (event, ui) ->
         @resizeInterval =
           setInterval ->
-            resizeChart(ui)
+            resizeWidget(ui, event)
           , 333
       stop: (event, ui) ->
         clearInterval(@resizeInterval)
         setTimeout ->
-          resizeChart(ui)
+          resizeWidget(ui, event)
         , 200
+        saveWidget(getGridItem(ui))
     draggable:
       handle: '.panel-heading'
       stop: (event, ui) ->

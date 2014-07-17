@@ -17,7 +17,8 @@ class Query < ActiveRecord::Base
 
   def self.execute(command)
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-    conn.exec(command).to_a
+    conn.async_exec(command).to_a
+    conn.close()
   end
 
   def name
