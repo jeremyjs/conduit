@@ -13,7 +13,7 @@ widgetOuterDimensions =
 resizeChart = (ui) ->
   $grid_item = getGridItem(ui)
   saveWidget($grid_item)
-  @drawChart(chartName(getChartElem(ui)))
+  drawChart(chartName(getChartElem(ui)))
 
 saveWidget = ($grid_item) ->
   name = $grid_item[0].id
@@ -46,25 +46,35 @@ $(window).resize ->
   # reload the page
   location.reload()
 
+@siblingHeight = ($panel, $item) ->
+  other_children_array = $panel.children().not($item).get()
+  other_children_array.reduce (sum, self) ->
+    sum + $(self).outerHeight(true)
+  , 0
+
 @calculateHeight = ($item) ->
   $parent = $item.parents('.grid-item').first()
-  $panel = $parent.find('.panel-body')
+  $panel = $item.parents('.panel-body')
   $panel_header = $parent.find('.panel-heading')
   parent_height = $parent.height()
   header_height = $panel_header.outerHeight()
-  panel_padding_height = $panel.outerHeight() - $panel.height()
-  panel_height = parent_height - header_height - panel_padding_height
-  sibling_height = siblingHeight($panel, $item)
 
-  panel_height - sibling_height
+  panel_padding = $panel.outerHeight() - $panel.height()
+  panel_height = parent_height - header_height - panel_padding
+
+  panel_height
+
+@drawChart = (name, chart) ->
+  chart = charts[name] unless chart
+  $chart_elem = $(name)
+  new_height = calculateHeight($chart_elem)
+  chart.resize({ height: new_height })
 
 @drawWidgets = () ->
   for name, chart of @charts
     drawChart(name, chart)
   for name, table of @tables
     drawTable(name, table)
-  $('.grid-item').each ->
-    saveWidget $(this)
 
 tryDrawWidgets = ->
   if @drawWidgets
@@ -92,7 +102,6 @@ setGridPadding = ->
   $('.grid').css('padding-left', grid_total_padding)
 
 $ ->
-  generateCharts()
   generateTables()
 
   max_height = $(window).height()-$('.navbar-conduit').height()
