@@ -12,7 +12,7 @@
   %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
 
 %label{for: "widget-query-field-#{widget.id}"} Query
-%select.query-type{id: "widget-query-field-#{widget.id}"}
+%select.query-type-select{id: "widget-query-field-#{widget.id}"}
   - Query.all.each do |query|
     - if query.id == widget.query_id
       %option{value: query.id, selected: true} #{query.name}
