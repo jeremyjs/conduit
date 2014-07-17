@@ -5,12 +5,11 @@ hidden_columns = []
 
 @getTableData = (id) ->
   globalData = null
-  $.ajax(
+  $.ajax
     url: "/tables/" + id + ".json"
     async: false
     success: (data) ->
       globalData = data
-  )
 
   for key of globalData.data[0]
     columns.push(key)
@@ -25,9 +24,7 @@ determineHiddenColumns = () ->
   table_options = []
   for hidden_column in hidden_columns
     table_options.push({visible: false, targets: columns.indexOf(hidden_column)})
-
   table_options
-
 
 generateHeaders = (table) ->
   table_id = '#table-' + table.id
@@ -67,50 +64,55 @@ generateFooter = (table) ->
 
 @drawTable = (name, table) ->
   table = tables[name] unless table
-  $table_elem = $(name + '_wrapper')
-  new_height = calculateHeight($table_elem)
-  $table_elem.css('height', calculateHeight($table_elem))
-  defaultOptions.sScrollY = calculateHeight($table_elem)
-  table.fnAdjustColumnSizing()
+  table_id = name.replace /#/, ""
+  $table_elem = $('#' + table_id + '_wrapper')
+  $table_elem = $('#' + table_id) if $table_elem.length == 0
+  $grid_item = $table_elem.parents('.grid-item')
+  $parent = $table_elem.parent()
+  $parent.html('<table class="display tables" id="'+table_id+'" cellspacing="0" width="100%"><thead><tr><th></th></tr></thead><tbody><tr><td></td></tr></tbody></table>')
+  $table_elem = $parent.children('table')
+  table_height = $grid_item.height() - $grid_item.children('.panel-heading').outerHeight() - 145
+  console.log table_height
+  generateTable($table_elem, table_height)
+
+@defaultOptions =
+  sDom: 'TC<"clear">lfrtip'
+  sScrollY: '160px'
+  sScrollX: true
+  stateSave: true
+  tableTools:
+    aButtons: [
+      sExtends: "collection"
+      sButtonText: "Export"
+      aButtons: [
+        sExtends: "copy"
+        sButtonText: "Copy"
+        mColumns: "visible"
+      ,
+        sExtends: "csv"
+        sButtonText: "CSV"
+        mColumns: "visible"
+      ,
+        sExtends: "pdf"
+        sPdfOrientation: "landscape"
+        sButtonText: "PDF"
+        mColumns: "visible"
+      ]
+    ]
+
+@generateTable = (table, height) ->
+  $table = $(table)
+  console.log $table
+  name = $(table).attr('id')
+  id = name.substring(6)
+  renderTable(getTableData(id))
+
+  defaultOptions.columnDefs = determineHiddenColumns()
+  defaultOptions.sScrollY = height
+
+  tables[name] = $table.dataTable(defaultOptions)
 
 @generateTables = ->
-  @defaultOptions =
-    sDom: 'TC<"clear">lfrtip'
-    sScrollY: '260px'
-    sScrollX: true
-    stateSave: true
-    tableTools: {
-      aButtons: [
-        {
-           sExtends: "collection"
-           sButtonText: "Export"
-           aButtons: [
-             {
-               sExtends: "copy"
-               sButtonText: "Copy"
-               mColumns: "visible"
-             }
-             {
-               sExtends: "csv"
-               sButtonText: "CSV"
-               mColumns: "visible"
-             }
-             {
-               sExtends: "pdf"
-               sPdfOrientation: "landscape"
-               sButtonText: "PDF"
-               mColumns: "visible"
-             }
-           ]
-         }
-      ]
-    }
-
   $('.tables').each ->
-    name = '#' + this.id
-    id = this.id.substring(6)
-    renderTable(getTableData(id))
+    generateTable(this, 200)
 
-    defaultOptions.columnDefs = determineHiddenColumns()
-
-    tables[name] = $(this).dataTable(defaultOptions)
