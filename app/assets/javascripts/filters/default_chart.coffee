@@ -4,9 +4,9 @@
   chart =
     bindto: "#chart-#{id}"
     data:
-      titles: getTitles(chart_data)
+      titles: getValsByAttr(chart_data, "name")
       columns: getColumns(chart_data)
-      types: getTypes(chart_data)
+      types: getValsByAttr(chart_data, "type")
     axis:
       y2:
         show: if chart["y2"] then true else false
