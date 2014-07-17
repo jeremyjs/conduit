@@ -1,34 +1,30 @@
-= form_tag(widget_path, :method=>'patch') do
-  - if @widget.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@widget.errors.count, "error")} prohibited this widget from being saved:"
-      %ul
-        - @widget.errors.full_messages.each do |msg|
-          %li= msg
+.form-group
+  %label{for: "widget-page-selector-#{widget.id}"} Move to page
+  %select.widget-page-selector{id: "widget-page-selector-#{widget.id}", for_widget: widget.id, current_page: widget.page}
+    - Widget.last_page.times do |page|
+      - if page+1 == widget.page
+        %option{disabled: true, selected: true, value: page+1} #{page+1}
+      - else
+        %option{value: page+1} #{page+1}
 
-  .field.form-group
-    = label_tag 'name'
-    = text_field_tag 'widget[name]', @widget.name
-  - if @widget.class == Table
-    .field.form-group
-      = label_tag 'query'
-      = select_tag 'widget[query]', options_from_collection_for_select(Query.all, "id", "name", @widget.query.id)
-  .field.form-group
-    = label_tag 'height'
-    = number_field_tag 'widget[height]', @widget.height
-  .field.form-group
-    = label_tag 'width'
-    = number_field_tag 'widget[width]', @widget.width
-  .field.form-group
-    = label_tag 'page'
-    = number_field_tag 'widget[page]', @widget.page
-  .field.form-group
-    = hidden_field_tag 'widget[type]', @widget.type
-  %h3 Variables
-  - if @widget.class == Table
-    - @widget.query.variables.each do |variable, value|
-      .field.form-group
-        = label_tag variable.to_s
-        = text_field_tag "variables[#{variable.to_s}]", value.to_s
-  .actions
-    = submit_tag 'Save', class: "btn btn-default"
+.form-group
+  %label{for: "widget-name-field-#{widget.id}"} Name
+  %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
+
+%input.current-query{type:'hidden', value: widget.query_id}
+%select.query-type
+  - Query.all.each do |query|
+    - if query.id == widget.query_id
+      %option{value: query.id, disabled: true, selected: true} #{query.name}
+    - else
+      %option{value: query.id} #{query.name}
+
+%h3 Variables
+- widget.variables.each do |variable, value|
+  %label #{variable.to_s}
+  %input.widget-variables{key: variable.to_s, value: value.to_s}
+
+%input.current-widget{type:'hidden', value: widget.id}
+%a.btn.btn-default.edit-widget-btn
+  = icon('save')
+  Save

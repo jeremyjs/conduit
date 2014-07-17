@@ -3,11 +3,12 @@ namespace :conduit do
   task execute_queries: :environment do
     puts "Started At #{Time.now}"
     threads = []
-    Query.all.each do |q|
-      puts "Executing #{q.name}"
+    Widget.all.each do |w|
+      puts "Executing Widget #{w.id}: #{w.query.name}"
+      puts "Variables: #{w.variables}"
       threads << Thread.new {
-        q.execute()
-        q.save()
+        w.execute_query()
+        w.save()
       }
     end
     threads.each do |t|

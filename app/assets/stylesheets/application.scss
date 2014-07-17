@@ -8,10 +8,12 @@
 @import 'dashboard';
 @import 'modal-panel';
 @import 'dataTables/jquery.dataTables';
-@import 'dataTables/jquery.dataTables.bootstrap3';
+@import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap';
 @import 'dataTables/extras/dataTables.colVis';
+@import 'dataTables/extras/dataTables.tableTools';
 @import 'dataTables-override';
 @import 'jquery.fullPage';
+@import 'font-awesome';
 
 body {
   padding-bottom: 40px;

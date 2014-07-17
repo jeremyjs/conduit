@@ -75,9 +75,36 @@ generateFooter = (table) ->
 
 @generateTables = ->
   @defaultOptions =
-    sDom: 'C<"clear">lfrtip'
-    sScrollY: '175px'
+    sDom: 'TC<"clear">lfrtip'
+    sScrollY: '260px'
     sScrollX: true
+    stateSave: true
+    tableTools: {
+      aButtons: [
+        {
+           sExtends: "collection"
+           sButtonText: "Export"
+           aButtons: [
+             {
+               sExtends: "copy"
+               sButtonText: "Copy"
+               mColumns: "visible"
+             }
+             {
+               sExtends: "csv"
+               sButtonText: "CSV"
+               mColumns: "visible"
+             }
+             {
+               sExtends: "pdf"
+               sPdfOrientation: "landscape"
+               sButtonText: "PDF"
+               mColumns: "visible"
+             }
+           ]
+         }
+      ]
+    }
 
   $('.tables').each ->
     name = '#' + this.id
