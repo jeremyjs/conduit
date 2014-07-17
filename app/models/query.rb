@@ -16,7 +16,6 @@ class Query < ActiveRecord::Base
   end
 
   def self.execute(command)
-    result = []
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     result =  conn.exec(command).to_a
     conn.finish
