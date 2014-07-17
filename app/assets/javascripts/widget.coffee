@@ -15,6 +15,14 @@ $ ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
 
+  $('.query-type').change ->
+    query_selector = $(this)
+    $.ajax
+      type: "get"
+      url: "/widget_variables/"+$(this).val()
+      success: (data) ->
+        query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
+
   $('.edit-widget-btn').click ->
     outer = $(this).parent()
 

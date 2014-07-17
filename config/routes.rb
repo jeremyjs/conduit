@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   resources :tables
   resources :queries
 
+
+  get '/widget_variables/:id', to: 'widgets#variables'
   post '/widget/update_page', to: 'widgets#update_page'
 end
