@@ -49,7 +49,6 @@ class Widget < ActiveRecord::Base
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     self.query_result = conn.exec(self.query.command % self.variables).to_a
     self.last_executed = Time.now
-    self.save
   end
 
 
