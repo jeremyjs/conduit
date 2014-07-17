@@ -28,24 +28,24 @@ determineHiddenColumns = () ->
 
 generateHeaders = (table) ->
   table_id = '#table-' + table.id
-  headers = table.data[0]
-
-  $table_header = $(table_id).children("thead")
-  $header_row = $table_header.children("tr").empty()
-  for key of headers
-    $header_row.append("<th>" + key + "</th>")
+  if table.data[0]
+    headers = table.data[0]
+    $table_header = $(table_id).children("thead")
+    $header_row = $table_header.children("tr").empty()
+    for key of headers
+      $header_row.append("<th>" + key + "</th>")
 
 generateBody = (table) ->
   table_id = '#table-' + table.id
   $table_body = $(table_id).children("tbody").empty()
   table_data = table.data
+  if table_data.length > 0
+    for row in table_data
+      $table_body.append("<tr>")
+      $row = $table_body.children("tr").last()
 
-  for row in table_data
-    $table_body.append("<tr>")
-    $row = $table_body.children("tr").last()
-
-    for key, value of row
-      $row.append("<td>" + value + "</td>")
+      for key, value of row
+        $row.append("<td>" + value + "</td>")
 
 generateFooter = (table) ->
   table_id = '#table-' + table.id
@@ -72,7 +72,6 @@ generateFooter = (table) ->
   $parent.html('<table class="display tables" id="'+table_id+'" cellspacing="0" width="100%"><thead><tr><th></th></tr></thead><tbody><tr><td></td></tr></tbody></table>')
   $table_elem = $parent.children('table')
   table_height = $grid_item.height() - $grid_item.children('.panel-heading').outerHeight() - 145
-  console.log table_height
   generateTable($table_elem, table_height)
 
 @defaultOptions =
@@ -102,10 +101,10 @@ generateFooter = (table) ->
 
 @generateTable = (table, height) ->
   $table = $(table)
-  console.log $table
   name = $(table).attr('id')
   id = name.substring(6)
-  renderTable(getTableData(id))
+  data = getTableData(id)
+  renderTable(data)
 
   defaultOptions.columnDefs = determineHiddenColumns()
   defaultOptions.sScrollY = height
