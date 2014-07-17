@@ -17,12 +17,15 @@ class Query < ActiveRecord::Base
 
   def self.execute(command)
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-    conn.async_exec(command).to_a
-    conn.close()
+    conn.exec(command).to_a
+    conn.finish
   end
 
   def name
     self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
   end
 
+  def variables
+    self.command.scan(/\%{(.*?)}/).flatten
+  end
 end

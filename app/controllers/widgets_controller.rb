@@ -82,6 +82,14 @@ class WidgetsController < ApplicationController
     end
   end
 
+  def get_new_variables
+    query_id = params[:id]
+    respond_to do |format|
+      format.html { render partial: 'widgets/variables', locals: {new_variables: Query.find(query_id).variables } }
+      format.json { render json: Query.find(query_id).variables }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_widget
