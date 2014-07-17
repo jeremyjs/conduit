@@ -13,15 +13,12 @@ class Widget < ActiveRecord::Base
     self.height ||= 5
     self.row ||= 1
     self.column ||= 1
-    initialize_variables_hash
   end
 
   def has_changed
-    #query id might remain the same but the command might have changed
-    if self.query_id_changed? || self.query.command_changed?
-      initialize_variables_hash
+    if self.query_id_changed? || self.query.command_changed? || self.variables_changed?
+      update_variable_hash
       execute_query
-    else
     end
   end
 
@@ -45,30 +42,33 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  #Remember not to call self.save since it self.save is automatically called at the end of this method
+  #update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
-    return true if self.variables.empty?
     self.variables.each do |k,v|
       return true if v.nil?
     end
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     self.query_result = conn.exec(self.query.command % self.variables).to_a
-    puts "Last Executed: #{Time.now}"
+    conn.finish
     self.last_executed = Time.now
-    self.save
   end
 
 
-
-  private
   def extract_variable_names
     self.query.nil? ?  [] : self.query.variables
   end
 
-  def initialize_variables_hash
-   self.variables = {}
-   extract_variable_names.each do |variable|
-     self.variables[variable] = nil
-   end
+  def update_variable_hash
+    update_hash = {}
+    extract_variable_names.each do |variable|
+      if self.variables[variable.to_sym].nil?
+        update_hash[variable.to_sym] = nil
+      else
+        update_hash[variable.to_sym] = self.variables[variable.to_sym]
+      end
+    end
+    self.variables = update_hash
   end
 
 end
