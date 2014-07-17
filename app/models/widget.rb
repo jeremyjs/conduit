@@ -42,6 +42,8 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  #Remember not to call self.save since it self.save is automatically called at the end of this method
+  #update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
     self.variables.each do |k,v|
       return true if v.nil?
