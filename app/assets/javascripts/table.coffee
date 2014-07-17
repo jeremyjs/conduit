@@ -34,7 +34,6 @@ generateHeaders = (table) ->
     $header_row = $table_header.children("tr").empty()
     for key of headers
       $header_row.append("<th>" + key + "</th>")
-    console.log headers
 
 generateBody = (table) ->
   table_id = '#table-' + table.id
@@ -73,7 +72,6 @@ generateFooter = (table) ->
   $parent.html('<table class="display tables" id="'+table_id+'" cellspacing="0" width="100%"><thead><tr><th></th></tr></thead><tbody><tr><td></td></tr></tbody></table>')
   $table_elem = $parent.children('table')
   table_height = $grid_item.height() - $grid_item.children('.panel-heading').outerHeight() - 145
-  console.log table_height
   generateTable($table_elem, table_height)
 
 @defaultOptions =
