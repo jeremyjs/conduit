@@ -5,7 +5,9 @@ describe Widget do
   before :each do
     @query = FactoryGirl.create(:query)
     @new_query = FactoryGirl.create(:query , command: "SELECT id FROM customers LIMIT 10")
+    @next_query = FactoryGirl.create(:query, command: "SELECT %{id} FROM customers LIMIT %{customers}")
     @w = FactoryGirl.create(:widget, query_id: @query.id)
+    @new_widget = FactoryGirl.create(:widget, query_id: @next_query.id)
   end
 
   it "is valid only when it is associated with a query" do
@@ -28,6 +30,10 @@ describe Widget do
 
   it "should store its variables as a hash before saving" do
     expect(@w.variables.class).to eq(Hash)
+  end
+
+  it "should extract the variables from the command correctly" do
+    expect(@new_widget.extract_variable_names).to eq(["id","customers"])
   end
 
   it "sets its variables to nil when no values are specified" do

@@ -51,7 +51,6 @@ class Widget < ActiveRecord::Base
   end
 
 
-  private
   def extract_variable_names
     self.query.command.nil? ?  [] : self.query.command.scan(/\%{(.*?)}/).flatten
   end
