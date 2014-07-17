@@ -7,7 +7,7 @@ describe Query do
   end
 
   it "is valid with valid attributes" do
-    expect(query).to be_valid
+    expect(@query).to be_valid
   end
 
  
