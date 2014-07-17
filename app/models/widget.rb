@@ -43,7 +43,6 @@ class Widget < ActiveRecord::Base
   end
 
   def execute_query
-    return true if (self.variables.keys.count != extract_variable_names.count)
     self.variables.each do |k,v|
       return true if v.nil?
     end
