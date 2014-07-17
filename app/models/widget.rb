@@ -61,7 +61,7 @@ class Widget < ActiveRecord::Base
 
   private
   def extract_variable_names
-    self.query.nil? ?  [] : self.query.command.scan(/\%{(.*?)}/).flatten
+    self.query.nil? ?  [] : self.query.variables
   end
 
   def initialize_variables_hash
