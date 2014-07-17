@@ -27,6 +27,7 @@ gem 'pg'
 gem 'quiet_assets', group: :development
 gem 'whenever', :require => false
 gem 'font-awesome-sass'
+gem 'figgy'
 
 group :development, :test do
   gem "rspec-rails", ">= 2.8.1"
