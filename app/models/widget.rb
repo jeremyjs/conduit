@@ -52,6 +52,8 @@ class Widget < ActiveRecord::Base
     end
     conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
     self.query_result = conn.exec(self.query.command % self.variables).to_a
+    puts "Last Executed: #{Time.now}"
+    self.last_executed = Time.now
     self.save
   end
 
