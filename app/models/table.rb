@@ -1,12 +1,5 @@
 class Table < Widget
 
-
-  def initialize(attributes = {})
-    super
-    self.query_id ||= 3
-  end
-
-
   def as_json(options)
     if self.query_result.empty?
       self.execute_query
