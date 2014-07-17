@@ -1,0 +1,5 @@
+.widget-variables
+  %h3 Variables
+  - widget.variables.each do |variable, value|
+    %label #{variable.to_s}
+    %input.widget-variables{key: variable.to_s, value: value.to_s}
