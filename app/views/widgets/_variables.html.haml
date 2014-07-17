@@ -1,5 +1,14 @@
-.widget-variables
-  %h3 Variables
+- if defined? new_variables
+  - unless new_variables.empty?
+    %span Variables
+  - new_variables.each do |new_variable|
+    .form-group
+      %label #{new_variable}
+      %input.widget-variables{key: new_variable}
+-else
+  - unless widget.variables.empty?
+    %span Variables
   - widget.variables.each do |variable, value|
-    %label #{variable.to_s}
-    %input.widget-variables{key: variable.to_s, value: value.to_s}
+    .form-group
+      %label #{variable.to_s}
+      %input.widget-variables{key: variable.to_s, value: value.to_s}

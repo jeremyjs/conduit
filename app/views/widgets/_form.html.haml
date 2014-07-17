@@ -3,7 +3,7 @@
   %select.widget-page-selector{id: "widget-page-selector-#{widget.id}", for_widget: widget.id, current_page: widget.page}
     - Widget.last_page.times do |page|
       - if page+1 == widget.page
-        %option{disabled: true, selected: true, value: page+1} #{page+1}
+        %option{selected: true, value: page+1} #{page+1}
       - else
         %option{value: page+1} #{page+1}
 
@@ -11,17 +11,18 @@
   %label{for: "widget-name-field-#{widget.id}"} Name
   %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
 
-%input.current-query{type:'hidden', value: widget.query_id}
-%select.query-type
+%label{for: "widget-query-field-#{widget.id}"} Query
+%select.query-type{id: "widget-query-field-#{widget.id}"}
   - Query.all.each do |query|
     - if query.id == widget.query_id
-      %option{value: query.id, disabled: true, selected: true} #{query.name}
+      %option{value: query.id, selected: true} #{query.name}
     - else
       %option{value: query.id} #{query.name}
 
-.widget-variables
+.widget-variables-field
   = render partial: 'widgets/variables', locals: {widget: widget, query_id: widget.query_id}
 
+%input.current-query{type:'hidden', value: widget.query_id}
 %input.current-widget{type:'hidden', value: widget.id}
 %a.btn.btn-default.edit-widget-btn
   = icon('save')
