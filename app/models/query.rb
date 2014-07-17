@@ -8,7 +8,7 @@ class Query < ActiveRecord::Base
   end
 
   def self.execute(command)
-    conn = PG.connect(host: 'slavedb2.quickquid.co.uk', port: 5432, dbname: 'cnuapp_prod_uk', user: 'conduit', password: 'cro0sSb@r')
+    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     conn.exec(command).to_a
   end
 
