@@ -28,24 +28,25 @@ determineHiddenColumns = () ->
 
 generateHeaders = (table) ->
   table_id = '#table-' + table.id
-  headers = table.data[0]
-
-  $table_header = $(table_id).children("thead")
-  $header_row = $table_header.children("tr").empty()
-  for key of headers
-    $header_row.append("<th>" + key + "</th>")
+  if table.data[0]
+    headers = table.data[0]
+    $table_header = $(table_id).children("thead")
+    $header_row = $table_header.children("tr").empty()
+    for key of headers
+      $header_row.append("<th>" + key + "</th>")
+    console.log headers
 
 generateBody = (table) ->
   table_id = '#table-' + table.id
   $table_body = $(table_id).children("tbody").empty()
   table_data = table.data
+  if table_data.length > 0
+    for row in table_data
+      $table_body.append("<tr>")
+      $row = $table_body.children("tr").last()
 
-  for row in table_data
-    $table_body.append("<tr>")
-    $row = $table_body.children("tr").last()
-
-    for key, value of row
-      $row.append("<td>" + value + "</td>")
+      for key, value of row
+        $row.append("<td>" + value + "</td>")
 
 generateFooter = (table) ->
   table_id = '#table-' + table.id
@@ -105,7 +106,9 @@ generateFooter = (table) ->
   console.log $table
   name = $(table).attr('id')
   id = name.substring(6)
-  renderTable(getTableData(id))
+  data = getTableData(id)
+  console.log data
+  renderTable(data)
 
   defaultOptions.columnDefs = determineHiddenColumns()
   defaultOptions.sScrollY = height
