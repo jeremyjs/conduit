@@ -24,6 +24,4 @@ class Query < ActiveRecord::Base
     self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
   end
 
-
-
 end
