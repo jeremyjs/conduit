@@ -6,6 +6,9 @@ describe Widget do
     @query = Query.new
     @query.command = "SELECT id from customers LIMIT %{customers}"
     @query.save
+    @new_query = Query.new
+    @new_query.command = "SELECT id from customers LIMIT 10"
+    @new_query.save
   end
 
   it "is valid only when it is associated with a query" do
@@ -80,4 +83,67 @@ describe Widget do
     expect(w.variables).to eq({customers: 9})
   end
 
-end
+  it "should the update the variables hash when the command has been changed" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.variables).to eq({customers: nil})
+    w.query.command = "SELECT id from customers LIMIT 10"
+    w.save
+    expect(w.variables).to eq({})
+  end
+
+  it "should update the command associated with itself when the command of the query has been changed" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.query.command).to eq("SELECT id from customers LIMIT %{customers}")
+    @query.command = "SELECT id from customers LIMIT 10"
+    @query.save
+    w.reload 
+    expect(w.query.command).to eq("SELECT id from customers LIMIT 10")
+  end
+
+  it "should update its variables associated with itself when the command of the query has been changed" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.variables).to eq({customers: nil})
+    @query.command = "SELECT id from customers LIMIT 10"
+    @query.save
+    w.reload
+    expect(w.variables).to eq({})
+  end
+
+  it "should update its variables associated with itself when it is assigned a different query" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.variables).to eq({customers: nil})
+    w.query_id = @new_query.id
+    w.save
+    expect(w.variables).to eq({})
+  end
+
+  it "should update the command associated with itself when it is assigned to a different query" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.query.command).to eq("SELECT id from customers LIMIT %{customers}")
+    w.query_id = @new_query.id
+    w.save
+    expect(w.query.command).to eq("SELECT id from customers LIMIT 10")
+  end
+
+  it "should update its query_result when it is assigned a new query" do
+    w = Widget.new
+    w.query_id = @query.id
+    w.save
+    expect(w.query_result).to eq([])
+    w.query_id = @new_query.id
+    w.save
+    expect(w.query_result.count).to eq(10)
+  end
+
+
+end 
