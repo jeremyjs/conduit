@@ -24,6 +24,7 @@ class WidgetsController < ApplicationController
   # POST /widgets
   # POST /widgets.json
   def create
+    logger.debug "====360NOSCOPE==== #{widget_params}"
     @widget = Widget.new(widget_params)
 
     respond_to do |format|
