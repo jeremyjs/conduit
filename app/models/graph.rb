@@ -82,7 +82,7 @@ class Graph < Widget
     execute_query if query_result.empty?
     {
       id: id,
-      filter: "single_provider",
+      filter: "timeseries",
       y2: true,
       groups: [],
       providers: providers,
