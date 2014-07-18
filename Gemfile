@@ -28,6 +28,7 @@ gem 'quiet_assets', group: :development
 gem 'whenever', :require => false
 gem 'font-awesome-sass'
 gem 'figgy'
+gem 'time_difference'
 
 group :development, :test do
   gem "rspec-rails", ">= 2.8.1"

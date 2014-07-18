@@ -2,6 +2,7 @@ class Query < ActiveRecord::Base
   validates :command, presence: true
 
   has_many :widgets
+  has_many :complete_queries
 
   before_save :has_changed
 
