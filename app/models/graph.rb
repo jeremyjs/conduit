@@ -43,22 +43,17 @@ class Graph < Widget
 
   def data
     headers = KPI_LIST
-    data_hash = {}
-    data_hash["x"] = []
-
-    results = []
-    headers.each { |header| results << [header] }
+    results = [
+      ['x']
+    ]
+    headers.each { |header| results << [ header ] }
     query_result.first(N).each do |row|
-      data_hash["x"] << row["date"]
-      headers.each do |header|
-        data_hash[header] << row[header]
+      results[0] << row["date"]
+      headers.count.times do |i|
+        results[i+1] << row[headers[i]]
       end
     end
-
-    data_hash.map do |h, v|
-      v.map! { |a| a.to_i } if INT_LIST.include? h
-      [h, v.compact].flatten
-    end
+    results
   end
 
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
