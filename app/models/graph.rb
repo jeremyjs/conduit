@@ -41,29 +41,13 @@ class Graph < Widget
     query_result.first(N).map { |row| row["provider"] }.uniq
   end
 
-  def data_headers
-    header_hash = HEADER_LIST.map do |header|
-      [ header, [] ]
-    end.to_h
-    puts header_hash
-    query_result.each do |row|
-      HEADER_LIST.each do |header|
-        header_hash[header] << row[header] unless header_hash[header].include? row[header]
-      end
-    end
-    Hash[ header_hash.map do |h, v|
-      if INT_LIST.include? h
-        v.map! { |a| a.to_i } if v.all? { |a| a.respond_to?(:to_i) }
-      end
-    end ]
-  end
-
   def data
     headers = KPI_LIST
     data_hash = {}
     data_hash["x"] = []
-    headers.each { |header| data_hash[header] = [] }
 
+    results = []
+    headers.each { |header| results << [header] }
     query_result.first(N).each do |row|
       data_hash["x"] << row["date"]
       headers.each do |header|
