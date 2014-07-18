@@ -33,6 +33,7 @@ gem 'time_difference'
 group :development, :test do
   gem "rspec-rails", ">= 2.8.1"
   gem 'factory_girl_rails'
+  gem 'jasmine'
 end
 
 group :test do
