@@ -13,6 +13,7 @@ class Widget < ActiveRecord::Base
     self.height ||= 5
     self.row ||= 1
     self.column ||= 1
+    self.query_id ||= 1
   end
 
   def has_changed
