@@ -1,6 +1,9 @@
 %h2 Sign in
 = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  = devise_error_messages!
+  - if not notice.nil?
+    %p#notice.alert.alert-warning= notice
+  - if not alert.nil?
+    %p#alert.alert.alert-danger= alert
   %div
     = f.label :login
     %br/
