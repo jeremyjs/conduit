@@ -45,10 +45,10 @@ $ ->
     widget_values = getValues(widget_fields)
 
     widget_keys.push('query_id')
-    if outer.find('.query-type').val() == null
+    if outer.find('.query-type-select').val() == null
       widget_values.push outer.find('.current-query').val()
     else
-      widget_values.push outer.find('.query-type').val()
+      widget_values.push outer.find('.query-type-select').val()
 
     variables_fields = 'input.widget-variables'
     variables_keys = getKeys(variables_fields)
