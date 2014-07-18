@@ -1,10 +1,10 @@
 - if defined? new_variables
   - unless new_variables.empty?
     %span Variables
-  - new_variables.each do |new_variable|
+  - new_variables.each do |var,val|
     .form-group
-      %label #{new_variable}
-      %input.widget-variables{key: new_variable}
+      %label #{var}
+      %input.widget-variables{key: var, value: val}
 -else
   - unless widget.variables.empty?
     %span Variables
