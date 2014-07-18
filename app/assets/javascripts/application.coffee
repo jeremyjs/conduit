@@ -12,7 +12,6 @@
 #= require grid
 #= require widget
 #= require charts
-#= require_tree ./filters
 #= require table
 #= require dataTables/jquery.dataTables
 #= require dataTables/extras/dataTables.colVis
