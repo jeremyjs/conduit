@@ -13,7 +13,7 @@ class HomeController < ApplicationController
   private
   def require_login
     unless current_user
-      redirect_to new_user_session_url, alert: "You must login to use Conduit!"
+      redirect_to new_user_session_url, notice: "You must login to use Conduit!"
     end
   end
 end
