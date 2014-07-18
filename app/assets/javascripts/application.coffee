@@ -12,7 +12,6 @@
 #= require grid
 #= require widget
 #= require charts
-#= require_tree ./filters
 #= require table
 #= require dataTables/jquery.dataTables
 #= require dataTables/extras/dataTables.colVis
@@ -20,3 +19,5 @@
 #= require jquery.fullPage
 #= require bigSlide
 #= require dashboard
+#= require nprogress
+#= require progress-bar

@@ -93,7 +93,7 @@ left outer join addresses a on pa.address_id = a.id and a.eff_end_date is null
 --and ll.loan_type_cd in ('cso','payday')
 --)
 left outer join loans l on l.loan_type_cd in ('oec','payday')
-                       and l.customer_source_id = c_s.id 
+                       and l.customer_source_id = c_s.id
                        and l.customer_source_link_type_id is not null
                        and l.customer_id = c.id
 LEFT OUTER JOIN loans l3 ON c.id =l3.customer_id and l3.loan_type_cd in ('oec','payday')
@@ -112,7 +112,7 @@ left outer join bank_wizard_absolute_reports bw on bw.id = ap.bank_wizard_absolu
 left outer join ddis ddi on c.id = ddi.customer_id
 and ((ddi.eff_end_date is null or ddi.eff_end_date>=l.requested_time) and l.requested_time is not null)
 
-left outer join payment_instruments.payment_instruments pi on pi.person_id=c.person_id 
+left outer join payment_instruments.payment_instruments pi on pi.person_id=c.person_id
 and payment_instrument_type_id=1
 and pi.payment_instrument_status_id=1
 --left outer join approvals ap_2 on ap_2.customer_id = ap.customer_id
@@ -206,7 +206,7 @@ select
   , coalesce(lsv.lead_pricing_scheme_type_id
         ,(select lsv2.lead_pricing_scheme_type_id
     from lead_seller_versions lsv2
-    where lsv2.lead_seller_id = ls.id 
+    where lsv2.lead_seller_id = ls.id
     and lsv2.approved_on is not null
     and lsv2.lead_pricing_scheme_type_id is not null
     order by id limit 1)
@@ -244,7 +244,7 @@ SELECT
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') AND l.created_on     IS NOT NULL THEN c_s.id          ELSE null END) AS applied
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') AND c_s.confirmed_on IS     NULL THEN c_s.id          ELSE null END) AS NOT_confirmed
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') and l.status_cd not in ('declined','withdrawn','applied','on_hold') AND l.created_on IS NOT NULL THEN c_s.id ELSE null END) AS issued
- 
+
   -- cpf
   , first(tc.lead_pricing_scheme_type_id) as lead_pricing_scheme
 --  , tc.price
@@ -274,7 +274,7 @@ LEFT JOIN loans l
 -- for lead cost
 left join tmp_cpl_cpf tc
   on tc.lst_id = (
-  select lst_id 
+  select lst_id
   from tmp_cpl_cpf
   where lead_seller_name = c_s.source_type_cd
     and tier_number = substring(c_s.group_cd from '\d+')::int -- added by Xin; group_cd for noveaugbi is nonstandard
@@ -310,7 +310,7 @@ WHERE
 GROUP BY
   provider
   , lead_source
-  
+
 order by
   provider
   , lead_source
@@ -338,7 +338,7 @@ SELECT
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') AND l.created_on     IS NOT NULL THEN c_s.id          ELSE null END) AS applied
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') AND c_s.confirmed_on IS     NULL THEN c_s.id          ELSE null END) AS NOT_confirmed
   , COUNT(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import') and l.status_cd not in ('declined','withdrawn','applied','on_hold') AND l.created_on IS NOT NULL THEN c_s.id ELSE null END ) AS issued
- 
+
 into temp last30
 
 FROM customer_sources c_s
@@ -359,7 +359,7 @@ WHERE
 GROUP BY
   provider
   , lead_source
-  
+
 order by
   provider
   , lead_source
@@ -441,7 +441,7 @@ WHERE
 group by
   provider
   , lead_source
- 
+
 order by
   provider
   , lead_source
@@ -525,7 +525,7 @@ WHERE
 group by
   provider
   , lead_source
- 
+
 order by
   provider
   , lead_source
@@ -596,7 +596,7 @@ WHERE
 group by
   provider
   , lead_source
- 
+
 order by
   provider
   , lead_source
@@ -687,7 +687,7 @@ order by
 
 drop table if exists comp_lead_source;
 
-select 
+select
   provider
   , lead_source
   , l7_sent
@@ -822,10 +822,10 @@ left outer join lead_seller_tiers t on t.lead_seller_version_id = v.id
 order by l.lead_seller_name, v.approved_on, t.tier_number;
 
 
-SELECT 
+SELECT
 CASE WHEN (c_s.group_cd is null) or substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9')
 THEN c_s.source_type_cd ELSE c_s.group_cd END as provider
-,CASE when substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9') 
+,CASE when substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9')
 then c_s.group_cd ELSE 'other' END AS tier
 ,case when (c_s.source_type_cd like '%%cpf%%') then 'cpf'
 else 'cpl' end as lead_type
@@ -849,16 +849,16 @@ AND c_s.confirmed_on IS NULL THEN c_s.id ELSE null END) AS NOT_confirmed
 and l.status_cd not in ('declined','withdrawn','applied','on_hold')
 AND l.created_on IS NOT NULL THEN c_s.id ELSE null END ) AS issued
 
-FROM customer_sources c_s 
+FROM customer_sources c_s
 left outer join customers c on c.id=c_s.customer_id
 left outer join loans l on c_s.id = l.customer_source_id and l.customer_source_link_type_id is not null
 and l.customer_id = c.id
---left outer join loans l ON l.id = (SELECT max(id) FROM loans ll 
--- WHERE c.id = ll.customer_id 
+--left outer join loans l ON l.id = (SELECT max(id) FROM loans ll
+-- WHERE c.id = ll.customer_id
 -- AND ll.requested_time between c_s.received_time and c_s.received_time + interval '3 day')
 left outer join temp_lead_pricing t on t.lead_seller_name = c_s.source_type_cd
-and c_s.received_time >= t.eff_start_time and c_s.received_time <= t.eff_end_time  
-and case when  lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','t7','t8','t9','1','2','3','4','5','6','7','8','9') 
+and c_s.received_time >= t.eff_start_time and c_s.received_time <= t.eff_end_time
+and case when  lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','t7','t8','t9','1','2','3','4','5','6','7','8','9')
 then cast(substring(c_s.group_cd from length(c_s.group_cd)) as smallint) else null end = t.tier_number
 
 where c_s.country_cd='GB'
@@ -867,7 +867,7 @@ and c_s.received_time between '2013-01-21' and '2013-06-17'
 
 --and lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','1','2','3',
 --'4','5','6')
-GROUP BY 
+GROUP BY
 provider
 ,tier
 ,week
@@ -878,7 +878,7 @@ provider
 ,sub_type_cd
 ,t.eff_start_time
 ,t.eff_end_time
-order by provider, tier 
+order by provider, tier
 }
 
 tiers_1218 = %{
@@ -944,7 +944,7 @@ LEFT OUTER JOIN customers c ON c.id=c_s.customer_id
 
 LEFT OUTER JOIN loans l  on l.customer_source_id=c_s.id and l.customer_id = c.id and l.customer_source_link_type_id is not null
 WHERE
-c_s.country_cd='GB' and 
+c_s.country_cd='GB' and
 c_s.type_cd IS NOT NULL
 and c_s.type_cd not in ('seo')
 and c_s.incoming_brand_id <>'11'
@@ -982,25 +982,28 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph", height: 5, width: 7)
+g = Graph.find_or_create_by(name: "Test Graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 3
+g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk', 'eloansuk'"}
 g.save
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph 2", height: 5, width: 7)
-g.page = 3
+g = Graph.find_or_create_by(name: "Test Graph 2", height: 4, width: 7)
+g.page = 1
 g.query_id = 3
+g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 3", height: 5, width: 7)
 g.page = 3
 g.query_id = 3
+g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk'"}
 g.save
 puts g.errors.full_messages
 
-t = Table.find_or_create_by(name: "Test Table", height: 5, width: 7)
+t = Table.find_or_create_by(name: "Test Table", height: 4, width: 7)
 t.query_id = 3
 t.page = 1
 t.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59", providers: "'t3uk', 'eloansuk'"}

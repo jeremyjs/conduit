@@ -155,6 +155,16 @@ $ ->
 
   justifyContainerElements()
 
+  $('.chart').each ->
+    id = $(this).attr('id').substring(6)
+    name = "#chart-" + id
+    chart = getChartData(id)
+    charts[name] = switch chart.filter
+      when "qq_leads_funnel" then renderQQLeadsFunnelChart(chart)
+      when "bar_line"        then renderBarLineChart(chart)
+      when "timeseries"      then renderTimeseriesChart(chart)
+      else renderChart(chart)
+
   drawWidgets()
 
   setGridPadding()
