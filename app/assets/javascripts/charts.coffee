@@ -7,7 +7,6 @@
     async: false
     success: (response) ->
       data = response
-  console.log data
   data
 
 @getValsByAttr = (data_array, attr) ->
