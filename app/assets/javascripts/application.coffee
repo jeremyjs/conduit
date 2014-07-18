@@ -20,3 +20,5 @@
 #= require jquery.fullPage
 #= require bigSlide
 #= require dashboard
+#= require nprogress
+#= require progress-bar
