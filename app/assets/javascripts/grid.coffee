@@ -159,11 +159,14 @@ $ ->
     id = $(this).attr('id').substring(6)
     name = "#chart-" + id
     chart = getChartData(id)
-    charts[name] = switch chart.filter
-      when "qq_leads_funnel" then renderQQLeadsFunnelChart(chart)
-      when "bar_line"        then renderBarLineChart(chart)
-      when "timeseries"      then renderTimeseriesChart(chart)
-      else renderChart(chart)
+    options = {}
+    $.each chart.filters, ->
+      console.log options
+      filter = "" + this
+      console.log filter
+      $.extend true, options, filter_hash(chart, filter)
+    console.log options
+    charts[name] = renderChart chart, options
 
   drawWidgets()
 
