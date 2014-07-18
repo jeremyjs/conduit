@@ -16,19 +16,35 @@
     ret[graph.provider] = graph[attr]
   ret
 
-# return [["column1", 1, 6... ], ["column2", 2, 5... ]]
-@getColumns = (data_array) ->
-  columns = []
-  for graph in data_array
-    value_hashes = graph.values
-    data_column = [ graph.name ]
-    for value_hash in value_hashes
-      data_column.push(value_hash.value)
-    columns.push(data_column)
-  columns
-
 @getId = (name) ->
   name.slice(-1)
+
+@barChartOptions = (chart, options = {}) ->
+  $.extend true, options,
+    data:
+      type: 'bar'
+    bar:
+      width:
+        ratio: chart['bar']['ratio']
+        width: chart['bar']['width']
+  options
+
+@renderBarLineChart = (chart, options = {}) ->
+  $.extend true, options,
+    data:
+      groups: chart["groups"]
+  renderChart(chart, options)
+
+@renderTimeseriesChart = (chart, options = {}) ->
+  $.extend true, options,
+    data:
+      x: 'x'
+    axis:
+      x:
+        type: 'timeseries'
+        tick:
+          format: '%Y-%m-%d'
+  renderChart(chart, options)
 
 @renderChart = (chart, options = {}) ->
   id = chart["id"]
