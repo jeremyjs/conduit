@@ -1,37 +1,71 @@
 class Graph < Widget
   belongs_to :query
 
-  def value_hash(n = 1)
-    n.times.map do
-      {
-        value: 100+rand(100),
-        time: 1403808191
-      }
+  HEADER_LIST = [
+    "provider",
+    "tier",
+    "date",
+    "total_sent",
+    "total_sent_by_unique_customer",
+    "lead_source",
+    "month",
+    "type_cd",
+    "sub_type_cd",
+    "total_imported",
+    "applied",
+    "not_confirmed",
+    "issued"
+  ]
+  INT_LIST = [
+    "total_sent",
+    "total_sent_by_unique_customer",
+    "lead_source",
+    "month",
+    "total_imported",
+    "applied",
+    "not_confirmed",
+    "issued"
+  ]
+  KPI_LIST = [
+    "total_sent",
+    "total_sent_by_unique_customer",
+    "total_imported",
+    "applied",
+    "not_confirmed",
+    "issued"
+  ]
+
+  N = 100
+
+  def providers
+    query_result.first(N).map { |row| row["provider"] }.uniq
+  end
+
+  def data
+    headers = KPI_LIST
+    results = [
+      ['x']
+    ]
+    headers.each { |header| results << [ header ] }
+    query_result.first(N).each do |row|
+      results[0] << row["date"]
+      headers.count.times do |i|
+        results[i+1] << row[headers[i]]
+      end
     end
+    results
   end
 
-  def random_string(n = 1)
-    n.times.map { ('a'..'z').to_a.sample }.join
-  end
-
+  # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
   def as_json(options = {})
-    n = 5
-    name_array = n.times.map { "name" + random_string(3) }
-    type_array = ["bar", "line"]
+    execute_query if query_result.empty?
     {
       id: id,
+      filter: "timeseries",
+      y2: true,
       groups: [],
-      data: n.times.map do |i|
-        vh = value_hash(10)
-        type_array.map do |type|
-          {
-            name: "#{name_array[i]}_#{type}",
-            values: vh,
-            type: type,
-            y2: true
-          }
-        end
-      end.flatten
+      providers: providers,
+      data: data
     }
   end
 end
