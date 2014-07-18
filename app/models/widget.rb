@@ -46,13 +46,41 @@ class Widget < ActiveRecord::Base
   #Remember not to call self.save since self.save is automatically called at the end of this method
   #update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
+    # Do not execute a query if any variable has a nil value
     self.variables.each do |k,v|
-      return true if v.nil?
+      if v.nil?
+        return true
+      end
     end
+
+    # Search through all complete_queries with a matching SQL command
+    self.query.complete_queries.each do |cq|
+      # If matching SQL and matching variables
+      if cq.variables == self.variables
+        # If "fresh" enough (last executed less than 15 minutes)
+        if TimeDifference.between(cq.last_executed, Time.now).in_minutes < 15
+          # Use the cached result
+          self.query_result = cq.query_result
+          self.last_executed = cq.last_executed
+          return
+        end
+        # If not fresh enough, update the cached copy and use it
+        conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
+        self.query_result = conn.exec(self.query.command % self.variables).to_a
+        conn.finish
+        self.last_executed = Time.now
+        cq.query_result = self.query_result
+        cq.last_executed = self.last_executed
+        cq.save
+        return
+      end
+    end
+    # If there is no complete_query with matching SQL and variables, execute and cache the query
     conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
     self.query_result = conn.exec(self.query.command % self.variables).to_a
     conn.finish
     self.last_executed = Time.now
+    CompleteQuery.create(query_id: self.query.id, variables: self.variables, query_result: self.query_result, last_executed: self.last_executed)
   end
 
 
