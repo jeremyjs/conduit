@@ -1,9 +1,6 @@
 class Table < Widget
 
   def as_json(options)
-    if query_result.empty?
-      execute_query
-    end
     {
       id: id,
       hide: [
