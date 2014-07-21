@@ -44,7 +44,7 @@ class WidgetsController < ApplicationController
   def update
     respond_to do |format|
         @widget.query = Query.find(widget_params['query_id'])
-        variables = widget_params['variables']
+        variables = params['widget']['variables']
         variables['providers'] = variables['providers'].chomp(", ")
         @widget.variables = variables
         @widget.save
