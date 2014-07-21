@@ -40,6 +40,10 @@
   padding: 5px 0 5px 0;
 }
 
+.panel-heading {
+  z-index: -1;
+}
+
 .panel-settings {
   display: none;
   height: 100%;
@@ -60,6 +64,15 @@
     bottom: 0;
     margin-right: 10px;
     margin-bottom: 10px;
+  }
+
+  .delete-widget-btn{
+    position: absolute;
+    right: 0;
+    bottom :0;
+    margin-right: 100px;
+    margin-bottom: 10px;
+    width: 80px;
   }
 
   .widget-page-selector {

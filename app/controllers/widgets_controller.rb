@@ -72,7 +72,7 @@ class WidgetsController < ApplicationController
   def destroy
     @widget.destroy
     respond_to do |format|
-      format.html { redirect_to widgets_url, notice: 'Widget was successfully destroyed.' }
+      format.html { redirect_to dashboard_path , notice: 'Widget was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -99,6 +99,6 @@ class WidgetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def widget_params
-      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers] })
+      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id)
     end
 end

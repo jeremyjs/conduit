@@ -1,18 +1,12 @@
-- if defined? new_variables
-  - unless new_variables.empty?
-    %span Variables
-  - new_variables.each do |var,val|
-    .form-group
-      %label #{var}
-      %input.widget-variables{key: var, value: val}
--else
-  - unless widget.variables.empty?
-    %span Variables
-  - widget.variables.each do |variable, value|
-    .form-group
-      - if variable.to_s == "providers"
-        %label #{variable.to_s}
-        %input.widget-variables.providers{key: variable.to_s, value: value.to_s}
-      - else
-        %label #{variable.to_s}
-        %input.widget-variables{key: variable.to_s, value: value.to_s}
+- variables = (defined? new_variables) ? new_variables : widget.variables
+- unless variables.empty?
+  %span Variables
+- variables.each do |variable, value|
+  - id = SecureRandom.urlsafe_base64(nil, false)
+  .form-group
+    - if variables.to_s == "providers"
+      %label{for: "#{variable}-#{id}"} #{variable}
+      %input.widget-variables.providers{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
+    - else
+      %label{for: "#{variable}-#{id}"} #{variable}
+      %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
