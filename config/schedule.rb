@@ -7,3 +7,7 @@ job_type :rbenv_rake, %Q{eval "$(rbenv init -)"; \
 every 15.minutes do
   rbenv_rake "conduit:execute_queries"
 end
+
+every 60.minutes do
+  rbenv_rake "conduit:update_providers"
+end
