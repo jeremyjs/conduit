@@ -31,13 +31,15 @@
 
 .panel {
   height: 100%;
-  overflow: hidden;
 }
 
 .panel-body {
   height: 100%;
-  overflow: hidden;
   padding: 5px 0 5px 0;
+}
+
+.panel-heading {
+  z-index: -1;
 }
 
 .panel-settings {
