@@ -19,7 +19,7 @@ $ ->
     query_selector = $(this)
     $.ajax
       type: "get"
-      url: "/widget_variables/"+$(this).val()
+      url: "/widget_variables/"+query_selector.val()
       success: (data) ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
 
