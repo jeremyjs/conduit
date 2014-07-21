@@ -78,7 +78,6 @@ class Graph < Widget
     {
       id: id,
       filters: ["bar"],
-      # y2: true,
       # groups: [KPI_LIST.reverse],
       providers: providers,
       data: data
