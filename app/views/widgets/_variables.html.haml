@@ -11,8 +11,8 @@
   - widget.variables.each do |variable, value|
     .form-group
       - if variable.to_s == "providers"
-        %label Special #{variable.to_s}
-        %input.widget-variables{id: "providers", key: variable.to_s, value: value.to_s}
+        %label #{variable.to_s}
+        %input.widget-variables.providers{key: variable.to_s, value: value.to_s}
       - else
         %label #{variable.to_s}
         %input.widget-variables{key: variable.to_s, value: value.to_s}

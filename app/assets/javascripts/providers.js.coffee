@@ -1,10 +1,11 @@
 @getProviders = ->
-  providers = null
+  providers = []
   $.ajax
     url: "/providers.json"
     async: false
     success: (response) ->
-      providers = response
+      for provider in response
+        providers.push("'" + provider.name + "'")
   providers
 
 $ ->
@@ -12,10 +13,10 @@ $ ->
     val.split /,\s*/
   extractLast = (term) ->
     split(term).pop()
-  availableTags = ["eloansuk", "elephant", "echo", "apple"]
+  availableTags = getProviders()
 
   # don't navigate away from the field on tab when selecting an item
-  $("#providers").bind("keydown", (event) ->
+  $(".providers").bind("keydown", (event) ->
     event.preventDefault()  if event.keyCode is $.ui.keyCode.TAB and $(this).autocomplete("instance").menu.active
     return
   ).autocomplete
