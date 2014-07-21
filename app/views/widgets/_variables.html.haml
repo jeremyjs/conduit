@@ -3,9 +3,9 @@
     %span Variables
   - new_variables.each do |var,val|
     .form-group
-      %label #{new_variable}
-      %input.widget-variables{key: new_variable}
-- else
+      %label #{var}
+      %input.widget-variables{key: var, value: val}
+-else
   - unless widget.variables.empty?
     %span Variables
   - widget.variables.each do |variable, value|
