@@ -22,7 +22,7 @@ namespace :conduit do
     puts "Fetching list of providers..."
     providers = Query.execute("SELECT DISTINCT source_type_cd FROM customer_sources")
     providers.each do |p|
-      Provider.create(name: p['source_type_cd'])
+      Provider.find_or_create_by(name: p['source_type_cd'])
     end
     puts "End at #{Time.now}"
   end
