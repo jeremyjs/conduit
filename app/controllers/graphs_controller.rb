@@ -60,7 +60,7 @@ class GraphsController < ApplicationController
   def destroy
     @graph.destroy
     respond_to do |format|
-      format.html { redirect_to graphs_url, notice: 'Graph was successfully destroyed.' }
+      format.html { redirect_to dashboard_path, notice: 'Graph was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
