@@ -77,9 +77,15 @@ class WidgetsController < ApplicationController
 
   def get_new_variables
     query_id = params[:id]
+    if Query.find(query_id).complete_queries.nil?
+      variables_array = Query.find(query_id).variables
+      variables = variables_array.map { |var| [var,nil] }.to_h
+    else
+      variables = Query.find(query_id).complete_queries.order(last_executed: :desc).first.variables
+    end
     respond_to do |format|
-      format.html { render partial: 'widgets/variables', locals: {new_variables: Query.find(query_id).variables } }
-      format.json { render json: Query.find(query_id).variables }
+      format.html { render partial: 'widgets/variables', locals: {new_variables: variables} }
+      format.json { render json: variables }
     end
   end
 
