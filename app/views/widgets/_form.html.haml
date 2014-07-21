@@ -27,3 +27,7 @@
 %a.btn.btn-default.edit-widget-btn
   = icon('save')
   Save
+= link_to widget, :class => "btn btn-default delete-widget-btn", :method => :delete , :data => {:confirm => 'Are you sure?'} do
+  = icon('times')
+  Delete
+
