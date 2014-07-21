@@ -4,5 +4,9 @@
 - variables.each do |variable, value|
   - id = SecureRandom.urlsafe_base64(nil, false)
   .form-group
-    %label{for: "#{variable}-#{id}"} #{variable}
-    %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
+    - if variables.to_s == "providers"
+      %label{for: "#{variable}-#{id}"} #{variable}
+      %input.widget-variables.providers{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
+    - else
+      %label{for: "#{variable}-#{id}"} #{variable}
+      %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
