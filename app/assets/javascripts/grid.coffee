@@ -43,12 +43,6 @@ getGridItem = (ui) ->
 getName = ($item) ->
   "#" + $item.attr('id').replace /_wrapper/, ""
 
-# @siblingHeight = ($panel, $item) ->
-#   other_children_array = $panel.children().not($item).get()
-#   other_children_array.reduce (sum, self) ->
-#     sum + $(self).outerHeight(true)
-#   , 0
-
 @calculateHeight = ($item) ->
   $parent = $item.parents('.grid-item').first()
   $panel = $item.parents('.panel-body')
@@ -156,17 +150,10 @@ $ ->
   justifyContainerElements()
 
   $('.chart').each ->
-    id = $(this).attr('id').substring(6)
-    name = "#chart-" + id
+    name = '#' + $(this).attr('id')
+    id = name.substring(7)
     chart = getChartData(id)
-    options = {}
-    $.each chart.filters, ->
-      console.log options
-      filter = "" + this
-      console.log filter
-      $.extend true, options, filter_hash(chart, filter)
-    console.log options
-    charts[name] = renderChart chart, options
+    charts[name] = renderChart chart
 
   drawWidgets()
 
