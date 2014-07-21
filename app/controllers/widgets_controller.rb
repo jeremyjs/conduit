@@ -44,7 +44,9 @@ class WidgetsController < ApplicationController
   def update
     respond_to do |format|
         @widget.query = Query.find(widget_params['query_id'])
-        @widget.variables = params['widget']['variables']
+        variables = widget_params['variables']
+        variables['providers'] = variables['providers'].chomp(", ")
+        @widget.variables = variables
         @widget.save
       if @widget.update(widget_params.except('query_id', 'variables'))
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully updated.' }
