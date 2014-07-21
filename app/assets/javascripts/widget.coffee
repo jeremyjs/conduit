@@ -1,4 +1,10 @@
 $ ->
+  $('.start_time, .end_time').datetimepicker
+    format: 'Y-m-d H:i'
+    mask: true
+    minDate: '2004/1/1'
+    maxDate: '+0'
+
   $('.new').click ->
     $.ajax
       type: "post"
@@ -19,7 +25,7 @@ $ ->
     query_selector = $(this)
     $.ajax
       type: "get"
-      url: "/widget_variables/"+$(this).val()
+      url: "/widget_variables/"+query_selector.val()
       success: (data) ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
 
