@@ -23,7 +23,7 @@
     when "bar"
       data:
         type: "bar"
-        groups: [] # chart["groups"]
+        groups: chart["groups"] || []
       bar:
         width:
           ratio: chart['bar_ratio'] || 0.5
