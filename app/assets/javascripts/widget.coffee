@@ -1,4 +1,10 @@
 $ ->
+  $('.start_time, .end_time').datetimepicker
+    format: 'Y-m-d H:i'
+    mask: true
+    minDate: '2004/1/1'
+    maxDate: '+0'
+
   $('.new').click ->
     $.ajax
       type: "post"
