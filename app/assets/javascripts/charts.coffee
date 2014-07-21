@@ -28,22 +28,27 @@
         width: chart['bar']['width']
   options
 
-@renderBarLineChart = (chart, options = {}) ->
-  $.extend true, options,
-    data:
-      groups: chart["groups"]
-  renderChart(chart, options)
-
-@renderTimeseriesChart = (chart, options = {}) ->
-  $.extend true, options,
-    data:
-      x: 'x'
-    axis:
-      x:
-        type: 'timeseries'
-        tick:
-          format: '%Y-%m-%d'
-  renderChart(chart, options)
+@filter_hash = (chart, filter) ->
+  switch filter
+    when "bar"
+      data:
+        type: "bar"
+        groups: chart["groups"]
+      bar:
+        width:
+          ratio: chart['bar_ratio']
+    when "bar_line"
+      data:
+        groups: chart["groups"]
+    when "timeseries"
+      data:
+        x: 'x'
+      axis:
+        x:
+          type: 'timeseries'
+          tick:
+            format: '%Y-%m-%d'
+    else {}
 
 @renderChart = (chart, options = {}) ->
   id = chart["id"]
@@ -61,6 +66,9 @@
       enabled: true
     color:
       pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+    tooltip:
+      grouped: false
   $.extend(true, c3_chart, options)
+  console.log c3_chart
   c3.generate(c3_chart)
 

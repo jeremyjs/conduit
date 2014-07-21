@@ -46,11 +46,27 @@ class Graph < Widget
     results = [
       ['x']
     ]
+    date_hash = {}
     headers.each { |header| results << [ header ] }
     query_result.first(N).each do |row|
-      results[0] << row["date"]
+      if date_hash.has_key? row["date"]
+        date_hash[row["date"]] << row
+      else
+        date_hash[row["date"]] = [row]
+      end
+      # results[0] << row["date"]
+      # headers.count.times do |i|
+      #   results[i+1] << row[headers[i]]
+      # end
+    end
+    date_hash.each do |k, v|
+      results[0] << k
       headers.count.times do |i|
-        results[i+1] << row[headers[i]]
+        res = 0
+        v.each do |h|
+          res += h[headers[i]].to_i
+        end
+        results[i+1] << res
       end
     end
     results
@@ -61,9 +77,10 @@ class Graph < Widget
     execute_query if query_result.empty?
     {
       id: id,
-      filter: "timeseries",
-      y2: true,
-      groups: [],
+      filters: ["bar", "timeseries"],
+      # y2: true,
+      bar_ratio: 0.5,
+      groups: [KPI_LIST.reverse],
       providers: providers,
       data: data
     }
