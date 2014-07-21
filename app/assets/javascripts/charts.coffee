@@ -18,25 +18,15 @@
 @getId = (name) ->
   name.slice(-1)
 
-@barChartOptions = (chart, options = {}) ->
-  $.extend true, options,
-    data:
-      type: 'bar'
-    bar:
-      width:
-        ratio: chart['bar']['ratio']
-        width: chart['bar']['width']
-  options
-
 @filter_hash = (chart, filter) ->
   switch filter
     when "bar"
       data:
         type: "bar"
-        groups: chart["groups"]
+        groups: [] # chart["groups"]
       bar:
         width:
-          ratio: chart['bar_ratio']
+          ratio: chart['bar_ratio'] || 0.5
     when "bar_line"
       data:
         groups: chart["groups"]
@@ -51,14 +41,14 @@
     else {}
 
 @renderChart = (chart, options = {}) ->
-  id = chart["id"]
-  chart_data = chart["data"]
+  filters = chart.filters.concat ['timeseries']
+  $.each filters, ->
+    filter = "" + this
+    $.extend true, options, filter_hash(chart, filter)
   c3_chart =
-    bindto: "#chart-#{id}"
+    bindto: "#chart-#{chart["id"]}"
     data:
-      # titles: getValsByAttr(chart_data, "name")
-      columns: chart_data
-      # types: getValsByAttr(chart_data, "type")
+      columns: chart["data"]
     axis:
       y2:
         show: if chart["y2"] then true else false
@@ -69,6 +59,5 @@
     tooltip:
       grouped: false
   $.extend(true, c3_chart, options)
-  console.log c3_chart
   c3.generate(c3_chart)
 
