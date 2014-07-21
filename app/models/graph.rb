@@ -77,10 +77,8 @@ class Graph < Widget
     execute_query if query_result.empty?
     {
       id: id,
-      filters: ["bar", "timeseries"],
-      # y2: true,
-      bar_ratio: 0.5,
-      groups: [KPI_LIST.reverse],
+      filters: ["bar"],
+      # groups: [KPI_LIST.reverse],
       providers: providers,
       data: data
     }
