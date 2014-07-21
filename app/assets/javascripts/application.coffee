@@ -21,3 +21,4 @@
 #= require dashboard
 #= require nprogress
 #= require progress-bar
+#= require jquery.datetimepicker
