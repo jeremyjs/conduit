@@ -36,7 +36,7 @@ class Widget < ActiveRecord::Base
   end
 
   def self.last_page
-    if w = Widget.order('page DESC').first && !w.nil?
+    if w = Widget.order('page DESC').first && w
       w.page
     else
       1
