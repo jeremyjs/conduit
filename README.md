@@ -15,3 +15,13 @@ To enable the whenever gem to automatically execute all of your queries every 15
 You can disable this behavior with this command:
 
 ```whenever --clear-crontab```
+
+To run cucumber tests , go to the conduit directory and run the
+following command:
+
+```bundle exec cucumber```
+
+To run the rspec tests , go to the conduit directoty and run the
+following command:
+
+```bundle exec rspec```
