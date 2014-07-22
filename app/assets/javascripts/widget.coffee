@@ -1,9 +1,30 @@
 $ ->
-  $('.start_time, .end_time').datetimepicker
-    format: 'Y-m-d H:i'
-    mask: true
-    minDate: '2004/1/1'
-    maxDate: '+0'
+  initDatePicker = () ->
+    $('.start_time').datetimepicker
+      format: 'Y-m-d H:i:s'
+      formatDate: 'Y-m-d H:i:s'
+      mask: true
+      minDate: '2004-01-01 00:00:00'
+      maxDate: '+0'
+      yearStart: 2004
+      yearEnd: new Date().getFullYear()
+      onShow: (ct, field) ->
+        this.setOptions
+          maxDate: $(field).parents().eq(2).find('.end_time').val()
+
+    $('.end_time').datetimepicker
+      format: 'Y-m-d H:i:s'
+      formatDate: 'Y-m-d H:i:s'
+      mask: true
+      minDate: '2004-01-01 00:00:00'
+      maxDate: '+0'
+      yearStart: 2004
+      yearEnd: new Date().getFullYear()
+      onShow: (ct, field) ->
+        this.setOptions
+          minDate: $(field).parents().eq(2).find('.start_time').val()
+
+  initDatePicker()
 
   $('.new').click ->
     $.ajax
@@ -28,6 +49,7 @@ $ ->
       url: "/widget_variables/"+query_selector.val()
       success: (data) ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
+        initDatePicker()
 
   $('.edit-widget-btn').click ->
     outer = $(this).parent()
