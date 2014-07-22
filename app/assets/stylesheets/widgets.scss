@@ -44,6 +44,12 @@
   z-index: -1;
 }
 
+.panel-subtitle {
+  font-style: italic;
+  font-weight: 100;
+  font-size: 12px;
+}
+
 .panel-settings {
   display: none;
   height: 100%;
@@ -70,7 +76,7 @@
     position: absolute;
     right: 0;
     bottom :0;
-    margin-right: 100px;
+    margin-right: 70px;
     margin-bottom: 10px;
     width: 80px;
   }
