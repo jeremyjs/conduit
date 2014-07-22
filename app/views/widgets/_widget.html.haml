@@ -1,6 +1,7 @@
 .widget.panel.panel-default
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
+    %span.panel-subtitle= "query last executed #{time_ago_in_words widget[:last_executed]} ago"
     %a.btn.btn-default.widget-settings-toggle
       = icon('wrench')
       Edit
