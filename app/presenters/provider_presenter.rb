@@ -1,0 +1,2 @@
+class ProviderPresenter < ChartPresenter
+end

@@ -23,7 +23,11 @@ class ChartPresenter
   end
 
   def headers
-    query_result.first.keys
+    if query_result && query_result.first
+      query_result.first.keys
+    else
+      []
+    end
   end
 
   def providers
@@ -55,7 +59,7 @@ class ChartPresenter
   end
 
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
-  def data
+  def to_json
     {
       variables: variables,
       headers: headers,
@@ -68,11 +72,6 @@ class ChartPresenter
       example_result_hash: query_result.first,
       data: process_data
     }
-  end
-
-  def to_json
-    # @graph.execute_query if query_result.empty?
-    data
   end
 
   def self.presenter_for(datatype)
