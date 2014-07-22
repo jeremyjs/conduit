@@ -42,7 +42,7 @@ When /^I return to the site$/ do
 end
 
 When(/^I return to the sign in page$/) do
-  visit 'users/sign_in'
+  visit '/'
 end
 
 Given /^I am on the login page$/ do
