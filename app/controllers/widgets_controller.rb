@@ -43,13 +43,14 @@ class WidgetsController < ApplicationController
   # PATCH/PUT /widgets/1.json
   def update
     respond_to do |format|
+      if widget_params.has_key? 'query_id'
         @widget.query = Query.find(widget_params['query_id'])
         variables = params['widget']['variables'].deep_symbolize_keys
         variables[:providers] = variables[:providers].chomp(", ")
         @widget.variables = variables
         @widget.save
-      if @widget.update(widget_params.except('query_id', 'variables'))
-        format.html { redirect_to dashboard_path, notice: 'Widget was successfully updated.' }
+      elsif @widget.update(widget_params.except('query_id', 'variables'))
+        format.html { render nothing: true, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else
         format.html { render :edit }
