@@ -31,17 +31,17 @@ gem 'figgy'
 gem 'time_difference'
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.8.1"
+  gem 'rspec-rails', '>= 2.8.1'
   gem 'factory_girl_rails'
-  gem 'jasmine'
+  gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :test do
-  gem "selenium-webdriver", "~> 2.39.0"
-  gem "cucumber-rails", ">= 1.2.1" , :require => false
-  gem "capybara", ">= 1.1.2"
-  gem "database_cleaner"
-  gem "pry"
+  gem 'selenium-webdriver', '~> 2.39.0'
+  gem 'cucumber-rails', '>= 1.2.1' , :require => false
+  gem 'capybara', '>= 1.1.2'
+  gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem "launchy"
+  gem 'launchy'
 end

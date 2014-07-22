@@ -982,14 +982,14 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Query 2 Graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 3
-g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk', 'eloansuk'"}
+g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
 g.save
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Test Graph 2", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Query 3 Graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
