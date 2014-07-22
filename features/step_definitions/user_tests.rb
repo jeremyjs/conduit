@@ -24,7 +24,7 @@ Given /^I exist as a user$/ do
 end
 
 Given /^I am not logged in$/ do
-  visit 'users/sign_in'
+  visit new_user_session_path
   expect(page).to have_no_content(@visitor[:login])
 end
 
@@ -38,15 +38,15 @@ Then /^I have signed in successfully$/ do
 end
 
 When /^I return to the site$/ do
-  visit '/'
+  visit root_path
 end
 
 When(/^I return to the sign in page$/) do
-  visit 'users/sign_in'
+  visit new_user_session_path
 end
 
 Given /^I am on the login page$/ do
-  visit 'users/sign_in'
+  visit new_user_session_path
 end
 
 
@@ -75,7 +75,7 @@ end
 
 Given /^I am logged in$/ do
   create_new_user
-  visit 'users/sign_in'
+  visit new_user_session_path
   sign_in
 end
 
@@ -92,7 +92,7 @@ end
 Given /^I am not signed up$/ do
   create_visitor
   delete_user
-  visit 'users/sign_up'
+  visit new_user_registration_path
 end
 
 When /^I provide a valid email$/ do
