@@ -21,7 +21,7 @@ following command:
 
 ```bundle exec cucumber```
 
-To run the rspec tests , go to the conduit directoty and run the
+To run the rspec tests , go to the conduit directory and run the
 following command:
 
 ```bundle exec rspec```
