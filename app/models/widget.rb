@@ -129,7 +129,7 @@ class Widget < ActiveRecord::Base
   end
 
   def time_is_a_subset_of_complete_query_time?(complete_query)
-    variables[:start_time] >= complete_query.variables[:start_time] and
+    variables[:start_time] >= complete_query.variables[:start_time] &&
     variables[:end_time] <= complete_query.variables[:end_time]
   end
 
