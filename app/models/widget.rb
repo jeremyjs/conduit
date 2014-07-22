@@ -48,6 +48,22 @@ class Widget < ActiveRecord::Base
     query.complete_queries
   end
 
+  def extract_variable_names
+    query ? query.variables : []
+  end
+
+  def update_variable_hash
+    update_hash = {}
+    extract_variable_names.each do |variable|
+      if variables[variable.to_sym].nil?
+        update_hash[variable.to_sym] = nil
+      else
+        update_hash[variable.to_sym] = variables[variable.to_sym]
+      end
+    end
+    self.variables = update_hash
+  end
+
   # Remember not to call self.save since self.save is automatically called at the end of this method
   # update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
@@ -79,10 +95,29 @@ class Widget < ActiveRecord::Base
     self.last_executed = complete_query.last_executed
   end
 
+  def use_cached_result_with_time_subset(complete_query)
+    self.query_result = complete_query.query_result.select do |row|
+      DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) && DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time])
+    end
+    self.last_executed = complete_query.last_executed
+    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
+  end
+
   def update_and_use_cached_query(complete_query)
-    self.query_result = complete_query.query_result
-    self.last_executed = complete_query.last_executed = Time.now
-    complete_query.save
+    execute_new_query
+    CompleteQuery.update(complete_query.id, query_result: query_result, last_executed: last_executed)
+  end
+
+  def execute_and_cache_new_query
+    execute_new_query
+    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
+  end
+
+  def execute_new_query
+    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
+    self.query_result = conn.exec(query.command % variables).to_a
+    conn.finish
+    self.last_executed = Time.now
   end
 
   def times_are_not_nil?
@@ -100,38 +135,6 @@ class Widget < ActiveRecord::Base
 
   def variables_other_than_time_match?(complete_query)
     complete_query.variables.except(:start_time, :end_time) == variables.except(:start_time, :end_time)
-  end
-
-  def use_cached_result_with_time_subset(complete_query)
-    self.query_result = complete_query.query_result.select do |row|
-      DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) && DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time])
-    end
-    self.last_executed = complete_query.last_executed
-    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
-  end
-
-  def execute_and_cache_new_query
-    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-    self.query_result = conn.exec(query.command % variables).to_a
-    conn.finish
-    self.last_executed = Time.now
-    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
-  end
-
-  def extract_variable_names
-    query.nil? ?  [] : query.variables
-  end
-
-  def update_variable_hash
-    update_hash = {}
-    extract_variable_names.each do |variable|
-      if variables[variable.to_sym].nil?
-        update_hash[variable.to_sym] = nil
-      else
-        update_hash[variable.to_sym] = variables[variable.to_sym]
-      end
-    end
-    self.variables = update_hash
   end
 
   private
