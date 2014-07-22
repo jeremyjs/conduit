@@ -44,32 +44,32 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  def complete_queries
+    query.complete_queries
+  end
+
   # Remember not to call self.save since self.save is automatically called at the end of this method
   # update_hash_variable and execute_query are the functions called in the before_save callback
   def execute_query
-    # Do not execute a query if any variable has a nil value
     variables.each { |_, v| return true if v.nil? }
 
-    # Search through all complete_queries with a matching SQL command
-    query.complete_queries.each do |complete_query|
-      # If matching SQL and matching variables
-      if complete_query.variables == variables && fresh(complete_query.last_executed)
-        # If "fresh" enough (last executed less than 15 minutes)
-        # Use the cached result
+    complete_queries.each do |complete_query|
+      if complete_query.variables == variables && fresh?(complete_query)
         use_cached_result(complete_query)
         return
       elsif complete_query.variables == variables
-        # If not fresh enough, update the cached copy and use it
         update_and_use_cached_query(complete_query)
         return
-      elsif any_variables_are_not_nil?(complete_query) and
-      time_is_a_subset_of_complete_query_time?(complete_query) and
-      variables_other_than_time_match?(complete_query) and
-      fresh(complete_query.last_executed)
+      elsif times_are_not_nil? &&
+      times_are_not_nil?(complete_query) &&
+      time_is_a_subset_of_complete_query_time?(complete_query) &&
+      variables_other_than_time_match?(complete_query) &&
+      fresh?(complete_query)
         use_cached_result_with_time_subset(complete_query)
         return
       end
     end
+
     # If there is no complete_query with matching SQL and variables, execute and cache the query
     execute_and_cache_new_query
   end
@@ -80,18 +80,17 @@ class Widget < ActiveRecord::Base
   end
 
   def update_and_use_cached_query(complete_query)
-    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-    self.query_result = conn.exec(query.command % variables).to_a
-    conn.finish
-    self.last_executed = Time.now
-    complete_query.query_result = query_result
-    complete_query.last_executed = last_executed
+    self.query_result = complete_query.query_result
+    self.last_executed = complete_query.last_executed = Time.now
     complete_query.save
   end
 
-  def any_variables_are_not_nil?(complete_query)
-    not(variables[:start_time].nil? || variables[:end_time].nil? ||
-        complete_query.variables[:start_time].nil? || complete_query.variables[:end_time].nil?)
+  def times_are_not_nil?
+    variables[:start_time] && variables[:end_time]
+  end
+
+  def times_are_not_nil?(complete_query)
+    complete_query.variables[:start_time] && complete_query.variables[:end_time]
   end
 
   def time_is_a_subset_of_complete_query_time?(complete_query)
@@ -136,8 +135,8 @@ class Widget < ActiveRecord::Base
   end
 
   private
-  def fresh(time)
-    TimeDifference.between(time, Time.now).in_minutes < 100
+  def fresh?(complete_query)
+    TimeDifference.between(complete_query.last_executed, Time.now).in_minutes < 100
   end
 
 end
