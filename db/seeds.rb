@@ -1010,4 +1010,10 @@ t.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59
 t.save
 puts t.errors.full_messages
 
-puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Table.count} tables, and #{Graph.count} graphs."
+p = Provider.find_or_create_by(name: "eloansuk")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "t3uk")
+puts p.errors.full_messages
+
+puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Provider.count} providers, #{Table.count} tables, and #{Graph.count} graphs."
