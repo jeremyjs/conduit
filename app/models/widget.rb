@@ -36,7 +36,7 @@ class Widget < ActiveRecord::Base
   end
 
   def self.last_page
-    if w = Widget.order('page DESC').first
+    if w = Widget.order('page DESC').first && !w.nil?
       w.page
     else
       1
@@ -101,3 +101,4 @@ class Widget < ActiveRecord::Base
   end
 
 end
+
