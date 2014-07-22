@@ -1,5 +1,8 @@
-class KpiPresenter < ChartPresenter
+# Used when there are many kpis selected.
+# Graphs all kpis over time on one chart
+# If many providers are selected, aggragates their data
 
+class KpiPresenter < ChartPresenter
   def process_data
     @output = Hash.new { |hash, key| hash[key] = [key] }
     query_result.sort_by! { |row| row["date"] }
@@ -17,5 +20,5 @@ class KpiPresenter < ChartPresenter
     @output["x"] << row["date"]
     user_defined_headers.each { |header| @output[header] << 0 }
   end
-
 end
+

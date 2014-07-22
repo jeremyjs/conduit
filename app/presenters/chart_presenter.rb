@@ -73,9 +73,5 @@ class ChartPresenter
       data: process_data
     }
   end
-
-  def self.presenter_for(datatype)
-    kpis.count == 1 ? KpisPresenter : ProvidersPresenter
-  end
 end
 
