@@ -558,11 +558,11 @@
 					if( !options.timepickerScrollbar )
 						scrollbar.hide();
 					
-					if( options.minDate && /^-(.*)$/.test(options.minDate) ){
+					if( options.minDate ){
 						options.minDate = _xdsoft_datetime.strToDateTime(options.minDate).dateFormat( options.formatDate );
 					}
 					
-					if( options.maxDate &&  /^\+(.*)$/.test(options.maxDate) ) {
+					if( options.maxDate ) {
 						options.maxDate = _xdsoft_datetime.strToDateTime(options.maxDate).dateFormat( options.formatDate );
 					}
 					
