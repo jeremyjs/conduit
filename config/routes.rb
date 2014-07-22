@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
 
   get '/widget_variables/:id', to: 'widgets#get_new_variables'
-  get '/graph_columns/:type', to: 'graphs#get_columns'
   post '/widget/update_page', to: 'widgets#update_page'
   get '/providers', to: 'providers#index'
 end
