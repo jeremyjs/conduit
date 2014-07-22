@@ -1,8 +1,8 @@
 .gridster
   %ul.grid{id: "page-#{page}"}
     - filtered_widgets.sort { |w| w[:column] }.each_with_index do |w, i|
+      / assumes all widgets have column == 1
       %li.grid-item{id: "widget-#{w.id}",
-                    # assumes all widgets have column == 1
                     "data-col" => w[:column] || i,
                     "data-row" => w[:row] || 1,
                     "data-sizex" => w[:width],
