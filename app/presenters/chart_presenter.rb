@@ -38,10 +38,6 @@ class ChartPresenter
     variables[:kpis] || KPI_LIST
   end
 
-  def user_defined_headers
-    KPI_LIST
-  end
-
   def variables
     @graph.variables
   end
@@ -58,6 +54,17 @@ class ChartPresenter
     @graph.query
   end
 
+  def process_data
+    @output = Hash.new { |hash, key| hash[key] = [key] }
+    query_result.sort_by! { |row| row["date"] }
+    query_result.each do |row|
+      populate_row_headers_for(row) if row["date"] != @output["x"][-1]
+      user_defined_headers.each { |header| @output[header][-1] += milk(row) }
+    end
+
+    @output.values
+  end
+
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
   def to_json
     {
@@ -72,6 +79,13 @@ class ChartPresenter
       example_result_hash: query_result.first,
       data: process_data
     }
+  end
+
+  private
+
+  def populate_row_headers_for(row)
+    @output["x"] << row["date"]
+    user_defined_headers.each { |header| @output[header] << 0 }
   end
 end
 
