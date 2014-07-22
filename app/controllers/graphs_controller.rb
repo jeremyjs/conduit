@@ -65,6 +65,18 @@ class GraphsController < ApplicationController
     end
   end
 
+  def get_headers
+    respond_to do |format|
+      if params[:type] == "int"
+        format.html { render json: Graph::INT_LIST }
+      elsif params[:type] == "kpi"
+        format.html { render json: Graph::KPI_LIST }
+      else
+        format.html { render json: Graph::HEADER_LIST }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_graph
