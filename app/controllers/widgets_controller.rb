@@ -80,7 +80,7 @@ class WidgetsController < ApplicationController
 
   def get_new_variables
     query_id = params[:id]
-    if Query.find(query_id).complete_queries.nil?
+    if Query.find(query_id).complete_queries.empty?
       variables_array = Query.find(query_id).variables
       variables = variables_array.map { |var| [var,nil] }.to_h
     else
