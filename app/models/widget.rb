@@ -83,7 +83,6 @@ class Widget < ActiveRecord::Base
             cq.variables.except(:start_time, :end_time) == self.variables.except(:start_time, :end_time)
             # If our queries match other than the date range and the new date range is a subset of the old one
             if fresh(cq.last_executed)
-              puts "Sub date fresh enoughXXX"
               result = cq.query_result.select do |row|
                 DateTime.parse(row['date']) >= DateTime.parse(self.variables[:start_time]) && DateTime.parse(row['date']) <= DateTime.parse(self.variables[:end_time])
               end
@@ -91,8 +90,6 @@ class Widget < ActiveRecord::Base
               self.last_executed = cq.last_executed
               CompleteQuery.create(query_id: self.query.id, variables: self.variables, query_result: self.query_result, last_executed: self.last_executed)
               return
-            else
-              puts "BAD SUB DATEXXX"
             end
           end
         end

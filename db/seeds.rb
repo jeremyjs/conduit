@@ -1006,7 +1006,7 @@ puts g.errors.full_messages
 t = Table.find_or_create_by(name: "Test Table", height: 4, width: 7)
 t.query_id = 3
 t.page = 1
-t.variables = {start_time: "2013-06-03 00:00:00", end_time: "2013-06-03 23:59:59", providers: "'t3uk', 'eloansuk'"}
+t.variables = {start_time: "2013-06-02 00:00:00", end_time: "2013-06-03 23:59:59", providers: "'t3uk', 'eloansuk'"}
 t.save
 puts t.errors.full_messages
 
