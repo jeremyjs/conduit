@@ -3,7 +3,7 @@ class KpiPresenter < ChartPresenter
     KPI_LIST
   end
 
-  def milk(row)
+  def milk(row, header)
     row[header].to_i
   end
 
