@@ -1,30 +1,40 @@
-.form-group
-  %label{for: "widget-page-selector-#{widget.id}"} Move to page
-  %select.widget-page-selector{id: "widget-page-selector-#{widget.id}", for_widget: widget.id, current_page: widget.page}
-    - Widget.last_page.times do |page|
-      - if page+1 == widget.page
-        %option{selected: true, value: page+1} #{page+1}
-      - else
-        %option{value: page+1} #{page+1}
+.tabs
+  %button.active{:"data-tab" => "#widget-tab-#{widget.id}"} Widget
+  %button{:"data-tab" => "#query-tab-#{widget.id}"} Query
+  - if widget.type == 'Graph'
+    %button{:"data-tab" => "#kpis-tab-#{widget.id}"} KPIs
 
-.form-group
-  %label{for: "widget-name-field-#{widget.id}"} Name
-  %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
+.tabs-content
+  .tabs-pane.active{id: "widget-tab-#{widget.id}"}
+    .form-group
+      %label{for: "widget-page-selector-#{widget.id}"} Move to page
+      %select.widget-page-selector{id: "widget-page-selector-#{widget.id}", for_widget: widget.id, current_page: widget.page}
+        - Widget.last_page.times do |page|
+          - if page+1 == widget.page
+            %option{selected: true, value: page+1} #{page+1}
+          - else
+            %option{value: page+1} #{page+1}
 
-%label{for: "widget-query-field-#{widget.id}"} Query
-%select.query-type-select{id: "widget-query-field-#{widget.id}"}
-  - Query.all.each do |query|
-    - if query.id == widget.query_id
-      %option{value: query.id, selected: true} #{query.name}
-    - else
-      %option{value: query.id} #{query.name}
+    .form-group
+      %label{for: "widget-name-field-#{widget.id}"} Name
+      %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
 
-.widget-variables-field
-  = render partial: 'widgets/variables', locals: {widget: widget, query_id: widget.query_id}
+  .tabs-pane{id: "query-tab-#{widget.id}"}
+    %label{for: "widget-query-field-#{widget.id}"} Query
+    %select.query-type-select{id: "widget-query-field-#{widget.id}"}
+      - Query.all.each do |query|
+        - if query.id == widget.query_id
+          %option{value: query.id, selected: true} #{query.name}
+        - else
+          %option{value: query.id} #{query.name}
 
-- if widget.type == 'Graph'
-  .graph-columns-field
-    = render partial: 'graphs/headers', locals: {widget: widget}
+    .widget-variables-field
+      = render partial: 'widgets/variables', locals: {widget: widget, query_id: widget.query_id}
+
+  - if widget.type == 'Graph'
+    .tabs-pane{id: "kpis-tab-#{widget.id}"}
+      .graph-columns-field
+        = render partial: 'graphs/headers', locals: {widget: widget}
 
 %input.current-query{type:'hidden', value: widget.query_id}
 %input.current-widget{type:'hidden', value: widget.id}
