@@ -5,7 +5,7 @@
       query last executed 
       %span.rotate
         #{time_ago_in_words widget[:last_executed]} ago,
-        on #{widget[:last_executed]}
+        on #{widget[:last_executed].in_time_zone('Central Time (US & Canada)')}
     %a.btn.btn-default.widget-settings-toggle
       = icon('wrench')
       Edit
