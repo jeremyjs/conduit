@@ -22,14 +22,9 @@
 .widget-variables-field
   = render partial: 'widgets/variables', locals: {widget: widget, query_id: widget.query_id}
 
-%label{for: "graph-headers-field-#{widget.id}"} Headers
-%select.query-type-select{id: "graph-headers-field-#{widget.id}"}
-  %option{value: 'default', selected: true} Default
-  %option{value: 'kpi'} KPIs
-  %option{value: 'int'} Countables
-
-.graph-columns-field
-  = render partial: 'graphs/headers', locals: {widget: widget}
+- if widget.type == 'Graph'
+  .graph-columns-field
+    = render partial: 'graphs/headers', locals: {widget: widget}
 
 %input.current-query{type:'hidden', value: widget.query_id}
 %input.current-widget{type:'hidden', value: widget.id}
