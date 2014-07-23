@@ -47,9 +47,12 @@ class WidgetsController < ApplicationController
         @widget.query = Query.find(widget_params['query_id'])
         variables = params['widget']['variables'].deep_symbolize_keys
         variables[:providers] = variables[:providers].chomp(", ")
+        display_variables = params['widget']['display_variables'].deep_symbolize_keys
+        display_variables[:kpis] = display_variables[:kpis].chomp(", ")
         @widget.variables = variables
+        @widget.display_variables = display_variables
         @widget.save
-      elsif @widget.update(widget_params.except('query_id', 'variables'))
+      elsif @widget.update(widget_params.except('query_id', 'variables', 'display_variables'))
         format.html { render nothing: true, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else

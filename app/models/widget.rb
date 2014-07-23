@@ -4,6 +4,7 @@ class Widget < ActiveRecord::Base
   validates :query, presence: true
   serialize :query_result, Array
   serialize :variables, Hash
+  serialize :display_variables, Hash
   before_save :has_changed
 
   def initialize(attributes = {})
