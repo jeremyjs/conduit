@@ -7,7 +7,7 @@ class ProviderPresenter < ChartPresenter
     kpi.first
   end
 
-  def squeeze_row(row, header = nil)
+  def extract_data(row, header = nil)
      row[kpi].to_i
   end
 end

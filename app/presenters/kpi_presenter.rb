@@ -3,7 +3,7 @@ class KpiPresenter < ChartPresenter
     KPI_LIST
   end
 
-  def squeeze_row(row, header)
+  def extract_data(row, header)
     row[header].to_i
   end
 
