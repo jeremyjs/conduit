@@ -78,9 +78,10 @@ class Widget < ActiveRecord::Base
         return
       elsif times_are_not_nil?(complete_query) &&
       time_is_a_subset_of_complete_query_time?(complete_query) &&
+      providers_are_a_subset_of_complete_query_providers?(complete_query) &&
       variables_other_than_time_match?(complete_query) &&
       fresh?(complete_query)
-        use_cached_result_with_time_subset(complete_query)
+        use_cached_result_with_subset(complete_query)
         return
       end
     end
@@ -94,9 +95,11 @@ class Widget < ActiveRecord::Base
     self.last_executed = complete_query.last_executed
   end
 
-  def use_cached_result_with_time_subset(complete_query)
+  def use_cached_result_with_subset(complete_query)
     self.query_result = complete_query.query_result.select do |row|
-      DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) && DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time])
+      DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) &&
+      DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time]) &&
+      s_to_a(variables[:providers]).include?(row['provider'])
     end
     self.last_executed = complete_query.last_executed
     CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
@@ -120,7 +123,7 @@ class Widget < ActiveRecord::Base
   end
 
   def times_are_not_nil?(complete_query)
-    variables[:start_time] && variables[:end_time]
+    variables[:start_time] && variables[:end_time] &&
     complete_query.variables[:start_time] && complete_query.variables[:end_time]
   end
 
@@ -129,8 +132,12 @@ class Widget < ActiveRecord::Base
     variables[:end_time] <= complete_query.variables[:end_time]
   end
 
+  def providers_are_a_subset_of_complete_query_providers?(complete_query)
+    subset? s_to_a(variables[:providers]), s_to_a(complete_query.variables[:providers])
+  end
+
   def variables_other_than_time_match?(complete_query)
-    complete_query.variables.except(:start_time, :end_time) == variables.except(:start_time, :end_time)
+    complete_query.variables.except(:start_time, :end_time, :providers) == variables.except(:start_time, :end_time, :providers)
   end
 
   private
