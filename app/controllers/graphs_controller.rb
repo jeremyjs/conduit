@@ -65,6 +65,12 @@ class GraphsController < ApplicationController
     end
   end
 
+  def get_headers
+    respond_to do |format|
+      format.html { render json: Graph.find(params[:id]).as_json(params[:type])[params[:type].to_sym]}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_graph

@@ -23,3 +23,4 @@
 #= require progress-bar
 #= require providers
 #= require jquery.datetimepicker
+#= require jquery.simple-text-rotator
