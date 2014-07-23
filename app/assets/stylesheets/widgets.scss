@@ -30,16 +30,20 @@
   display: inline;
 }
 
-.widget-settings-toggle {
+.panel-default > .panel-heading {
+  height: 42px;
+}
+
+.panel-heading > .btn {
   display: inline;
-  width: 50px;
+  height: 35px;
+  width: 60px;
   position: absolute;
   right: 0;
   top: 0;
   margin-right: 4px;
   margin-top: 4px;
-  padding: 5px 0 0 0;
-  height: 35px;
+  padding: 5px;
 }
 
 .panel {
