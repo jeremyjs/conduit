@@ -76,6 +76,7 @@ $ ->
     data =
       widget:
         variables: {}
+        display_variables: {}
 
     widget_fields = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
     widget_keys = getKeys(widget_fields)
@@ -96,6 +97,13 @@ $ ->
 
     for v_attr, i in variables_keys
       data.widget.variables[v_attr] = variables_values[i]
+
+    kpis = outer.find('.graph-columns-field input').map ->
+      $(this).val() if this.checked
+
+    kpis = $.makeArray(kpis).filter (s) -> s != ''
+
+    data.widget.display_variables['kpis'] = kpis
 
     $.ajax
       type: "patch"
