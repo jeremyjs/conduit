@@ -2,9 +2,12 @@
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
     %span.panel-subtitle{title: widget[:last_executed]}= "query last executed #{time_ago_in_words widget[:last_executed]} ago"
-    %a.btn.btn-default.widget-settings-toggle
+    %a.btn.btn-default.edit-widget-btn
       = icon('wrench')
       Edit
+    %a.btn.btn-default.back-widget-btn.hidden
+      = icon('arrow-left') # arrow-circle-left
+      Back
   .panel-body
     - if widget.class == Table
       = render partial: 'widgets/table', object: widget
