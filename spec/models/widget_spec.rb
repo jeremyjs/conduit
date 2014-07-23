@@ -17,8 +17,11 @@ describe Widget do
     let(:new_widget) {FactoryGirl.create(:widget)}
 
     it "is valid only when it is associated with a query" do
-      expect(new_widget.query).to_not eq(nil)
       expect(new_widget).to be_valid
+    end
+
+    it "should set a query whose id is 1" do
+      expect(new_widget.query_id).to eq(1)
     end
 
     it "should set a standard name" do
@@ -49,6 +52,7 @@ describe Widget do
 
     let(:new_query) {FactoryGirl.create(:query , command: "SELECT id FROM customers LIMIT %{number}")}
     let(:new_widget) {FactoryGirl.create(:widget , query_id: new_query.id)}
+    let(:alternate_query) {FactoryGirl.create(:query, command: "SELECT id FROM customers LIMIT 5")}
 
     it "should extract the variables from the command" do
       expect(new_widget.extract_variable_names).to eq(["number"])
@@ -64,81 +68,80 @@ describe Widget do
       expect(new_widget.variables).to eq({number: 6})
     end
 
+    it "should the update its variables hash when the command of its query has been changed" do
+      new_query.command = "SELECT id from customers LIMIT 2"
+      new_query.save
+      expect(new_widget.variables).to eq({})
+    end
+
+    it "should not execute the query if the variables do not have any values" do
+      expect(new_widget.query_result).to eq([])
+    end
+
+    it "should check for a change in variables in the before_save callback and should execute the query if all the variables have values" do
+      new_widget.variables = {number: 6}
+      new_widget.save
+      expect(new_widget.query_result.count).to eq(6)
+    end
+
+    it "should update its variables when it is assigned a different query" do
+      new_widget.query_id = alternate_query.id
+      new_widget.save
+      expect(new_widget.variables).to eq({})
+    end
+
   end
 
-  it "should receive the has_changed callback before saving and should indicate a change in the query_id when the query_id has been set" do
-    new_widget = Widget.new
-    new_widget.query_id = @w.query_id
-    expect(new_widget).to receive(:has_changed)
-    expect(new_widget.query_id_changed?).to eq(true)
-    new_widget.save
+  context 'before save callbacks' do
+
+    let(:new_query) {FactoryGirl.create(:query , command: "SELECT id FROM customers LIMIT %{number}")}
+    let(:new_widget) {FactoryGirl.create(:widget , query_id: new_query.id)}
+    let(:alternate_query) {FactoryGirl.create(:query, command: "SELECT id FROM customers LIMIT 5")}
+
+    it "should receive the update_widget callback before save when its query has been changed" do
+      new_widget.query_id = alternate_query.id
+      expect(new_widget).to receive(:update_widget)
+      expect(new_widget.query_id_changed?).to eq(true)
+      new_widget.save
+    end
+
+    it "should receive the update_widget callback before save when its variables have been changed" do
+      new_widget.variables = {number: 6}
+      expect(new_widget).to receive(:update_widget)
+      expect(new_widget.variables_changed?).to eq(true)
+      new_widget.save
+    end
+
+  end
+
+  context '#widget has_changed?' do
+
+    let(:new_query) {FactoryGirl.create(:query , command: "SELECT id FROM customers LIMIT %{number}")}
+    let(:new_widget) {FactoryGirl.create(:widget , query_id: new_query.id)}
+    let(:alternate_query) {FactoryGirl.create(:query, command: "SELECT id FROM customers LIMIT 5")}
+
+    it "should indicate a change in its query before save when its query has been changed" do
+      new_widget.query_id = alternate_query.id
+      expect(new_widget.query_id_changed?).to eq(true)
+      new_widget.save
+    end
+
+    it "should indicate a change in its variables before save when its variables have been changed" do
+      new_widget.variables = {number: 6}
+      expect(new_widget.variables_changed?).to eq(true)
+      new_widget.save
+    end
+
+  end
+
+  context '#widget query_result' do
+
   end
 
   it "should execute the result and store in the result in query_result on saving" do
     @w.variables = {customers: 6}
     @w.save
     expect(@w.query_result.count).to eq(6)
-  end
-
-  it "should execute the result and store it in query_result as an array on saving" do
-    @w.variables = {customers: 6}
-    @w.save
-    expect(@w.query_result.class).to eq(Array)
-  end
-
-  it "should not execute the query if the variables do not have any values" do
-    expect(@w.query_result).to eq([])
-  end
-
-  it "should check for a change in variables in the before_save callback and should execute the query if all the variables have values" do
-    expect(@w.query_result.count).to eq(0)
-    @w.variables = {customers: 6}
-    @w.save
-    expect(@w.query_result.count).to eq(6)
-  end
-
-  it "should update the variables hash during the before_save callback" do
-    expect(@w.variables).to eq({customers: nil})
-    @w.variables = {customers: 9}
-    @w.save
-    expect(@w.variables).to eq({customers: 9})
-  end
-
-  it "should the update its variables hash when the command of its query has been changed" do
-    expect(@w.variables).to eq({customers: nil})
-    @w.query.command = "SELECT id from customers LIMIT 2"
-    @w.save
-    expect(@w.variables).to eq({})
-  end
-
-  it "should update the command associated with itself when the command of the query has been changed" do
-    expect(@w.query.command).to eq("SELECT id FROM customers LIMIT %{customers}")
-    @query.command = @new_query.command
-    @query.save
-    w = Widget.find_by(query_id: @query.id)
-    expect(w.query.command).to eq("SELECT id FROM customers LIMIT 10")
-  end
-
-  it "should update its variables when the command of the query has been changed" do
-    expect(@w.variables).to eq({customers: nil})
-    @query.command = @new_query.command
-    @query.save
-    w = Widget.find_by(query_id: @query.id)
-    expect(w.variables).to eq({})
-  end
-
-  it "should update its variables when it is assigned a different query" do
-    expect(@w.variables).to eq({customers: nil})
-    @w.query_id = @new_query.id
-    @w.save
-    expect(@w.variables).to eq({})
-  end
-
-  it "should update the command associated with itself when it is assigned to a different query" do
-    expect(@w.query.command).to eq("SELECT id FROM customers LIMIT %{customers}")
-    @w.query_id = @new_query.id
-    @w.save
-    expect(@w.query.command).to eq("SELECT id FROM customers LIMIT 10")
   end
 
   it "should update its query_result when it is assigned a new query" do
