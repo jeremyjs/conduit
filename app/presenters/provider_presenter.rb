@@ -7,10 +7,10 @@ class ProviderPresenter < ChartPresenter
   end
 
   def kpi
-    kpi[0]
+    kpi.first
   end
 
-  def milk(row)
+  def extract_data(row, header = nil)
      row[kpi].to_i
   end
 end

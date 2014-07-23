@@ -59,7 +59,7 @@ class ChartPresenter
     query_result.sort_by! { |row| row["date"] }
     query_result.each do |row|
       populate_row_headers_for(row) if row["date"] != @output["x"][-1]
-      user_defined_headers.each { |header| @output[header][-1] += milk(row) }
+      user_defined_headers.each { |header| @output[header][-1] += extract_data(row, header) }
     end
 
     @output.values
