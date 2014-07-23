@@ -22,6 +22,10 @@
 .widget-variables-field
   = render partial: 'widgets/variables', locals: {widget: widget, query_id: widget.query_id}
 
+- if widget.type == 'Graph'
+  .graph-columns-field
+    = render partial: 'graphs/headers', locals: {widget: widget}
+
 %input.current-query{type:'hidden', value: widget.query_id}
 %input.current-widget{type:'hidden', value: widget.id}
 %ul.actions

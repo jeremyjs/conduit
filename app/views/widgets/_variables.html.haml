@@ -1,6 +1,5 @@
 - variables = (defined? new_variables) ? new_variables : widget.variables
-- unless variables.empty?
-  %span Variables
+
 - variables.each do |variable, value|
   - id = SecureRandom.urlsafe_base64(nil, false)
   .form-group

@@ -26,6 +26,11 @@ $ ->
 
   initDatePicker()
 
+  $('.rotate').textrotator
+    animation: 'flipUp'
+    separator: '|'
+    speed: 3000
+
   $('.new').click ->
     $.ajax
       type: "post"
@@ -42,7 +47,7 @@ $ ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
     $(this).toggleClass('hidden')
-    $(this).siblings().toggleClass('hidden')
+    $(this).parent().find('.back-widget-btn').toggleClass('hidden')
 
   $('.query-type-select').change ->
     query_selector = $(this)
