@@ -76,8 +76,7 @@ class Widget < ActiveRecord::Base
       elsif complete_query.variables == variables
         update_and_use_cached_query(complete_query)
         return
-      elsif times_are_not_nil? &&
-      times_are_not_nil?(complete_query) &&
+      elsif times_are_not_nil?(complete_query) &&
       time_is_a_subset_of_complete_query_time?(complete_query) &&
       variables_other_than_time_match?(complete_query) &&
       fresh?(complete_query)
@@ -142,11 +141,8 @@ class Widget < ActiveRecord::Base
     self.last_executed = Time.now
   end
 
-  def times_are_not_nil?
-    variables[:start_time] && variables[:end_time]
-  end
-
   def times_are_not_nil?(complete_query)
+    variables[:start_time] && variables[:end_time]
     complete_query.variables[:start_time] && complete_query.variables[:end_time]
   end
 
