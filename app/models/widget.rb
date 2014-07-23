@@ -17,7 +17,7 @@ class Widget < ActiveRecord::Base
   end
 
   def has_changed
-    if self.query_id_changed? || self.query.command_changed? || self.variables_changed?
+    if query_id_changed? || query.command_changed? || variables_changed?
       update_variable_hash
       execute_query
     end
@@ -44,88 +44,105 @@ class Widget < ActiveRecord::Base
     end
   end
 
-  #Remember not to call self.save since self.save is automatically called at the end of this method
-  #update_hash_variable and execute_query are the functions called in the before_save callback
-  def execute_query
-    # Do not execute a query if any variable has a nil value
-    self.variables.each do |k,v|
-      if v.nil?
-        return true
-      end
-    end
-
-    # Search through all complete_queries with a matching SQL command
-    self.query.complete_queries.each do |cq|
-      # If matching SQL and matching variables
-      if cq.variables == self.variables
-        # If "fresh" enough (last executed less than 15 minutes)
-        if fresh(cq.last_executed)
-          # Use the cached result
-          self.query_result = cq.query_result
-          self.last_executed = cq.last_executed
-          return
-        end
-        # If not fresh enough, update the cached copy and use it
-        conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-        self.query_result = conn.exec(self.query.command % self.variables).to_a
-        conn.finish
-        self.last_executed = Time.now
-        cq.query_result = self.query_result
-        cq.last_executed = self.last_executed
-        cq.save
-        return
-      else
-        # Matching query, non-matching variables
-        if not(self.variables[:start_time].nil? || self.variables[:end_time].nil? ||
-               cq.variables[:start_time].nil? || cq.variables[:end_time].nil?)
-          if self.variables[:start_time] >= cq.variables[:start_time] and
-            self.variables[:end_time] <= cq.variables[:end_time] and
-            cq.variables.except(:start_time, :end_time, :providers) == self.variables.except(:start_time, :end_time, :providers) and
-            subset?(s_to_a(self.variables[:providers]), s_to_a(cq.variables[:providers]))
-            # If our queries match other than the date range and the new date range is a subset of the old one
-            if fresh(cq.last_executed)
-              result = cq.query_result.select do |row|
-                DateTime.parse(row['date']) >= DateTime.parse(self.variables[:start_time]) and
-                  DateTime.parse(row['date']) <= DateTime.parse(self.variables[:end_time]) and
-                  s_to_a(self.variables[:providers]).include?(row['provider'])
-              end
-              self.query_result = result
-              self.last_executed = cq.last_executed
-              CompleteQuery.create(query_id: self.query.id, variables: self.variables, query_result: self.query_result, last_executed: self.last_executed)
-              return
-            end
-          end
-        end
-      end
-    end
-    # If there is no complete_query with matching SQL and variables, execute and cache the query
-    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
-    self.query_result = conn.exec(self.query.command % self.variables).to_a
-    conn.finish
-    self.last_executed = Time.now
-    CompleteQuery.create(query_id: self.query.id, variables: self.variables, query_result: self.query_result, last_executed: self.last_executed)
+  def complete_queries
+    query.complete_queries
   end
 
-
   def extract_variable_names
-    self.query.nil? ?  [] : self.query.variables
+    query ? query.variables : []
   end
 
   def update_variable_hash
     update_hash = {}
     extract_variable_names.each do |variable|
-      if self.variables[variable.to_sym].nil?
+      if variables[variable.to_sym].nil?
         update_hash[variable.to_sym] = nil
       else
-        update_hash[variable.to_sym] = self.variables[variable.to_sym]
+        update_hash[variable.to_sym] = variables[variable.to_sym]
       end
     end
     self.variables = update_hash
   end
 
+  # Remember not to call self.save since self.save is automatically called at the end of this method
+  # update_hash_variable and execute_query are the functions called in the before_save callback
+  def execute_query
+    variables.each { |_, v| return true if v.nil? }
+
+    complete_queries.each do |complete_query|
+      if complete_query.variables == variables && fresh?(complete_query)
+        use_cached_result(complete_query)
+        return
+      elsif complete_query.variables == variables
+        update_and_use_cached_query(complete_query)
+        return
+      elsif times_are_not_nil?(complete_query) &&
+      time_is_a_subset_of_complete_query_time?(complete_query) &&
+      providers_are_a_subset_of_complete_query_providers?(complete_query) &&
+      variables_other_than_time_match?(complete_query) &&
+      fresh?(complete_query)
+        use_cached_result_with_subset(complete_query)
+        return
+      end
+    end
+
+    # If there is no complete_query with matching SQL and variables, execute and cache the query
+    execute_and_cache_new_query
+  end
+
+  def use_cached_result(complete_query)
+    self.query_result = complete_query.query_result
+    self.last_executed = complete_query.last_executed
+  end
+
+  def use_cached_result_with_subset(complete_query)
+    self.query_result = complete_query.query_result.select do |row|
+      DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) &&
+      DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time]) &&
+      s_to_a(variables[:providers]).include?(row['provider'])
+    end
+    self.last_executed = complete_query.last_executed
+    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
+  end
+
+  def update_and_use_cached_query(complete_query)
+    execute_new_query
+    CompleteQuery.update(complete_query.id, query_result: query_result, last_executed: last_executed)
+  end
+
+  def execute_and_cache_new_query
+    execute_new_query
+    CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
+  end
+
+  def execute_new_query
+    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
+    self.query_result = conn.exec(query.command % variables).to_a
+    conn.finish
+    self.last_executed = Time.now
+  end
+
+  def times_are_not_nil?(complete_query)
+    variables[:start_time] && variables[:end_time] &&
+    complete_query.variables[:start_time] && complete_query.variables[:end_time]
+  end
+
+  def time_is_a_subset_of_complete_query_time?(complete_query)
+    variables[:start_time] >= complete_query.variables[:start_time] &&
+    variables[:end_time] <= complete_query.variables[:end_time]
+  end
+
+  def providers_are_a_subset_of_complete_query_providers?(complete_query)
+    subset? s_to_a(variables[:providers]), s_to_a(complete_query.variables[:providers])
+  end
+
+  def variables_other_than_time_match?(complete_query)
+    complete_query.variables.except(:start_time, :end_time, :providers) == variables.except(:start_time, :end_time, :providers)
+  end
+
   private
-  def fresh(time)
-    TimeDifference.between(time, Time.now).in_minutes < 100
+  def fresh?(complete_query)
+    TimeDifference.between(complete_query.last_executed, Time.now).in_minutes < 100
   end
 
   def subset?(smaller, larger)

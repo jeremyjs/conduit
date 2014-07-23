@@ -43,9 +43,11 @@ $ ->
       complete: ->
         location.reload()
 
-  $('.widget-settings-toggle').click ->
+  $('.panel-heading > .btn').click ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
+    $(this).toggleClass('hidden')
+    $(this).parent().find('.back-widget-btn').toggleClass('hidden')
 
   $('.query-type-select').change ->
     query_selector = $(this)
@@ -56,13 +58,13 @@ $ ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
         initDatePicker()
 
-  $('.edit-widget-btn').click ->
+  $('.save-widget-btn').click (paraM) ->
     outer = $(this).parent()
 
     getKeys = (selector) ->
       outer.find(selector).map ->
         $(this).attr('key')
-  
+
     getValues = (selector) ->
       outer.find(selector).map ->
         $(this).val()

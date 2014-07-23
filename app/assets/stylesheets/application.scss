@@ -3,6 +3,7 @@
 @import 'grid';
 @import 'c3';
 @import 'c3-override';
+@import 'helpers';
 @import 'widgets';
 @import 'navbar';
 @import 'dashboard';
@@ -25,6 +26,3 @@ body {
   padding-bottom: 40px;
 }
 
-.hidden {
-  display: none;
-}
