@@ -80,14 +80,14 @@ RSpec.describe Widget, :type => :model do
 
     context 'before save callbacks' do
 
-      it "should receive the update_widget callback before save when its query has been changed" do
+      it "should receive the update_widget callback before saving when its query has been changed" do
         new_widget.query_id = alternate_query.id
         expect(new_widget).to receive(:update_widget)
         expect(new_widget.query_id_changed?).to eq(true)
         new_widget.save
       end
 
-      it "should receive the update_widget callback before save when its variables have been changed" do
+      it "should receive the update_widget callback before saving when its variables have been changed" do
         new_widget.variables = {number: 6}
         expect(new_widget).to receive(:update_widget)
         expect(new_widget.variables_changed?).to eq(true)
