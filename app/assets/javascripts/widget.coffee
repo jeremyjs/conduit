@@ -1,4 +1,6 @@
 $ ->
+  tabby.init()
+
   initDatePicker = () ->
     $('.start_time').datetimepicker
       format: 'Y-m-d H:i:s'
@@ -44,8 +46,8 @@ $ ->
         location.reload()
 
   $('.panel-heading > .btn').click ->
-    $(this).parents().eq(2).find('.panel-body').toggle()
-    $(this).parents().eq(2).find('.panel-settings').toggle()
+    $(this).parents('.panel-default').find('.panel-body').toggle()
+    $(this).parents('.panel-default').find('.panel-settings').toggle()
     $(this).toggleClass('hidden')
     $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
@@ -59,7 +61,7 @@ $ ->
         initDatePicker()
 
   $('.save-widget-btn').click ->
-    outer = $(this).parents().eq(2)
+    outer = $(this).parents('.panel-settings')
 
     getKeys = (selector) ->
       outer.find(selector).map ->

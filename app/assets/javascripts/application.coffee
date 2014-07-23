@@ -24,3 +24,5 @@
 #= require providers
 #= require jquery.datetimepicker
 #= require jquery.simple-text-rotator
+#= require classList
+#= require tabby
