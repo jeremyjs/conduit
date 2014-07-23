@@ -24,10 +24,13 @@
 
 %input.current-query{type:'hidden', value: widget.query_id}
 %input.current-widget{type:'hidden', value: widget.id}
-%a.btn.btn-default.edit-widget-btn
-  = icon('save')
-  Save
-= link_to widget, :class => "btn btn-default delete-widget-btn", :method => :delete , :data => {:confirm => 'Are you sure?'} do
-  = icon('times')
-  Delete
+%ul.actions
+  %li.action
+    = link_to "", :class => "btn btn-default edit-widget-btn" do
+      = icon('save')
+      Save
+  %li.action
+    = link_to widget, :class => "btn btn-default delete-widget-btn", :method => :delete , :data => {:confirm => 'Are you sure?'} do
+      = icon('times')
+      Delete
 
