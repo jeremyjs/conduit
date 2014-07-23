@@ -70,11 +70,13 @@ class ChartPresenter
     {
       variables: variables,
       headers: headers,
+      udhs: user_defined_headers,
       kpis: kpis,
+      # dv: display_variables,
       providers: providers,
       query: query.name,
       id: id,
-      filters: ["bar"],
+      filters: [],
       groups: nil,
       example_result_hash: query_result.first,
       data: process_data

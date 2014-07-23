@@ -7,26 +7,43 @@
 }
 
 .actions {
-  margin-top: 10px;
-  margin-bottom: 0;
-  padding-left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   list-style: none;
+
+  .action {
+    display: block;
+    float: right;
+    margin-left: 10px;
+  }
+
+  .btn {
+    height: 35px;
+    padding: 5px;
+  }
 }
 
 .widget-title {
   display: inline;
 }
 
-.widget-settings-toggle {
+.panel-default > .panel-heading {
+  height: 42px;
+}
+
+.panel-heading > .btn {
   display: inline;
-  width: 50px;
+  height: 35px;
+  width: 60px;
   position: absolute;
   right: 0;
   top: 0;
   margin-right: 4px;
   margin-top: 4px;
-  padding: 5px 0 0 0;
-  height: 35px;
+  padding: 5px;
 }
 
 .panel {
@@ -35,7 +52,6 @@
 }
 
 .panel-body {
-  height: 100%;
   overflow: hidden;
   padding: 5px 0 5px 0;
 }
@@ -52,34 +68,10 @@
 
 .panel-settings {
   display: none;
-  height: 100%;
 }
 
 .settings {
   padding: 10px;
-
-  .btn {
-    width: 50px;
-    height: 35px;
-    padding: 5px 0 0 0;
-  }
-
-  .edit-widget-btn { 
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-
-  .delete-widget-btn{
-    position: absolute;
-    right: 0;
-    bottom :0;
-    margin-right: 70px;
-    margin-bottom: 10px;
-    width: 80px;
-  }
 
   .widget-page-selector {
     width: 50px;
@@ -94,4 +86,8 @@
     padding: 0;
     font-size: 9pt;
   }
+}
+
+.graph-headers {
+  font-size: 12px;
 }

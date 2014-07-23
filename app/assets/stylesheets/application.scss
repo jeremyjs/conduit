@@ -3,6 +3,7 @@
 @import 'grid';
 @import 'c3';
 @import 'c3-override';
+@import 'helpers';
 @import 'widgets';
 @import 'navbar';
 @import 'dashboard';
@@ -18,11 +19,10 @@
 @import 'providers';
 @import 'jquery.datetimepicker';
 @import 'jquery-ui';
+@import 'jquery.simple-text-rotator';
+@import 'simple-text-rotator-override';
 
 body {
   padding-bottom: 40px;
 }
 
-.hidden {
-  display: none;
-}

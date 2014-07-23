@@ -5,6 +5,7 @@ class Widget < ActiveRecord::Base
   serialize :query_result, Array
   serialize :variables, Hash
   before_save :update_widget
+  serialize :display_variables, Hash
 
   def initialize(attributes = {})
     super
