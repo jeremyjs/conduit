@@ -8,6 +8,8 @@ describe Widget do
     @next_query = FactoryGirl.create(:query, command: "SELECT %{id} FROM customers LIMIT %{customers}")
     @w = FactoryGirl.create(:widget, query_id: @query.id)
     @new_widget = FactoryGirl.create(:widget, query_id: @next_query.id)
+    @new_query_widget = FactoryGirl.create(:widget , query_id: @new_query.id)
+    @complete_query_first = CompleteQuery.find_by(query_id: @new_query.id)
   end
 
   it "is valid only when it is associated with a query" do
@@ -137,6 +139,54 @@ describe Widget do
     @w.save
     expect(@w.query_result.count).to eq(10)
   end
+
+  it "should use the cached result to set the query result of widget parameters which match that of the completed query" do
+    new_widget = FactoryGirl.create(:widget , query_id: @new_query.id)
+    expect(new_widget.variables).to eq(@complete_query_first.variables)
+    expect(new_widget.last_executed).to eq(@complete_query_first.last_executed)
+  end
+
+  it "should execute the query and update the cached result when completed query is not fresh" do
+    @complete_query_first.last_executed = "2014-07-22 00:00:00"
+    @complete_query_first.save
+    new_widget = FactoryGirl.create(:widget, query_id: @new_query.id)
+    complete_query = CompleteQuery.find_by(query_id: @new_query.id)
+    expect(complete_query.last_executed).to eq(new_widget.last_executed)
+    expect(complete_query.query_result).to eq(new_widget.query_result)
+  end
+
+end
+
+describe 'executing queries with conditions' do
+
+  let(:first_widget) {FactoryGirl.create(:widget , query_id: 3 , variables: {start_time: "2014-06-15 00:00:00" , end_time: "2014-06-17 00:00:00" , providers: "'t3uk', 'eloansuk'"})}
+  let(:complete_query) {CompleteQuery.last}
+
+  it "should do something" do
+   second_widget = FactoryGirl.create(:widget , query_id: first_widget.query_id)
+   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
+   expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
+   second_widget.save
+  end
+
+  it "should do something" do
+   second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
+   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk', 'eloansuk'"}
+   expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
+   second_widget.save
+  end
+
+  it "should do something" do
+   complete_query.last_executed = "2014-07-15 00:00:00"
+   complete_query.save
+   second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
+   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
+   expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
+   second_widget.save
+  end
+
+
+
 
 
 
