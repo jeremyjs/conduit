@@ -1,7 +1,5 @@
-- graph_headers = (!graph_headers.nil?) ? graph_headers : ['header1', 'header2', 'header3']
-- unless graph_headers.empty?
-  %span Graph Headers
+- graph_headers = Graph.find(widget.id).as_json('kpis')[:kpis]
 
 .graph-headers
-- graph_headers.each do |graph_header|
-  %input.graph-header{type: 'checkbox', value: graph_header}= graph_header
+  - graph_headers.each do |graph_header|
+    %input.graph-header{type: 'checkbox', value: graph_header, checked: true}= graph_header
