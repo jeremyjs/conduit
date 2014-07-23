@@ -45,30 +45,25 @@ describe Widget do
 
   end
 
+  context '#widget variables' do
 
+    let(:new_query) {FactoryGirl.create(:query , command: "SELECT id FROM customers LIMIT %{number}")}
+    let(:new_widget) {FactoryGirl.create(:widget , query_id: new_query.id)}
 
-  it "should extract the variables from the command correctly" do
-    expect(@new_widget.extract_variable_names).to eq(["id","customers"])
-  end
+    it "should extract the variables from the command" do
+      expect(new_widget.extract_variable_names).to eq(["number"])
+    end
 
-  it "sets its variables to nil when no values are specified" do
-    expect(@w.variables).to eq({customers: nil})
-  end
+    it "sets its variables to nil when no values are specified" do
+      expect(new_widget.variables).to eq({number: nil})
+    end
 
-  it "sets its variables to the values specified" do
-    @w.variables = {customers: 6}
-    @w.save
-    expect(@w.variables).to eq({customers: 6})
-  end
+    it "sets its variables to the values specified" do
+      new_widget.variables = {number: 6}
+      new_widget.save
+      expect(new_widget.variables).to eq({number: 6})
+    end
 
-  it "does not add duplicate variables to the variable hash" do
-    query = Query.new
-    query.command = "SELECT id from customers LIMIT %{customers}  ORDER BY %{customers}"
-    query.save
-    w = Widget.new
-    w.query_id = query.id
-    w.save
-    expect(w.variables).to eq({customers: nil})
   end
 
   it "should receive the has_changed callback before saving and should indicate a change in the query_id when the query_id has been set" do
