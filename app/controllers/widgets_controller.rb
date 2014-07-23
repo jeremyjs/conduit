@@ -45,14 +45,23 @@ class WidgetsController < ApplicationController
     respond_to do |format|
       if widget_params.has_key? 'query_id'
         @widget.query = Query.find(widget_params['query_id'])
-        variables = params['widget']['variables'].deep_symbolize_keys
-        variables[:providers] = variables[:providers].chomp(", ")
-        display_variables = params['widget']['display_variables'].deep_symbolize_keys
-        display_variables[:kpis] = display_variables[:kpis].chomp(", ")
+        variables = params['widget']['variables']
+        unless variables.nil?
+          variables = params['widget']['variables'].deep_symbolize_keys
+          variables[:providers] = variables[:providers].chomp(", ")
+        end
+
+        display_variables = params['widget']['display_variables']
+        unless display_variables.nil?
+          display_variables = params['widget']['display_variables'].deep_symbolize_keys
+          display_variables[:kpis] = display_variables[:kpis].chomp(", ")
+        end
+
         @widget.variables = variables
         @widget.display_variables = display_variables
         @widget.save
-      elsif @widget.update(widget_params.except('query_id', 'variables', 'display_variables'))
+      end
+      if @widget.update(widget_params.except('query_id', 'variables', 'display_variables'))
         format.html { render nothing: true, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else
@@ -103,6 +112,6 @@ class WidgetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def widget_params
-      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id)
+      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers]})
     end
 end
