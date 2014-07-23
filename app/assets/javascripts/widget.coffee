@@ -28,7 +28,7 @@ $ ->
 
   $('.rotate').textrotator
     animation: 'flipUp'
-    separator: ','
+    separator: '|'
     speed: 3000
 
   $('.new').click ->
