@@ -7,7 +7,7 @@ class ProviderPresenter < ChartPresenter
     kpi.first
   end
 
-  def milk(row, header = nil)
+  def squeeze_row(row, header = nil)
      row[kpi].to_i
   end
 end
