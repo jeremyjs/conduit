@@ -80,11 +80,14 @@ class Widget < ActiveRecord::Base
                cq.variables[:start_time].nil? || cq.variables[:end_time].nil?)
           if self.variables[:start_time] >= cq.variables[:start_time] and
             self.variables[:end_time] <= cq.variables[:end_time] and
-            cq.variables.except(:start_time, :end_time) == self.variables.except(:start_time, :end_time)
+            cq.variables.except(:start_time, :end_time, :providers) == self.variables.except(:start_time, :end_time, :providers) and
+            subset?(s_to_a(self.variables[:providers]), s_to_a(cq.variables[:providers]))
             # If our queries match other than the date range and the new date range is a subset of the old one
             if fresh(cq.last_executed)
               result = cq.query_result.select do |row|
-                DateTime.parse(row['date']) >= DateTime.parse(self.variables[:start_time]) && DateTime.parse(row['date']) <= DateTime.parse(self.variables[:end_time])
+                DateTime.parse(row['date']) >= DateTime.parse(self.variables[:start_time]) and
+                  DateTime.parse(row['date']) <= DateTime.parse(self.variables[:end_time]) and
+                  s_to_a(self.variables[:providers]).include?(row['provider'])
               end
               self.query_result = result
               self.last_executed = cq.last_executed
@@ -123,6 +126,14 @@ class Widget < ActiveRecord::Base
   private
   def fresh(time)
     TimeDifference.between(time, Time.now).in_minutes < 100
+  end
+
+  def subset?(smaller, larger)
+    (smaller-larger).empty?
+  end
+
+  def s_to_a(s)
+    s.gsub("'", "").split(", ")
   end
 
 end
