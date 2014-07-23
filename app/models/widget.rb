@@ -84,28 +84,6 @@ class Widget < ActiveRecord::Base
         return
       end
     end
-      # else
-      #   # Matching query, non-matching variables
-      #   if not(self.variables[:start_time].nil? || self.variables[:end_time].nil? ||
-      #          cq.variables[:start_time].nil? || cq.variables[:end_time].nil?)
-      #     if self.variables[:start_time] >= cq.variables[:start_time] and
-      #       self.variables[:end_time] <= cq.variables[:end_time] and
-      #       cq.variables.except(:start_time, :end_time, :providers) == self.variables.except(:start_time, :end_time, :providers) and
-      #       subset?(s_to_a(self.variables[:providers]), s_to_a(cq.variables[:providers]))
-      #       # If our queries match other than the date range and the new date range is a subset of the old one
-      #       if fresh(cq.last_executed)
-      #         result = cq.query_result.select do |row|
-      #           DateTime.parse(row['date']) >= DateTime.parse(self.variables[:start_time]) and
-      #             DateTime.parse(row['date']) <= DateTime.parse(self.variables[:end_time]) and
-      #             s_to_a(self.variables[:providers]).include?(row['provider'])
-      #         end
-      #         self.query_result = result
-      #         self.last_executed = cq.last_executed
-      #         CompleteQuery.create(query_id: self.query.id, variables: self.variables, query_result: self.query_result, last_executed: self.last_executed)
-      #         return
-      #       end
-      #     end
-      #   end
 
     # If there is no complete_query with matching SQL and variables, execute and cache the query
     execute_and_cache_new_query
