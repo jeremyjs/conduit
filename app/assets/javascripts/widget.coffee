@@ -59,7 +59,7 @@ $ ->
         initDatePicker()
 
   $('.save-widget-btn').click (paraM) ->
-    outer = $(this).parent()
+    outer = $(this).parents().eq(2)
 
     getKeys = (selector) ->
       outer.find(selector).map ->
