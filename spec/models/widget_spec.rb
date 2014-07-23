@@ -12,27 +12,40 @@ describe Widget do
     @complete_query_first = CompleteQuery.find_by(query_id: @new_query.id)
   end
 
-  it "is valid only when it is associated with a query" do
-    expect(@w).to be_valid
+  context 'when a widget is created' do
+
+    let(:new_widget) {FactoryGirl.create(:widget)}
+
+    it "is valid only when it is associated with a query" do
+      expect(new_widget.query).to_not eq(nil)
+      expect(new_widget).to be_valid
+    end
+
+    it "should set a standard name" do
+      expect(new_widget.name).to eq("Untitled Widget")
+    end
+
+    it "should set a location" do
+      expect(new_widget.row).to eq(1)
+      expect(new_widget.column).to eq(1)
+    end
+
+    it "should set its dimensions" do
+      expect(new_widget.width).to eq(7)
+      expect(new_widget.height).to eq(5)
+    end
+
+    it "should store its variables in a hash" do
+      expect(new_widget.variables.class).to eq(Hash)
+    end
+
+    it "should store its query result in an array" do
+      expect(new_widget.query_result.class).to eq(Array)
+    end
+
   end
 
-  it "should set its a standard name if it is initialised without a name" do
-    expect(@w.name).to eq("Untitled Widget")
-  end
 
-  it "should assign itself a default location of (1,1) if it is initialised without a row and column" do
-    expect(@w.row).to eq(1)
-    expect(@w.column).to eq(1)
-  end
-
-  it "should assign itself a width of 7 and a height of 5 if it is initialised without dimensions" do
-    expect(@w.width).to eq(7)
-    expect(@w.height).to eq(5)
-  end
-
-  it "should store its variables as a hash before saving" do
-    expect(@w.variables.class).to eq(Hash)
-  end
 
   it "should extract the variables from the command correctly" do
     expect(@new_widget.extract_variable_names).to eq(["id","customers"])
@@ -155,41 +168,56 @@ describe Widget do
     expect(complete_query.query_result).to eq(new_widget.query_result)
   end
 
-end
+  context 'test' do
 
-describe 'executing queries with conditions' do
+    let(:first_widget) {FactoryGirl.create(:widget , query_id: 3 , variables: {start_time: "2014-06-15 00:00:00" , end_time: "2014-06-17 00:00:00" , providers: "'t3uk', 'eloansuk'"})}
+    let(:complete_query) {CompleteQuery.last}
+    let(:second_widget) {create_second_widget}
 
-  let(:first_widget) {FactoryGirl.create(:widget , query_id: 3 , variables: {start_time: "2014-06-15 00:00:00" , end_time: "2014-06-17 00:00:00" , providers: "'t3uk', 'eloansuk'"})}
-  let(:complete_query) {CompleteQuery.last}
 
-  it "should do something" do
-   second_widget = FactoryGirl.create(:widget , query_id: first_widget.query_id)
-   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
-   expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
-   second_widget.save
+    def create_second_widget
+      second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
+      second_widget
+    end
+
+    it "should do something" do
+     second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
+     expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
+    it "should do something" do
+     second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk', 'eloansuk'"}
+     expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
+    it "should do something" do
+     complete_query.last_executed = "2014-07-15 00:00:00"
+     complete_query.save
+     second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
+     expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
+    it "should not call callback" do
+     second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'milarco'"}
+     expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
+    it "should " do
+     second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-18 23:59:59" , providers: "'milarco'"}
+     expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
+    it "should" do
+     second_widget.variables = {start_time: "2014-06-16 00:00:00"  , providers: "'milarco'"}
+     expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
+     second_widget.save
+    end
+
   end
-
-  it "should do something" do
-   second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
-   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk', 'eloansuk'"}
-   expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
-   second_widget.save
-  end
-
-  it "should do something" do
-   complete_query.last_executed = "2014-07-15 00:00:00"
-   complete_query.save
-   second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
-   second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
-   expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
-   second_widget.save
-  end
-
-
-
-
-
-
-
 
 end
