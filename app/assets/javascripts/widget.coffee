@@ -41,8 +41,6 @@ $ ->
   $('.panel-heading > .btn').click ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
-    console.log $(this)
-    console.log $(this).next()
     $(this).toggleClass('hidden')
     $(this).siblings().toggleClass('hidden')
 
@@ -91,8 +89,6 @@ $ ->
 
     for v_attr, i in variables_keys
       data.widget.variables[v_attr] = variables_values[i]
-
-    console.log paraM
 
     $.ajax
       type: "patch"
