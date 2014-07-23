@@ -26,6 +26,11 @@ $ ->
 
   initDatePicker()
 
+  $('.rotate').textrotator
+    animation: 'flipUp'
+    separator: '|'
+    speed: 3000
+
   $('.new').click ->
     $.ajax
       type: "post"
@@ -38,9 +43,11 @@ $ ->
       complete: ->
         location.reload()
 
-  $('.widget-settings-toggle').click ->
+  $('.panel-heading > .btn').click ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
+    $(this).toggleClass('hidden')
+    $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
   $('.query-type-select').change ->
     query_selector = $(this)
@@ -51,13 +58,13 @@ $ ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
         initDatePicker()
 
-  $('.edit-widget-btn').click ->
-    outer = $(this).parent()
+  $('.save-widget-btn').click ->
+    outer = $(this).parents().eq(2)
 
     getKeys = (selector) ->
       outer.find(selector).map ->
         $(this).attr('key')
-  
+
     getValues = (selector) ->
       outer.find(selector).map ->
         $(this).val()
@@ -67,6 +74,7 @@ $ ->
     data =
       widget:
         variables: {}
+        display_variables: {}
 
     widget_fields = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
     widget_keys = getKeys(widget_fields)
@@ -87,6 +95,13 @@ $ ->
 
     for v_attr, i in variables_keys
       data.widget.variables[v_attr] = variables_values[i]
+
+    kpis = outer.find('.graph-columns-field input').map ->
+      $(this).val() if this.checked
+
+    kpis = $.makeArray(kpis).filter (s) -> s != ''
+
+    data.widget.display_variables['kpis'] = kpis
 
     $.ajax
       type: "patch"

@@ -1,0 +1,5 @@
+- graph_headers = Graph.find(widget.id).as_json('kpis')[:kpis]
+
+.graph-headers
+  - graph_headers.each do |graph_header|
+    %input.graph-header{type: 'checkbox', value: graph_header, checked: true}= graph_header
