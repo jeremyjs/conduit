@@ -26,6 +26,11 @@ $ ->
 
   initDatePicker()
 
+  $('.rotate').textrotator
+    animation: 'flipUp'
+    separator: ','
+    speed: 3000
+
   $('.new').click ->
     $.ajax
       type: "post"
