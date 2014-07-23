@@ -60,7 +60,9 @@ $ ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
         initDatePicker()
 
-  $('.save-widget-btn').click ->
+  $('.save-widget-btn').click (event) ->
+    event.preventDefault()
+
     outer = $(this).parents('.panel-settings')
 
     getKeys = (selector) ->
