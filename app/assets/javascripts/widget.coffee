@@ -47,7 +47,8 @@ $ ->
     $(this).parents().eq(2).find('.panel-body').toggle()
     $(this).parents().eq(2).find('.panel-settings').toggle()
     $(this).toggleClass('hidden')
-    $(this).parent().find('.back-widget-btn').toggleClass('hidden')
+    $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
+    console.log $(this).siblings()
 
   $('.query-type-select').change ->
     query_selector = $(this)
