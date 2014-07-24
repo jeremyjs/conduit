@@ -2,4 +2,8 @@
 
 .graph-headers
   - graph_headers.each do |graph_header|
-    %input.graph-header{type: 'checkbox', value: graph_header, checked: true}= graph_header
+    %div.checkbox-group
+      %input.graph-header-input{type: 'checkbox', value: graph_header, checked: true, id: "input-#{graph_header}"}
+      %label.graph-header-label{for: "input-#{graph_header}"}
+        = graph_header
+
