@@ -4,10 +4,13 @@
 
 class KpiPresenter < ChartPresenter
   def user_defined_headers
-    KPI_LIST
+    kpis
   end
 
-  def extract_data(row, header)
-    row[header].to_i
+  def extract_data(row)
+    user_defined_headers.each do |header|
+      @output[header][-1] += row[header].to_i
+    end
   end
 end
+
