@@ -13,11 +13,11 @@ $ ->
     val.split /,\s*/
   extractLast = (term) ->
     split(term).pop()
-  availableTags = getProviders($('.brand_id').val())
+  brand_providers = getProviders($('.brand_id').val())
 
   $('.brand_id').focusout -> 
     brand = $(this).val()
-    availableTags = getProviders(brand)
+    brand_providers = getProviders(brand)
 
 
   # don't navigate away from the field on tab when selecting an item
@@ -29,7 +29,7 @@ $ ->
     source: (request, response) ->
 
       # delegate back to autocomplete, but extract the last term
-      response $.ui.autocomplete.filter(availableTags, extractLast(request.term))
+      response $.ui.autocomplete.filter(brand_providers, extractLast(request.term))
       return
 
     focus: ->
