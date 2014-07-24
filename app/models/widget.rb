@@ -159,4 +159,3 @@ class Widget < ActiveRecord::Base
   end
 
 end
-
