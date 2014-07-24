@@ -49,6 +49,10 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  def providers
+    s_to_a(variables[:providers])
+  end
+
   def complete_queries
     query.complete_queries
   end

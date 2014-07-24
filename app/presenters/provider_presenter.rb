@@ -7,10 +7,10 @@ class ProviderPresenter < ChartPresenter
   end
 
   def kpi
-    kpi.first
+    kpis.first
   end
 
   def extract_data(row, header = nil)
-     row[kpi].to_i
+    @output[row["provider"]][-1] += row[kpi].to_i
   end
 end

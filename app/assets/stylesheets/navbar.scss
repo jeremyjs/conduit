@@ -10,15 +10,30 @@ nav {
   z-index: 100;
   border-radius: 0px;
   border: none;
-  border-bottom: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #5bc0de;
   margin-bottom: 0px;
   padding-top: 2px;
 
   .navbar-right {
     .btn {
       padding: 6px;
+    }
+  }
+}
+
+.navbar-brand {
+  margin-left: 33px;
+}
+
+.menu-link {
+  position: fixed;
+  font-size: 32px;
+  color: #fff;
+  top: 1px;
+  margin-left: 10px;
+
+  a {
+    &:hover {
+      color: #fff;
     }
   }
 }

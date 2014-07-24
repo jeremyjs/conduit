@@ -29,15 +29,17 @@ toggleShowSettings = ->
   $(this).toggleClass('hidden')
   $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
-updateWidgetPage = (data) ->
+updateWidgetPage = (data, spinner, warning) ->
   $.ajax
     type: 'post'
     data: data
     url: '/widget/update_page/'
     dataType: 'json'
     complete: ->
-      location.reload()
-
+      stopSpinner = () ->
+        spinner.spin(false)
+      spinner.fadeOut(750, stopSpinner)
+      warning.fadeIn()
 
 $ ->
   tabby.init()
@@ -76,6 +78,16 @@ $ ->
     event.preventDefault()
 
     outer = $(this).parents('.panel-settings')
+    outer.addClass('ajax-disabled')
+
+    body = $(this).parents('.panel-default').find('.panel-body')
+    body.addClass('ajax-disabled')
+
+    spinner = $(this).parents('.panel-default').find('.panel-spinner')
+    warning = $(this).parents('.panel-default').find('.panel-freshness')
+    spinner.fadeIn(750)
+    spinner.spin({lines:9, length:0, width:10, radius:31, corners:1.0, trail:100})
+
     current_widget = outer.find('.current-widget').val()
 
     getKeys = (selector) ->
@@ -129,4 +141,4 @@ $ ->
         data =
           id: page_selector.attr('for_widget')
           page: page_selector.val() || page_selector.attr('current_page')
-        updateWidgetPage(data)
+        updateWidgetPage(data, spinner, warning)
