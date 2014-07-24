@@ -26,8 +26,6 @@
   $.fn.textrotator = function(options){
     var settings = $.extend({}, defaults, options);
 
-    console.log(this);
-
     return this.each(function() {
       var el = $(this);
       var array = [];
