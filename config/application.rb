@@ -25,4 +25,3 @@ module Conduit
     end
   end
 end
-

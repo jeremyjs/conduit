@@ -3,7 +3,7 @@ class AddQueryResultToWidgets < ActiveRecord::Migration
     add_column :widgets, :query_result, :text
     add_column :widgets, :variables, :text
 
-    remove_column :queries, :query_result 
+    remove_column :queries, :query_result
     remove_column :queries, :variables
   end
 end
