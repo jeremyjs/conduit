@@ -985,7 +985,7 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Query 4 graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 4
 g.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
@@ -1006,7 +1006,7 @@ g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59
 g.save
 puts g.errors.full_messages
 
-t = Table.find_or_create_by(name: "Test Table", height: 4, width: 7)
+t = Table.find_or_create_by(name: "Query 4 Table", height: 4, width: 7)
 t.query_id = 4
 t.page = 1
 t.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
