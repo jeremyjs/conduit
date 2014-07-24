@@ -83,14 +83,12 @@ RSpec.describe Widget, :type => :model do
       it "should receive the update_widget callback before saving when its query has been changed" do
         new_widget.query_id = alternate_query.id
         expect(new_widget).to receive(:update_widget)
-        expect(new_widget.query_id_changed?).to eq(true)
         new_widget.save
       end
 
       it "should receive the update_widget callback before saving when its variables have been changed" do
         new_widget.variables = {number: 6}
         expect(new_widget).to receive(:update_widget)
-        expect(new_widget.variables_changed?).to eq(true)
         new_widget.save
       end
 
@@ -100,13 +98,13 @@ RSpec.describe Widget, :type => :model do
 
       it "should indicate a change in its query before save when its query has been changed" do
         new_widget.query_id = alternate_query.id
-        expect(new_widget.query_id_changed?).to eq(true)
+        expect(new_widget.has_changed?).to be(true)
         new_widget.save
       end
 
       it "should indicate a change in its variables before save when its variables have been changed" do
         new_widget.variables = {number: 6}
-        expect(new_widget.variables_changed?).to eq(true)
+        expect(new_widget.has_changed?).to be(true)
         new_widget.save
       end
 
