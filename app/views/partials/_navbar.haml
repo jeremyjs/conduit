@@ -2,16 +2,15 @@
   .navbar-header
     = link_to "Conduit", root_path, class: "navbar-brand"
   .navbar-right
-    = link_to "Modal", "#menu", class: "menu-link navbar-brand"
     - if(current_user)
       %span.navbar-brand #{current_user.login}
-      = link_to destroy_user_session_path , :method => 'delete' , :id => 'Log Out', :class => 'btn btn-default navbar-btn' do
+      = link_to destroy_user_session_path , method: 'delete' , id: 'Log Out', class: 'btn btn-default navbar-btn' do
         = icon('sign-out')
         Sign Out
-      = link_to email_path , :id => 'Send Email' ,:class => 'btn btn-success navbar-btn' do
-        = icon('envelope-o')
-        Send Email
+      = link_to "#menu", class: 'btn btn-default navbar-btn' do
+        = icon('plus-circle')
+        Add Widget
     - else
-      = link_to new_user_session_path, :class => 'btn btn-default navbar-btn' do
+      = link_to new_user_session_path, class: 'btn btn-default navbar-btn' do
         = icon('sign-in')
         Sign In
