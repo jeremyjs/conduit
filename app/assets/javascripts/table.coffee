@@ -114,4 +114,3 @@ generateFooter = (table) ->
 @generateTables = ->
   $('.tables').each ->
     generateTable(this, 200)
-
