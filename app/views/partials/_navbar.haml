@@ -1,5 +1,7 @@
 %nav.navbar.navbar-default.navbar-conduit{role: "navigation"}
   .navbar-header
+    = link_to "#menu", class: 'menu-link' do
+      = icon('bars')
     = link_to "Conduit", root_path, class: "navbar-brand"
   .navbar-right
     - if(current_user)
@@ -7,9 +9,6 @@
       = link_to destroy_user_session_path , method: 'delete' , id: 'Log Out', class: 'btn btn-default navbar-btn' do
         = icon('sign-out')
         Sign Out
-      = link_to "#menu", class: 'menu-link btn btn-default navbar-btn' do
-        = icon('plus-circle')
-        Add Widget
     - else
       = link_to new_user_session_path, class: 'btn btn-default navbar-btn' do
         = icon('sign-in')
