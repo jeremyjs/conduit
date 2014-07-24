@@ -17,7 +17,7 @@ saveWidget = ($grid_item) ->
   width = $grid_item.attr('data-sizex')
   row = $grid_item.attr('data-row')
   column = $grid_item.attr('data-col')
-  $.ajax 
+  $.ajax
     url: "/widgets/" + id
     method: 'patch'
     commit: 'Save'
@@ -159,4 +159,3 @@ $ ->
   drawWidgets()
 
   setGridPadding()
-

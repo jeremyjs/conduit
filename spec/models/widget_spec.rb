@@ -243,5 +243,3 @@ RSpec.describe Widget, :type => :model do
   end
 
 end
-
-
