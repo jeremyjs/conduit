@@ -1,30 +1,46 @@
+initDatePicker = () ->
+  $('.start_time').datetimepicker
+    format: 'Y-m-d H:i:s'
+    formatDate: 'Y-m-d H:i:s'
+    mask: true
+    minDate: '2004-01-01 00:00:00'
+    maxDate: '+0'
+    yearStart: 2004
+    yearEnd: new Date().getFullYear()
+    onShow: (ct, field) ->
+      this.setOptions
+        maxDate: $(field).parents().eq(2).find('.end_time').val()
+
+  $('.end_time').datetimepicker
+    format: 'Y-m-d H:i:s'
+    formatDate: 'Y-m-d H:i:s'
+    mask: true
+    minDate: '2004-01-01 00:00:00'
+    maxDate: '+0'
+    yearStart: 2004
+    yearEnd: new Date().getFullYear()
+    onShow: (ct, field) ->
+      this.setOptions
+        minDate: $(field).parents().eq(2).find('.start_time').val()
+
+toggleShowSettings = ->
+  $(this).parents('.panel-default').find('.panel-body').toggle()
+  $(this).parents('.panel-default').find('.panel-settings').toggle()
+  $(this).toggleClass('hidden')
+  $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
+
+updateWidgetPage = (data) ->
+  $.ajax
+    type: 'post'
+    data: data
+    url: '/widget/update_page/'
+    dataType: 'json'
+    complete: ->
+      location.reload()
+
+
 $ ->
   tabby.init()
-
-  initDatePicker = () ->
-    $('.start_time').datetimepicker
-      format: 'Y-m-d H:i:s'
-      formatDate: 'Y-m-d H:i:s'
-      mask: true
-      minDate: '2004-01-01 00:00:00'
-      maxDate: '+0'
-      yearStart: 2004
-      yearEnd: new Date().getFullYear()
-      onShow: (ct, field) ->
-        this.setOptions
-          maxDate: $(field).parents().eq(2).find('.end_time').val()
-
-    $('.end_time').datetimepicker
-      format: 'Y-m-d H:i:s'
-      formatDate: 'Y-m-d H:i:s'
-      mask: true
-      minDate: '2004-01-01 00:00:00'
-      maxDate: '+0'
-      yearStart: 2004
-      yearEnd: new Date().getFullYear()
-      onShow: (ct, field) ->
-        this.setOptions
-          minDate: $(field).parents().eq(2).find('.start_time').val()
 
   initDatePicker()
 
@@ -35,27 +51,23 @@ $ ->
 
   $('.new').click ->
     $.ajax
-      type: "post"
+      type: 'post'
       data:
         widget:
           page: window.currentPage
           type: $(this).attr('widget_type')
-      url: "/widgets"
-      dataType: "json"
+      url: '/widgets'
+      dataType: 'json'
       complete: ->
         location.reload()
 
-  $('.panel-heading > .btn').click ->
-    $(this).parents('.panel-default').find('.panel-body').toggle()
-    $(this).parents('.panel-default').find('.panel-settings').toggle()
-    $(this).toggleClass('hidden')
-    $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
+  $('.panel-heading > .btn').click toggleShowSettings
 
   $('.query-type-select').change ->
     query_selector = $(this)
     $.ajax
-      type: "get"
-      url: "/widget_variables/"+query_selector.val()
+      type: 'get'
+      url: '/widget_variables/' + query_selector.val()
       success: (data) ->
         query_selector.parent().find('.widget-variables-field')[0].innerHTML = data
         initDatePicker()
@@ -64,6 +76,7 @@ $ ->
     event.preventDefault()
 
     outer = $(this).parents('.panel-settings')
+    current_widget = outer.find('.current-widget').val()
 
     getKeys = (selector) ->
       outer.find(selector).map ->
@@ -73,10 +86,9 @@ $ ->
       outer.find(selector).map ->
         $(this).val()
 
-    current_widget = outer.find('.current-widget').val()
-
     data =
       widget:
+        title: ''
         variables: {}
         display_variables: {}
 
@@ -100,28 +112,22 @@ $ ->
     for v_attr, i in variables_keys
       data.widget.variables[v_attr] = variables_values[i]
 
-    kpis = outer.find('.graph-columns-field input').map ->
-      $(this).val() if this.checked
+    kpis = ->
+      $kpis_checked = outer.find('.graph-columns-field input').map ->
+        $(this).val() if this.checked
+      $.makeArray($kpis_checked).filter (s) -> s != ''
 
-    kpis = $.makeArray(kpis).filter (s) -> s != ''
-
-    data.widget.display_variables['kpis'] = kpis
+    data.widget.display_variables['kpis'] = kpis()
 
     $.ajax
-      type: "patch"
+      type: 'patch'
       data: data
-      url: "/widgets/"+current_widget
-      dataType: "json"
+      url: '/widgets/' + current_widget
+      dataType: 'json'
       complete: ->
         page_selector = outer.find('.widget-page-selector')
         data =
           id: page_selector.attr('for_widget')
           page: page_selector.val() || page_selector.attr('current_page')
+        updateWidgetPage(data)
 
-        $.ajax
-          type: "post"
-          data: data
-          url: "/widget/update_page/"
-          dataType: "json"
-          complete: ->
-            location.reload()
