@@ -835,6 +835,7 @@ else 'cpl' end as lead_type
 ,t.eff_start_time::date as pricing_start_time
 ,t.eff_end_time::date as pricing_end_time
 ,type_cd as type_cd
+,c_s.received_time::date as date
 ,sub_type_cd as sub_type_cd
 ,count(c_s.received_time) AS total_sent
 ,count(distinct c_s.customer_id) AS total_unique_customer
@@ -862,14 +863,16 @@ and case when  lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','t7','t8','
 then cast(substring(c_s.group_cd from length(c_s.group_cd)) as smallint) else null end = t.tier_number
 
 where c_s.country_cd='GB'
-and c_s.incoming_brand_id <>'11'
-and c_s.received_time between '2013-01-21' and '2013-06-17'
+and c_s.incoming_brand_id = '%{brand_id}'
+and c_s.received_time between '%{start_time}' and '%{end_time}'
+and c_s.source_type_cd IN (%{providers})
 
 --and lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','1','2','3',
 --'4','5','6')
 GROUP BY
 provider
 ,tier
+,date
 ,week
 ,month
 ,lead_type
@@ -982,10 +985,11 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Query 2 Graph", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Query 4 graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 4
-g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
+g.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
+g.display_variables = {kpis: ["total_sent"]}
 g.save
 puts g.errors.full_messages
 
@@ -993,6 +997,7 @@ g = Graph.find_or_create_by(name: "Query 3 Graph", height: 4, width: 7)
 g.page = 1
 g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
+g.display_variables = {kpis: ["total_sent"]}
 g.save
 puts g.errors.full_messages
 
@@ -1000,13 +1005,14 @@ g = Graph.find_or_create_by(name: "Test Graph 3", height: 5, width: 7)
 g.page = 3
 g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk'"}
+g.display_variables = {kpis: ["total_sent"]}
 g.save
 puts g.errors.full_messages
 
-t = Table.find_or_create_by(name: "Test Table", height: 4, width: 7)
-t.query_id = 3
+t = Table.find_or_create_by(name: "Query 4 Table", height: 4, width: 7)
+t.query_id = 4
 t.page = 1
-t.variables = {start_time: "2013-06-02 00:00:00", end_time: "2013-06-03 23:59:59", providers: "'t3uk', 'eloansuk'"}
+t.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
 t.save
 puts t.errors.full_messages
 
