@@ -4,8 +4,8 @@ class Widget < ActiveRecord::Base
   validates :query, presence: true
   serialize :query_result, Array
   serialize :variables, Hash
+  before_save :update_widget
   serialize :display_variables, Hash
-  before_save :has_changed
 
   def initialize(attributes = {})
     super
@@ -17,8 +17,12 @@ class Widget < ActiveRecord::Base
     self.query_id ||= 1
   end
 
-  def has_changed
-    if query_id_changed? || query.command_changed? || variables_changed?
+  def has_changed?
+    query_id_changed? || query.command_changed? || variables_changed?
+  end
+
+  def update_widget
+    if has_changed?
       update_variable_hash
       execute_query
     end
