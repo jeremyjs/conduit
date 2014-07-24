@@ -3,7 +3,6 @@
 @import 'grid';
 @import 'c3';
 @import 'c3-override';
-@import 'helpers';
 @import 'widgets';
 @import 'navbar';
 @import 'dashboard';
@@ -15,7 +14,6 @@
 @import 'dataTables-override';
 @import 'jquery.fullPage';
 @import 'font-awesome';
-@import 'nprogress';
 @import 'providers';
 @import 'jquery.datetimepicker';
 @import 'jquery-ui';
@@ -23,6 +21,7 @@
 @import 'simple-text-rotator-override';
 @import 'tabby';
 @import 'tabby-override';
+@import 'helpers';
 
 body {
   padding-bottom: 40px;
