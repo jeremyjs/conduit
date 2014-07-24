@@ -10,12 +10,11 @@ KPI_LIST = [
 ]
 
 describe Graph do
-  before :each do
-    @g = FactoryGirl.create(:graph)
-  end
+
+  let(:g) {FactoryGril.create(:graph)}
 
   it "should have a valid to_json method" do
-    output = JSON.parse(@g.to_json)
+    output = JSON.parse(g.to_json)
     expect(output["kpis"]).to eq(KPI_LIST)
     data = output["data"].flatten
     KPI_LIST.each do |kpi|
