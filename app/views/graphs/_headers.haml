@@ -1,8 +1,11 @@
 - graph_headers = Graph.find(widget.id).as_json('kpis')[:kpis]
 
 .graph-headers
-  - graph_headers.each do |graph_header|
+  - ChartPresenter.kpi_list.each do |graph_header|
     %div.checkbox-group
-      %input.graph-header-input{type: 'checkbox', value: graph_header, checked: true, id: "input-#{graph_header}"}
+      %input.graph-header-input{type: 'checkbox',
+                                value: graph_header,
+                                checked: graph_headers.include?(graph_header),
+                                id: "input-#{graph_header}"}
       %label.graph-header-label{for: "input-#{graph_header}"}
         = graph_header
