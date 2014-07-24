@@ -26,3 +26,4 @@
 #= require jquery.simple-text-rotator
 #= require classList
 #= require tabby
+#= require jquery.spin
