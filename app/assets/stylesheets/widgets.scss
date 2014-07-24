@@ -90,6 +90,15 @@
 
 .graph-headers {
   font-size: 12px;
+
+  .graph-header-input {
+    display: inline
+  }
+
+  .graph-header-label {
+    display: inline
+  }
+
 }
 
 .panel-settings .form-group {
