@@ -80,7 +80,7 @@ $ ->
         variables: {}
         display_variables: {}
 
-    widget_fields = 'input:not(.widget-variables):not(.current-query):not(.current-widget)'
+    widget_fields = 'input.query-name'
     widget_keys = getKeys(widget_fields)
     widget_values = getValues(widget_fields)
 
