@@ -11,7 +11,7 @@ KPI_LIST = [
 
 describe Graph do
 
-  let(:g) {FactoryGril.create(:graph)}
+  let(:g) {FactoryGirl.create(:graph)}
 
   it "should have a valid to_json method" do
     output = JSON.parse(g.to_json)
