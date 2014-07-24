@@ -19,10 +19,10 @@
 #= require jquery.fullPage
 #= require bigSlide
 #= require dashboard
-#= require nprogress
-#= require progress-bar
 #= require providers
 #= require jquery.datetimepicker
 #= require jquery.simple-text-rotator
 #= require classList
 #= require tabby
+#= require spin
+#= require jquery.spin
