@@ -16,6 +16,8 @@ You can disable this behavior with this command:
 
 ```whenever --clear-crontab```
 
+## Run Cucumber and Rspec Tests
+
 To run cucumber tests , go to the conduit directory and run the
 following command:
 
