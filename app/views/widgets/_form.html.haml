@@ -17,7 +17,7 @@
 
     .form-group
       %label{for: "widget-name-field-#{widget.id}"} Name
-      %input{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
+      %input.query-name{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
 
   .tabs-pane{id: "query-tab-#{widget.id}"}
     %label{for: "widget-query-field-#{widget.id}"} Query
