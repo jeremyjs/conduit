@@ -994,14 +994,14 @@ puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Query 3 Graph", height: 4, width: 7)
 g.page = 1
-g.query_id = 4
+g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 3", height: 5, width: 7)
 g.page = 3
-g.query_id = 4
+g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk'"}
 g.save
 puts g.errors.full_messages
