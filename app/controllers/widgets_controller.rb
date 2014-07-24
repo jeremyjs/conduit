@@ -54,7 +54,7 @@ class WidgetsController < ApplicationController
         display_variables = params['widget']['display_variables']
         unless display_variables.nil?
           display_variables = params['widget']['display_variables'].deep_symbolize_keys
-          display_variables[:kpis] = display_variables[:kpis].chomp(", ")
+          display_variables[:kpis] = display_variables[:kpis]
         end
 
         @widget.variables = variables
@@ -112,6 +112,6 @@ class WidgetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def widget_params
-      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers]})
+      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers]}, {display_variables: [kpis: []]})
     end
 end
