@@ -24,19 +24,5 @@ RSpec.describe CompleteQuery, :type => :model do
       expect(completed_queries.count).to eq(1)
     end
 
-    it "should use the cached result to set the query result of widget parameters which match that of the completed query" do
-      new_widget = FactoryGirl.create(:widget , query_id: @first_query.id)
-      expect(@complete_query_first.variables).to eq(new_widget.variables)
-      expect(@complete_query_first.last_executed).to eq(new_widget.last_executed)
-    end
-
-    it "should execute the query and update the cached result when completed query is not fresh" do
-      @complete_query_first.last_executed = "2014-07-22 00:00:00"
-      @complete_query_first.save
-      new_widget = FactoryGirl.create(:widget, query_id: @first_query.id)
-      complete_query = CompleteQuery.find_by(query_id: new_widget.query_id)
-      expect(complete_query.last_executed).to eq(new_widget.last_executed)
-      expect(complete_query.query_result).to eq(new_widget.query_result)
-    end
 
 end
