@@ -49,6 +49,10 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  def providers
+    s_to_a(variables[:providers])
+  end
+
   def complete_queries
     query.complete_queries
   end
@@ -147,7 +151,7 @@ class Widget < ActiveRecord::Base
 
   private
   def fresh?(complete_query)
-    TimeDifference.between(complete_query.last_executed, Time.now).in_minutes < 100
+    TimeDifference.between(complete_query.last_executed, Time.now).in_days < 1
   end
 
   def subset?(smaller, larger)
