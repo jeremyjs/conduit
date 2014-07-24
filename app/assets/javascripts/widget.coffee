@@ -76,6 +76,9 @@ $ ->
     event.preventDefault()
 
     outer = $(this).parents('.panel-settings')
+
+    console.log $(this).parents('.panel-default').find('.panel-spinner')
+
     current_widget = outer.find('.current-widget').val()
 
     getKeys = (selector) ->
@@ -119,15 +122,15 @@ $ ->
 
     data.widget.display_variables['kpis'] = kpis()
 
-    $.ajax
-      type: 'patch'
-      data: data
-      url: '/widgets/' + current_widget
-      dataType: 'json'
-      complete: ->
-        page_selector = outer.find('.widget-page-selector')
-        data =
-          id: page_selector.attr('for_widget')
-          page: page_selector.val() || page_selector.attr('current_page')
-        updateWidgetPage(data)
+    #$.ajax
+    #  type: 'patch'
+    #  data: data
+    #  url: '/widgets/' + current_widget
+    #  dataType: 'json'
+    #  complete: ->
+    #    page_selector = outer.find('.widget-page-selector')
+    #    data =
+    #      id: page_selector.attr('for_widget')
+    #      page: page_selector.val() || page_selector.attr('current_page')
+    #    updateWidgetPage(data)
 
