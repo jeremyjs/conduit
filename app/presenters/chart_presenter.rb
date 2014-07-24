@@ -9,14 +9,6 @@ class ChartPresenter
     "not_confirmed",
     "issued"
   ]
-  KPI_LIST = [
-    "total_sent",
-    "total_sent_by_unique_customer",
-    "total_imported",
-    "applied",
-    "not_confirmed",
-    "issued"
-  ]
 
   def initialize(graph = nil)
     @graph = graph
@@ -31,11 +23,24 @@ class ChartPresenter
   end
 
   def providers
-    [ variables[:providers] ].flatten
+    [ @graph.providers ].flatten
+  end
+
+  def self.kpi_list
+    [ "total_sent",
+      "total_sent_by_unique_customer",
+      "total_imported",
+      "applied",
+      "not_confirmed",
+      "issued" ]
+  end
+
+  def kpi_list
+    ChartPresenter.kpi_list
   end
 
   def kpis
-    variables[:kpis] || KPI_LIST
+    @graph.kpis
   end
 
   def variables
@@ -54,12 +59,16 @@ class ChartPresenter
     @graph.query
   end
 
+  def display_variables
+    @graph.display_variables
+  end
+
   def process_data
     @output = Hash.new { |hash, key| hash[key] = [key] }
     query_result.sort_by! { |row| row["date"] }
     query_result.each do |row|
       populate_row_headers_for(row) if row["date"] != @output["x"][-1]
-      user_defined_headers.each { |header| @output[header][-1] += extract_data(row, header) }
+      extract_data(row)
     end
 
     @output.values
@@ -70,9 +79,9 @@ class ChartPresenter
     {
       variables: variables,
       headers: headers,
-      udhs: user_defined_headers,
+      user_defined_headers: user_defined_headers,
       kpis: kpis,
-      # dv: display_variables,
+      display_variables: display_variables,
       providers: providers,
       query: query.name,
       id: id,
@@ -90,3 +99,4 @@ class ChartPresenter
     user_defined_headers.each { |header| @output[header] << 0 }
   end
 end
+
