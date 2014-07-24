@@ -129,4 +129,3 @@
     lightness = hsl[2] - (hsl[2] * percent)
     lightness = Math.max 0.0, hsl[2]
     return @hexify @hslToRgb(hsl[0], hsl[1], lightness)
-

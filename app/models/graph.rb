@@ -9,5 +9,3 @@ class Graph < Widget
     end
   end
 end
-
-
