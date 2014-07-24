@@ -11,4 +11,3 @@ class KpiPresenter < ChartPresenter
     row[header].to_i
   end
 end
-
