@@ -1,7 +1,7 @@
-@getProviders = ->
+@getProviders = (brand_id) ->
   providers = []
   $.ajax
-    url: "/providers.json"
+    url: "/providers/#{brand_id}.json"
     async: false
     success: (response) ->
       for provider in response
@@ -13,7 +13,12 @@ $ ->
     val.split /,\s*/
   extractLast = (term) ->
     split(term).pop()
-  availableTags = getProviders()
+  availableTags = getProviders($('.brand_id').val())
+
+  $('.brand_id').focusout -> 
+    brand = $(this).val()
+    availableTags = getProviders(brand)
+
 
   # don't navigate away from the field on tab when selecting an item
   $(".providers").bind("keydown", (event) ->
