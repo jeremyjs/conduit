@@ -19,6 +19,6 @@
       = render partial: 'widgets/chart', object: widget
   .panel-settings
     = render partial: 'widgets/settings', locals: {widget: widget}
-  .panel-spinner
-  .panel-freshness
+  .panel-spinner.panel-blocker
+  .panel-freshness.panel-blocker
     %span This widget is out of date. Please refresh!
