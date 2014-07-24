@@ -8,7 +8,6 @@ describe Query do
     @second_widget = FactoryGirl.create(:widget, query_id: @query.id)
   end
 
-
   it "is valid with valid attributes" do
     expect(@query).to be_valid
   end
