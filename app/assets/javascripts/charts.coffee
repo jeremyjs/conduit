@@ -60,4 +60,3 @@
       grouped: false
   $.extend(true, c3_chart, options)
   c3.generate(c3_chart)
-

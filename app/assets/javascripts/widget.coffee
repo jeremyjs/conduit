@@ -133,4 +133,3 @@ $ ->
     #      id: page_selector.attr('for_widget')
     #      page: page_selector.val() || page_selector.attr('current_page')
     #    updateWidgetPage(data)
-
