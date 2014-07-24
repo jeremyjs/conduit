@@ -90,4 +90,3 @@ class ChartPresenter
     user_defined_headers.each { |header| @output[header] << 0 }
   end
 end
-
