@@ -8,6 +8,7 @@ describe Query do
     @second_widget = FactoryGirl.create(:widget, query_id: @query.id)
   end
 
+
   it "is valid with valid attributes" do
     expect(@query).to be_valid
   end
@@ -15,10 +16,10 @@ describe Query do
   it "should receive the has_changed callback before saving and should indicate a change in its command" do
     new_query = Query.new
     new_query.command = "SELECT id FROM customers LIMIT 5 ORDER BY id"
-    expect(new_query).to receive(:has_changed)
-    expect(new_query.command_changed?).to eq(true)
+    expect(new_query).to receive(:update_query)
+    expect(new_query.has_changed?).to eq(true)
     new_query.save
-    expect(new_query.command_changed?).to eq(false)
+    expect(new_query.has_changed?).to eq(false)
   end
 
   it "should be able to execute any command given"  do
