@@ -4,10 +4,14 @@ class Query < ActiveRecord::Base
   has_many :widgets
   has_many :complete_queries
 
-  before_save :has_changed
+  before_save :update_query
 
-  def has_changed
-    if self.command_changed?
+  def has_changed?
+    command_changed?
+  end
+
+  def update_query
+    if has_changed?
       widgets = Widget.where(query_id:  self.id)
       widgets.each do |w|
         w.query.command = self.command
