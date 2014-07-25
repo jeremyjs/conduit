@@ -16,11 +16,12 @@ namespace :conduit do
     end
     puts "End at #{Time.now}"
   end
+
   desc "Update list of providers"
   task update_providers: :environment do
     puts "Started At #{Time.now}"
     puts "Fetching list of providers..."
-    providers = Query.execute("SELECT DISTINCT source_type_cd FROM customer_sources")
+    providers = Query.execute("SELECT DISTINCT source_type_cd FROM customer_sources WHERE received_time >= '#{18.months.ago.to_s}'")
     providers.each do |p|
       Provider.find_or_create_by(name: p['source_type_cd'])
     end
