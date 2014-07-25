@@ -20,9 +20,9 @@ namespace :conduit do
   task update_providers: :environment do
     puts "Started At #{Time.now}"
     puts "Fetching list of providers..."
-    providers = Query.execute("SELECT DISTINCT source_type_cd FROM customer_sources")
+    providers = Query.execute("SELECT DISTINCT source_type_cd,incoming_brand_id FROM customer_sources")
     providers.each do |p|
-      Provider.find_or_create_by(name: p['source_type_cd'])
+      Provider.find_or_create_by(name: p['source_type_cd'], brand_id: p['incoming_brand_id'])
     end
     puts "End at #{Time.now}"
   end
