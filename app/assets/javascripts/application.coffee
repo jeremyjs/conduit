@@ -19,7 +19,6 @@
 #= require jquery.fullPage
 #= require bigSlide
 #= require dashboard
-#= require providers
 #= require jquery.datetimepicker
 #= require jquery.simple-text-rotator
 #= require classList
