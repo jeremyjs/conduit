@@ -13,10 +13,13 @@ $ ->
     val.split /,\s*/
   extractLast = (term) ->
     split(term).pop()
-  brand_providers = getProviders($('.brand_id').val())
+  dropdown = $("option:selected" , "#selected_brand")
+  brand_providers = getProviders(dropdown.val())
 
-  $('.brand_id').focusout -> 
-    brand = $(this).val()
+  $('#selected_brand').change -> 
+    selected = $("option:selected", this);
+    brand = selected.val()
+    $('.brand_id').val(brand)
     brand_providers = getProviders(brand)
 
 
