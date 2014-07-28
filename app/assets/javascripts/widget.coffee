@@ -29,22 +29,37 @@ toggleShowSettings = ->
   $(this).toggleClass('hidden')
   $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
-updateWidgetPage = (data, spinner, warning) ->
+updateProviders = (brand_id, providerSelects, whichProviderSelect) ->
   $.ajax
-    type: 'post'
-    data: data
-    url: '/widget/update_page/'
-    dataType: 'json'
-    complete: ->
-      stopSpinner = () ->
-        spinner.spin(false)
-      spinner.fadeOut(750, stopSpinner)
-      warning.fadeIn()
+    url: "/providers/#{brand_id}.json"
+    async: false
+    success: (response) ->
+      for providerSelect in providerSelects
+        if providerSelect.id == whichProviderSelect
+          currentSelectize = providerSelect.selectize
+          currentSelectize.clear()
+          currentSelectize.clearOptions()
+          for provider in response
+            currentSelectize.addOption
+              text: provider.name
+              value: provider.name
+              
+          currentSelectize.refreshOptions()
+
 
 $ ->
   tabby.init()
 
+  providerSelects = $('.providers').selectize
+    plugins: ['remove_button']
+
   initDatePicker()
+
+  $('.brand-selector').change -> 
+    brand = $(this).val()
+
+    whichProviderSelect = $(this).parents('.widget-variables-field').find('select.providers').attr('id')
+    updateProviders(brand, providerSelects, whichProviderSelect)
 
   $('.rotate').textrotator
     animation: 'flipUp'
@@ -96,10 +111,19 @@ $ ->
 
     getValues = (selector) ->
       outer.find(selector).map ->
-        $(this).val()
+        arrayToFormattedString = (previousString, currentString, index, arr) ->
+          previousString + "'" + currentString + "', "
+
+        if(typeof $(this).val() == "object")
+          $(this).val().reduce(arrayToFormattedString, "")
+        else
+          $(this).val()
+
+    page_selector = outer.find('.widget-page-selector')
 
     data =
       widget:
+        page: page_selector.val() || page_selector.attr('current_page')
         title: ''
         variables: {}
         display_variables: {}
@@ -114,7 +138,7 @@ $ ->
     else
       widget_values.push outer.find('.query-type-select').val()
 
-    variables_fields = 'input.widget-variables'
+    variables_fields = 'input.widget-variables, select.widget-variables'
     variables_keys = getKeys(variables_fields)
     variables_values = getValues(variables_fields)
 
@@ -137,8 +161,7 @@ $ ->
       url: '/widgets/' + current_widget
       dataType: 'json'
       complete: ->
-        page_selector = outer.find('.widget-page-selector')
-        data =
-          id: page_selector.attr('for_widget')
-          page: page_selector.val() || page_selector.attr('current_page')
-        updateWidgetPage(data, spinner, warning)
+        stopSpinner = () ->
+          spinner.spin(false)
+        spinner.fadeOut(750, stopSpinner)
+        warning.fadeIn()

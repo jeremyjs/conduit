@@ -22,6 +22,9 @@
 @import 'tabby';
 @import 'tabby-override';
 @import 'helpers';
+@import 'selectize';
+@import 'selectize.default';
+@import 'selectize-override';
 
 body {
   padding-bottom: 40px;

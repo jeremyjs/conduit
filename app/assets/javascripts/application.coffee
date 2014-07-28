@@ -26,3 +26,4 @@
 #= require tabby
 #= require spin
 #= require jquery.spin
+#= require selectize
