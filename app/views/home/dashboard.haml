@@ -1,5 +1,5 @@
 .fullpage.push
-  - Widget.last_page.times do |page|
+  - Widget.last_page(current_user).times do |page|
     .section{id: "page-#{page+1}"}
       = render partial: 'partials/grid', locals: {page: page+1, filtered_widgets: @widgets.where(page: page+1)}
 
