@@ -3,9 +3,14 @@
 - variables.each do |variable, value|
   - id = SecureRandom.urlsafe_base64(nil, false)
   .form-group
-    - if variables.to_s == "providers"
+    - if variable.to_s == "providers"
       %label{for: "#{variable}-#{id}"} #{variable}
-      %input.widget-variables.providers{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
+      %select.widget-variables{id: "#{variable}-#{id}", class: variable, multiple: 'multiple', key: variable}
+        - Provider.all.each do |provider|
+          - if widget.variables[:providers].include? provider.name
+            %option{value:provider.name, selected: true}= provider.name
+          - else
+            %option{value:provider.name}= provider.name
     - else
       %label{for: "#{variable}-#{id}"} #{variable}
       %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
