@@ -29,7 +29,7 @@ toggleShowSettings = ->
   $(this).toggleClass('hidden')
   $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
-getProviders = (brand_id, providerSelects, whichProviderSelect) ->
+updateProviders = (brand_id, providerSelects, whichProviderSelect) ->
   $.ajax
     url: "/providers/#{brand_id}.json"
     async: false
@@ -40,7 +40,6 @@ getProviders = (brand_id, providerSelects, whichProviderSelect) ->
           currentSelectize.clear()
           currentSelectize.clearOptions()
           for provider in response
-            console.log provider.name
             currentSelectize.addOption
               text: provider.name
               value: provider.name
@@ -60,7 +59,7 @@ $ ->
     brand = $(this).val()
 
     whichProviderSelect = $(this).parents('.widget-variables-field').find('select.providers').attr('id')
-    getProviders(brand, providerSelects, whichProviderSelect)
+    updateProviders(brand, providerSelects, whichProviderSelect)
 
   $('.rotate').textrotator
     animation: 'flipUp'
