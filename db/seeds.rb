@@ -971,6 +971,11 @@ order by provider, tier,  lead_source
 ) AS t
 }
 
+u = User.find_or_create_by(login: ENV['USER'])
+u.password = 'dummy_password'
+u.save
+puts u.errors.full_messages
+
 q = Query.find_or_create_by(command: lead_id_1210)
 puts q.errors.full_messages
 
@@ -990,6 +995,7 @@ g.page = 1
 g.query_id = 4
 g.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
 g.display_variables = {kpis: ["total_sent"]}
+g.user = u
 g.save
 puts g.errors.full_messages
 
@@ -998,6 +1004,7 @@ g.page = 1
 g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
 g.display_variables = {kpis: ["total_sent"]}
+g.user = u
 g.save
 puts g.errors.full_messages
 
@@ -1006,6 +1013,7 @@ g.page = 3
 g.query_id = 3
 g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk'"}
 g.display_variables = {kpis: ["total_sent"]}
+g.user = u
 g.save
 puts g.errors.full_messages
 
@@ -1013,6 +1021,7 @@ t = Table.find_or_create_by(name: "Query 4 Table", height: 4, width: 7)
 t.query_id = 4
 t.page = 1
 t.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
+t.user = u
 t.save
 puts t.errors.full_messages
 
@@ -1022,4 +1031,4 @@ puts p.errors.full_messages
 p = Provider.find_or_create_by(name: "t3uk")
 puts p.errors.full_messages
 
-puts "There are now #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Provider.count} providers, #{Table.count} tables, and #{Graph.count} graphs."
+puts "There are now #{User.count} users, #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Provider.count} providers, #{Table.count} tables, and #{Graph.count} graphs."

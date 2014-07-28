@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   before_filter :require_login
 
   def dashboard
-    @widgets = Widget.all
+    @widgets = current_user.widgets
   end
 
   def email
