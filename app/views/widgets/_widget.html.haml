@@ -6,9 +6,10 @@
       %span.rotate
         #{time_ago_in_words widget[:last_executed]} ago|
         on #{widget[:last_executed].in_time_zone('Central Time (US & Canada)').to_formatted_s(:long_ordinal)}
-    %a.btn.btn-default.edit-widget-btn
-      = icon('wrench')
-      Edit
+    - if current_user.has_role? :admin, widget
+      %a.btn.btn-default.edit-widget-btn
+        = icon('wrench')
+        Edit
     %a.btn.btn-default.back-widget-btn.hidden
       = icon('arrow-left') # arrow-circle-left
       Back

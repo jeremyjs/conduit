@@ -7,7 +7,11 @@
 .selectize-input.items {
   overflow:scroll;
   min-height:30px;
-  max-height:60px;
+  max-height:70px;
   width:400px;
   border-radius:0;
+}
+
+.selectize-input.items.has-item {
+  padding: 3px;
 }

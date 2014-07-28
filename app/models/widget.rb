@@ -1,5 +1,6 @@
 class Widget < ActiveRecord::Base
 
+  belongs_to :user
   belongs_to :query
   validates :query, presence: true
   serialize :query_result, Array
@@ -40,8 +41,8 @@ class Widget < ActiveRecord::Base
     all
   end
 
-  def self.last_page
-    w = Widget.order('page DESC').first
+  def self.last_page(user)
+    w = user.widgets.order('page DESC').first
     if w && w.page
       w.page
     else

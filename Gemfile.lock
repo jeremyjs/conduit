@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/RolifyCommunity/rolify.git
+  revision: f2ad6cb43ee0656246d7012706dc64950dcec221
+  specs:
+    rolify (3.5.0)
+
+GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
   revision: ee838ffc755e7c205a416870efb4f27400eb2c53
   specs:
@@ -287,6 +293,7 @@ DEPENDENCIES
   pry-byebug
   quiet_assets
   rails (= 4.1.1)
+  rolify!
   rspec-rails (>= 2.8.1)
   sass-rails (~> 4.0.3)
   selenium-webdriver (~> 2.39.0)
