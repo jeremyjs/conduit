@@ -27,6 +27,13 @@ class Query < ActiveRecord::Base
     result
   end
 
+  def execute(variables)
+    conn = PG.connect(host: AppConfig.db.host, port: AppConfig.db.port, dbname: AppConfig.db.dbname, user: AppConfig.db.user, password: AppConfig.db.password)
+    result =  conn.exec(command % variables).to_a
+    conn.finish
+    result
+  end
+
   def name
     self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
   end

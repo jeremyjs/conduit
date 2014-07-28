@@ -983,7 +983,6 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: model_lead_source_performance_06_12_2014)
 puts q.errors.full_messages
 
-
 q = Query.find_or_create_by(command: tiers_1218)
 q.save
 puts q.errors.full_messages
