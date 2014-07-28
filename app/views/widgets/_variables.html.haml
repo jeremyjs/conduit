@@ -3,9 +3,19 @@
 - variables.each do |variable, value|
   - id = SecureRandom.urlsafe_base64(nil, false)
   .form-group
-    - if variables.to_s == "providers"
-      %label{for: "#{variable}-#{id}"} #{variable}
+    - if variable.to_s == "providers"
+      %label{for: "#{variable}-#{id}"} Providers
       %input.widget-variables.providers{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
+    - elsif variable.to_s == "brand_id"
+      %label{for: "#{variable}-#{id}"} Brand
+      %select{id: "selected_brand"}
+        - if value.to_s == "2"
+          %option{value: "2"} QuickQuid
+          %option{value: "11"} Pounds to Pocket
+        - else
+          %option{value: "11"} Pounds to Pocket
+          %option{value: "2"} QuickQuid
+      %input.widget-variables.brands{type: "hidden", key: variable, value: value, id: "#{variable}-#{id}", class: variable}
     - else
-      %label{for: "#{variable}-#{id}"} #{variable}
+      %label{for: "#{variable}-#{id}"} #{variable.to_s.gsub!(/_/, ' ').capitalize}
       %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
