@@ -30,6 +30,7 @@ gem 'whenever', :require => false
 gem 'font-awesome-sass'
 gem 'figgy'
 gem 'time_difference'
+gem 'rolify', github: 'RolifyCommunity/rolify'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.8.1'
