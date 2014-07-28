@@ -1,6 +1,5 @@
 class CompleteQuery < ActiveRecord::Base
   belongs_to :query
-  has_one :total, :through => :complete_query
   serialize :query_result, Array
   serialize :variables, Hash
 
