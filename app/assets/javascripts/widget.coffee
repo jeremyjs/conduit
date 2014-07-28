@@ -44,6 +44,9 @@ updateWidgetPage = (data, spinner, warning) ->
 $ ->
   tabby.init()
 
+  $('.providers').selectize
+    plugins: ['remove_button']
+
   initDatePicker()
 
   $('.rotate').textrotator
@@ -96,7 +99,13 @@ $ ->
 
     getValues = (selector) ->
       outer.find(selector).map ->
-        $(this).val()
+        arrayToFormattedString = (previousString, currentString, index, arr) ->
+          previousString + "'" + currentString + "', "
+
+        if(typeof $(this).val() == "object")
+          $(this).val().reduce(arrayToFormattedString, "")
+        else
+          $(this).val()
 
     data =
       widget:
@@ -114,7 +123,7 @@ $ ->
     else
       widget_values.push outer.find('.query-type-select').val()
 
-    variables_fields = 'input.widget-variables'
+    variables_fields = 'input.widget-variables, select.widget-variables'
     variables_keys = getKeys(variables_fields)
     variables_values = getValues(variables_fields)
 
