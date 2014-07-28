@@ -29,25 +29,38 @@ toggleShowSettings = ->
   $(this).toggleClass('hidden')
   $(this).siblings().not('.panel-title, .panel-subtitle').toggleClass('hidden')
 
-updateWidgetPage = (data, spinner, warning) ->
+getProviders = (brand_id, providerSelects, whichProviderSelect) ->
   $.ajax
-    type: 'post'
-    data: data
-    url: '/widget/update_page/'
-    dataType: 'json'
-    complete: ->
-      stopSpinner = () ->
-        spinner.spin(false)
-      spinner.fadeOut(750, stopSpinner)
-      warning.fadeIn()
+    url: "/providers/#{brand_id}.json"
+    async: false
+    success: (response) ->
+      for providerSelect in providerSelects
+        if providerSelect.id == whichProviderSelect
+          currentSelectize = providerSelect.selectize
+          currentSelectize.clear()
+          currentSelectize.clearOptions()
+          for provider in response
+            console.log provider.name
+            currentSelectize.addOption
+              text: provider.name
+              value: provider.name
+              
+          currentSelectize.refreshOptions()
+
 
 $ ->
   tabby.init()
 
-  $('.providers').selectize
+  providerSelects = $('.providers').selectize
     plugins: ['remove_button']
 
   initDatePicker()
+
+  $('.brand-selector').change -> 
+    brand = $(this).val()
+
+    whichProviderSelect = $(this).parents('.widget-variables-field').find('select.providers').attr('id')
+    getProviders(brand, providerSelects, whichProviderSelect)
 
   $('.rotate').textrotator
     animation: 'flipUp'
