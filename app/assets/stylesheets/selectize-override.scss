@@ -15,3 +15,12 @@
 .selectize-input.items.has-item {
   padding: 3px;
 }
+
+.selectize-control.multi .selectize-input [data-value] {
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+
+.selectize-control.multi .selectize-input.has-items {
+  padding: 2px;
+}
