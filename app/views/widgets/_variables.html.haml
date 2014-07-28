@@ -13,7 +13,7 @@
             %option{value:provider.name}= provider.name
     - elsif variable.to_s == "brand_id"
       %label{for: "#{variable}-#{id}"} Brand
-      %select.brand-selector{key: variable}
+      %select.brand-selector{key: variable, id: "#{variable}-#{id}"}
         - if value.to_s == "2"
           %option{value: "2", selected:true} QuickQuid
           %option{value: "11"} Pounds to Pocket
