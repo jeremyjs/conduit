@@ -107,8 +107,11 @@ $ ->
         else
           $(this).val()
 
+    page_selector = outer.find('.widget-page-selector')
+
     data =
       widget:
+        page: page_selector.val() || page_selector.attr('current_page')
         title: ''
         variables: {}
         display_variables: {}
@@ -146,8 +149,7 @@ $ ->
       url: '/widgets/' + current_widget
       dataType: 'json'
       complete: ->
-        page_selector = outer.find('.widget-page-selector')
-        data =
-          id: page_selector.attr('for_widget')
-          page: page_selector.val() || page_selector.attr('current_page')
-        updateWidgetPage(data, spinner, warning)
+        stopSpinner = () ->
+          spinner.spin(false)
+        spinner.fadeOut(750, stopSpinner)
+        warning.fadeIn()
