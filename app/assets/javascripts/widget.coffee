@@ -124,7 +124,6 @@ $ ->
     data =
       widget:
         page: page_selector.val() || page_selector.attr('current_page')
-        title: ''
         variables: {}
         display_variables: {}
 
@@ -138,7 +137,7 @@ $ ->
     else
       widget_values.push outer.find('.query-type-select').val()
 
-    variables_fields = 'input.widget-variables, select.widget-variables'
+    variables_fields = 'input.widget-variables, select.widget-variables, select.brand-selector'
     variables_keys = getKeys(variables_fields)
     variables_values = getValues(variables_fields)
 

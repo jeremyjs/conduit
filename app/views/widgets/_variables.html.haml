@@ -6,21 +6,20 @@
     - if variable.to_s == "providers"
       %label{for: "#{variable}-#{id}"} #{variable}
       %select.widget-variables{id: "#{variable}-#{id}", class: variable, multiple: 'multiple', key: variable}
-        - Provider.all.each do |provider|
+        - Provider.all.where(brand_id: widget.variables[:brand_id]).order(:name).each do |provider|
           - if widget.variables[:providers].include? provider.name
             %option{value:provider.name, selected: true}= provider.name
           - else
             %option{value:provider.name}= provider.name
     - elsif variable.to_s == "brand_id"
       %label{for: "#{variable}-#{id}"} Brand
-      %select.brand-selector
+      %select.brand-selector{key: variable}
         - if value.to_s == "2"
           %option{value: "2", selected:true} QuickQuid
           %option{value: "11"} Pounds to Pocket
         - else
           %option{value: "2"} QuickQuid
           %option{value: "11", selected:true} Pounds to Pocket
-      %input.widget-variables.brands{type: "hidden", key: variable, value: value, id: "#{variable}-#{id}", class: variable}
     - else
       %label{for: "#{variable}-#{id}"} #{variable.to_s.gsub!(/_/, ' ').capitalize}
       %input.widget-variables{key: variable, value: value, id: "#{variable}-#{id}", class: variable}
