@@ -10,12 +10,15 @@ class Widget < ActiveRecord::Base
 
   def initialize(attributes = {})
     super
-    self.name ||= "Untitled #{self.class.to_s}"
     self.width ||= 7
     self.height ||= 5
     self.row ||= 1
     self.column ||= 1
-    self.query_id ||= 1
+    self.query_id ||= 4
+    self.page = 2
+    self.variables = {brand_id: "2", start_time: "2014-05-28 00:00:00", end_time: "2014-05-30 23:59:59", providers: "'t3uk'"}
+    self.display_variables = {kpis: ["total_sent" , "total_imported"]}
+    self.name ||= "Pitch main performance results for #{self.variables[:providers]}"
   end
 
   def has_changed?
@@ -51,7 +54,7 @@ class Widget < ActiveRecord::Base
   end
 
   def providers
-    s_to_a(variables[:providers])
+    variables[:providers] && s_to_a(variables[:providers]) || []
   end
 
   def complete_queries
@@ -80,7 +83,7 @@ class Widget < ActiveRecord::Base
     variables.each { |_, v| return true if v.nil? }
 
     complete_queries.each do |complete_query|
-      if complete_query.variables == variables && fresh?(complete_query)
+      if complete_query.variables == variables && complete_query.fresh?
         use_cached_result(complete_query)
         return
       elsif complete_query.variables == variables
@@ -90,7 +93,7 @@ class Widget < ActiveRecord::Base
       time_is_a_subset_of_complete_query_time?(complete_query) &&
       providers_are_a_subset_of_complete_query_providers?(complete_query) &&
       variables_other_than_time_match?(complete_query) &&
-      fresh?(complete_query)
+      complete_query.fresh?
         use_cached_result_with_subset(complete_query)
         return
       end
@@ -151,10 +154,6 @@ class Widget < ActiveRecord::Base
   end
 
   private
-  def fresh?(complete_query)
-    TimeDifference.between(complete_query.last_executed, Time.now).in_days < 1
-  end
-
   def subset?(smaller, larger)
     (smaller-larger).empty?
   end

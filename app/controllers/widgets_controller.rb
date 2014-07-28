@@ -25,14 +25,15 @@ class WidgetsController < ApplicationController
   # POST /widgets.json
   def create
     @widget = Widget.new(widget_params)
-
+    @widget.user_id = current_user.id
+    @widget.save
     respond_to do |format|
       if @widget.save
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully created.' }
         format.json { render :show, status: :created, location: @widget }
         format.js { render :layout => false }
       else
-        format.html { render :new }
+        format.html { redirect_to widgets_path}
         format.json { render json: @widget.errors, status: :unprocessable_entity }
         format.js { render :layout => false }
       end
