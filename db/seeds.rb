@@ -991,7 +991,7 @@ puts q.errors.full_messages
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Query 4 graph", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Leads sent by t3uk", height: 4, width: 7)
 g.page = 1
 g.query_id = 4
 g.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
@@ -1000,20 +1000,20 @@ g.user = u
 g.save
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Query 3 Graph", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Leads sent and imported by nortongbi", height: 4, width: 7)
 g.page = 1
-g.query_id = 3
-g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'t3uk'"}
-g.display_variables = {kpis: ["total_sent"]}
+g.query_id = 4
+g.variables = {brand_id: "11", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'nortongbi'"}
+g.display_variables = {kpis: ["total_sent" , "total_imported"]}
 g.user = u
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Test Graph 3", height: 5, width: 7)
 g.page = 3
-g.query_id = 3
-g.variables = {start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk'"}
-g.display_variables = {kpis: ["total_sent"]}
+g.query_id = 4
+g.variables = {brand_id: "2", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk', 't3uk'"}
+g.display_variables = {kpis: ["total_sent", "total_imported"]}
 g.user = u
 g.save
 puts g.errors.full_messages
