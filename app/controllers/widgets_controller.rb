@@ -25,14 +25,15 @@ class WidgetsController < ApplicationController
   # POST /widgets.json
   def create
     @widget = Widget.new(widget_params)
-
+    @widget.user_id = current_user.id
+    @widget.save
     respond_to do |format|
       if @widget.save
         format.html { redirect_to dashboard_path, notice: 'Widget was successfully created.' }
         format.json { render :show, status: :created, location: @widget }
         format.js { render :layout => false }
       else
-        format.html { render :new }
+        format.html { redirect_to widgets_path}
         format.json { render json: @widget.errors, status: :unprocessable_entity }
         format.js { render :layout => false }
       end
@@ -112,6 +113,6 @@ class WidgetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def widget_params
-      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers]}, {display_variables: [kpis: []]})
+      params.require(:widget).permit(:name, :row, :column, :width, :height, :page, :type, :query_id, {variables: [:start_time, :end_time, :providers, :brand_id]}, {display_variables: [kpis: []]})
     end
 end
