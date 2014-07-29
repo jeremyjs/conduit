@@ -26,6 +26,10 @@ class User < ActiveRecord::Base
     return type == "NLE" && date <= DateTime.now
   end
 
+  def self.enova_users
+    self.where("email LIKE (?)", "%@enova.com")
+  end
+
   private
   def get_ldap
     ldap_args = {}
