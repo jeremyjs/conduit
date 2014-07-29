@@ -112,7 +112,6 @@ class ChartPresenter
     else
       most_recent_start_date = Date.parse(@output["x"].last) + 1
     end
-    p most_recent_start_date
     (most_recent_start_date..date).each do |d|
       @output["x"] << d.to_s
       user_defined_headers.each { |header| @output[header] << 0 }
