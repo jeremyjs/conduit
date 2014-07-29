@@ -63,6 +63,16 @@ class ChartPresenter
     @graph.display_variables
   end
 
+  def start_time
+    variables[:start_time]
+  end
+  alias :start_date :start_time
+
+  def end_time
+    variables[:end_time]
+  end
+  alias :end_date :end_time
+
   def process_data
     @output = Hash.new { |hash, key| hash[key] = [key] }
     query_result.sort_by! { |row| row["date"] }
@@ -70,6 +80,8 @@ class ChartPresenter
       populate_row_headers_for(row) if row["date"] != @output["x"][-1]
       extract_data(row)
     end
+
+    fill_in_until_including(end_date)
 
     @output.values
   end
@@ -93,10 +105,22 @@ class ChartPresenter
   end
 
   private
+  def fill_in_until_including(date)
+    date = Date.parse(date) unless date.is_a? Date
+    if @output["x"].last == "x"
+      most_recent_start_date = Date.parse(start_time)
+    else
+      most_recent_start_date = Date.parse(@output["x"].last) + 1
+    end
+    p most_recent_start_date
+    (most_recent_start_date..date).each do |d|
+      @output["x"] << d.to_s
+      user_defined_headers.each { |header| @output[header] << 0 }
+    end
+  end
 
   def populate_row_headers_for(row)
-    @output["x"] << row["date"]
-    user_defined_headers.each { |header| @output[header] << 0 }
+    fill_in_until_including(row["date"])
   end
 end
 
