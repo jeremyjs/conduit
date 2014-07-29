@@ -3,7 +3,7 @@ $ ->
     navigation: true
     verticalCentered: false
     keyboardScrolling: false
-    normalScrollElements: '.panel-body'
+    normalScrollElements: '.panel-body, .selectize-dropdown-content, .selectize-input'
     afterLoad: (anchorLink, index) ->
       window.currentPage = index
 

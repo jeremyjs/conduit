@@ -1,0 +1,26 @@
+.selectize-control.providers {
+  position: relative;
+  display: inline;
+  width: 400px;
+}
+
+.selectize-input.items {
+  overflow:scroll;
+  min-height:30px;
+  max-height:70px;
+  width:400px;
+  border-radius:0;
+}
+
+.selectize-input.items.has-item {
+  padding: 3px;
+}
+
+.selectize-control.multi .selectize-input [data-value] {
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+
+.selectize-control.multi .selectize-input.has-items {
+  padding: 2px;
+}
