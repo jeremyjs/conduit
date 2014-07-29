@@ -2,10 +2,10 @@
   .panel-heading
     %h3.panel-title.widget-title= widget[:name]
     %span.panel-subtitle
-      query last executed
+      last updated
       %span.rotate
         #{time_ago_in_words widget[:last_executed]} ago|
-        on #{widget[:last_executed].in_time_zone('Central Time (US & Canada)').to_formatted_s(:long_ordinal)}
+        #{widget[:last_executed].in_time_zone('Central Time (US & Canada)').to_formatted_s(:long_ordinal)}
     - if current_user.has_role? :admin, widget
       %a.btn.btn-default.edit-widget-btn
         = icon('wrench')
