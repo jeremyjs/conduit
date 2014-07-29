@@ -5,29 +5,25 @@ class User < ActiveRecord::Base
   devise :ldap_authenticatable, :database_authenticatable ,  :rememberable, :trackable, :registerable, :validatable
 
   has_many :widgets
+  has_many :user_role_mappings
 
 
   before_validation(on: :create) do
     self.email ||= "#{self.login}@enova.com"
   end
 
-  def ldap_groups_to_roles
-    groups = get_ldap_groups
+  def update_roles
     self.roles = []
-    if groups.include?("CN=R&D - Dev,OU=Departments,OU=Groups,OU=CORP,DC=enova,DC=com")
-      self.add_role("admin")
+    if not self.left_company?
+      ldap_groups_to_roles
+      user_to_roles
     end
   end
 
-  def get_ldap_groups
-    ldap = get_ldap
-
-    ldap.search(
-      base:         ldap.base,
-      filter:       Net::LDAP::Filter.eq( "uid", self.login ),
-      attributes:   %w[ memberOf ],
-      return_result:true
-    ).first.memberof.to_a
+  def left_company?
+    employee_type = get_employee_type
+    (type, date) = employee_type.split('-', 2)
+    return type == "NLE" && date <= DateTime.now
   end
 
   private
@@ -45,5 +41,42 @@ class User < ActiveRecord::Base
     ldap_args[:auth] = auth
 
     ldap = Net::LDAP.new(ldap_args)
+  end
+
+  def user_to_roles
+    UserRoleMapping.where(user: self).each do |mapping|
+      self.add_role(mapping.role)
+    end
+  end
+
+  def ldap_groups_to_roles
+    groups = get_ldap_groups
+    LdapRoleMapping.all.each do |mapping|
+      if groups.include?(mapping.ldap_group)
+        self.add_role(mapping.role)
+      end
+    end
+  end
+
+  def get_ldap_groups
+    ldap = get_ldap
+
+    ldap.search(
+      base:         ldap.base,
+      filter:       Net::LDAP::Filter.eq( "uid", self.login ),
+      attributes:   %w[ memberOf ],
+      return_result:true
+    ).first.memberof.to_a
+  end
+
+  def get_employee_type
+    ldap = get_ldap
+
+    ldap.search(
+      base:         ldap.base,
+      filter:       Net::LDAP::Filter.eq( "uid", self.login ),
+      attributes:   %w[ employeeType ],
+      return_result:true
+    ).first.employeeType.first
   end
 end
