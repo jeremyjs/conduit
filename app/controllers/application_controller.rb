@@ -11,4 +11,8 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
       devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:login, :email, :password, :password_confirmation) }
   end
+
+  Warden::Manager.after_authentication do |user,auth,opts|
+    user.ldap_groups_to_roles
+  end
 end
