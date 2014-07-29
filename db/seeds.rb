@@ -973,7 +973,6 @@ order by provider, tier,  lead_source
 
 u = User.find_or_create_by(login: ENV['USER'])
 u.password = 'dummy_password'
-u.add_role :admin
 u.save
 puts u.errors.full_messages
 
