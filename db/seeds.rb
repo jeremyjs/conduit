@@ -976,6 +976,12 @@ u.password = 'dummy_password'
 u.save
 puts u.errors.full_messages
 
+lrm = LdapRoleMapping.find_or_create_by(ldap_group: "CN=R&D - Dev,OU=Departments,OU=Groups,OU=CORP,DC=enova,DC=com", role: "admin")
+puts lrm.errors.full_messages
+
+urm = UserRoleMapping.find_or_create_by(user: u, role: "super")
+puts urm.errors.full_messages
+
 q = Query.find_or_create_by(command: lead_id_1210)
 puts q.errors.full_messages
 

@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
   end
 
   Warden::Manager.after_authentication do |user,auth,opts|
-    user.ldap_groups_to_roles
+    user.update_roles
   end
+
+  Warden::Manager.after_set_user do |user, auth, opts|
+    if user.left_company?
+      auth.logout
+      throw(:warden, :message => "User is no longer employed")
+  end
+end
 end
