@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :queries
 
 
+  get '/users', to: 'users#index'
   get '/widget_variables/:id', to: 'widgets#get_new_variables'
   get '/graph_headers/:id/:type', to: 'graphs#get_headers'
   post '/widget/update_page', to: 'widgets#update_page'
