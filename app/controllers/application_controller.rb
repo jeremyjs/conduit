@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   Warden::Manager.after_set_user do |user, auth, opts|
-    if user.left_company?
+    if user.email.end_with?('@enova.com') && user.left_company?
       auth.logout
       throw(:warden, :message => "User is no longer employed")
   end
