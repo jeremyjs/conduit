@@ -14,8 +14,12 @@ class User < ActiveRecord::Base
 
   def update_roles
     self.roles = []
-    if not self.left_company?
-      ldap_groups_to_roles
+    if self.email.end_with?('@enova.com')
+      if not self.left_company?
+        ldap_groups_to_roles
+        user_to_roles
+      end
+    else
       user_to_roles
     end
   end
