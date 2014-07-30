@@ -1,0 +1,10 @@
+%h1 Listing Users
+
+%ul
+  - @non_enova_users.each do |user|
+    %li
+      = "#{user.email} - #{user.last_sign_in_at}"
+      - @roles.each do |role|
+        = label_tag "#{role.name}-#{user.id}", role.name
+        = check_box_tag "#{role.name}-#{user.id}", role.name, user.roles.include?(role), user: user.email
+      = button_tag(type: 'button') { "Save" }
