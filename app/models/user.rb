@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
     results = ldap.search(
       base:         'ou=groups,ou=corp,dc=enova,dc=com',
-      filter:       Net::LDAP::Filter.eq('objectClass', 'organizationalUnit'),
+      filter:       Net::LDAP::Filter.eq('objectclass', 'group'),
       attributes:   %w[ distinguishedName ],
       return_result:true
     )
