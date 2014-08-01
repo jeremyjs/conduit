@@ -5,8 +5,14 @@ GIT
     rolify (3.5.0)
 
 GIT
+  remote: git://github.com/nhandler/net-ldap-0.3.1-patched.git
+  revision: 020d92f72be8ce2c81fd44a04930704c9a2f7e7d
+  specs:
+    net-ldap (0.3.1)
+
+GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: 258b2f14dc7d5778186ec2140f24dc16aca81a56
+  revision: 724f21145fa764da38db8f7cdc270b9af0859a6e
   specs:
     jquery-datatables-rails (2.1.10.0.4)
       jquery-rails
@@ -153,7 +159,6 @@ GEM
     minitest (5.4.0)
     multi_json (1.10.1)
     multi_test (0.1.1)
-    net-ldap (0.3.1)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
@@ -287,7 +292,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   launchy
-  net-ldap (~> 0.3.1)
+  net-ldap!
   pg
   pry
   pry-byebug
