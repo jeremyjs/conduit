@@ -10,7 +10,7 @@
 
 =button_tag 'Map', type: 'button'
 
-= form_tag '/sadf' do 
+= form_tag '/add_user', remote: true do 
   .form-group
     = label_tag "email"
     = email_field_tag "email", nil, id: "sign_up_email"
