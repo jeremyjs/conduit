@@ -73,6 +73,15 @@ $ ->
         widget:
           page: window.currentPage
           type: $(this).attr('widget_type')
+          name: $(this).attr('widget_name')
+          variables:
+            brand_id: $(this).attr('widget_brand_id')
+            start_time: $(this).attr('widget_start_time')
+            end_time: $(this).attr('widget_end_time')
+            providers: $(this).attr('widget_providers')
+          display_variables:
+            if ($(this).attr('widget_type') == "Graph") then kpis: $(this).attr('widget_kpis').split(",") else null
+          query_id: $(this).attr('widget_query_id')
       url: '/widgets'
       dataType: 'json'
       complete: ->
