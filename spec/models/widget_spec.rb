@@ -16,10 +16,6 @@ RSpec.describe Widget, :type => :model do
         expect(new_widget.query_id).to eq(1)
       end
 
-      it "should set a standard name" do
-        expect(new_widget.name).to eq("Pitch main performance results for 't3uk'")
-      end
-
       it "should set a location" do
         expect(new_widget.row).to eq(1)
         expect(new_widget.column).to eq(1)
@@ -201,19 +197,19 @@ RSpec.describe Widget, :type => :model do
         second_widget
       end
 
-      it "should do something" do
+      it "should use the cached result when the dates and providers are a subset" do
        second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
        expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
        second_widget.save
       end
 
-      it "should do something" do
+      it "should use the cached result when the dates are a subset" do
        second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk', 'eloansuk'"}
        expect(second_widget).to receive(:use_cached_result_with_subset).with(complete_query)
        second_widget.save
       end
 
-      it "should do something" do
+      it "should not use the cached result  when the completed query is not fresh" do
        complete_query.last_executed = "2014-07-15 00:00:00"
        complete_query.save
        second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'t3uk'"}
@@ -221,19 +217,19 @@ RSpec.describe Widget, :type => :model do
        second_widget.save
       end
 
-      it "should not call callback" do
+      it "should not use the cached result when the providers don't match " do
        second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-16 23:59:59" , providers: "'milarco'"}
        expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
        second_widget.save
       end
 
-      it "should " do
+      it "should not use the cached result when the date is not a subset" do
        second_widget.variables = {start_time: "2014-06-16 00:00:00" , end_time: "2014-06-18 23:59:59" , providers: "'milarco'"}
        expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
        second_widget.save
       end
 
-      it "should" do
+      it "should not use the cached result when the variables do not match" do
        second_widget.variables = {start_time: "2014-06-16 00:00:00"  , providers: "'milarco'"}
        expect(second_widget).to_not receive(:use_cached_result_with_subset).with(complete_query)
        second_widget.save
