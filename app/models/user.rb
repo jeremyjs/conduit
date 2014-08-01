@@ -34,8 +34,25 @@ class User < ActiveRecord::Base
     self.where("email LIKE (?)", "%@enova.com")
   end
 
+  def self.get_all_ldap_groups
+    ldap = User.get_ldap
+
+    results = ldap.search(
+      base:         'ou=groups,ou=corp,dc=enova,dc=com',
+      filter:       Net::LDAP::Filter.eq('objectclass', 'group'),
+      attributes:   %w[ distinguishedName ],
+      return_result:true
+    )
+
+    groups = []
+    results.each do |result|
+      groups << result.distinguishedname.first
+    end
+    return groups
+  end
+
   private
-  def get_ldap
+  def self.get_ldap
     ldap_args = {}
     ldap_args[:host] = 'adds.enova.com'
     ldap_args[:base] = 'ou=users,ou=corp,dc=enova,dc=com'
@@ -67,7 +84,7 @@ class User < ActiveRecord::Base
   end
 
   def get_ldap_groups
-    ldap = get_ldap
+    ldap = User.get_ldap
 
     ldap.search(
       base:         ldap.base,
@@ -78,7 +95,7 @@ class User < ActiveRecord::Base
   end
 
   def get_employee_type
-    ldap = get_ldap
+    ldap = User.get_ldap
 
     ldap.search(
       base:         ldap.base,
