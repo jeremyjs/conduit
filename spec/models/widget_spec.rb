@@ -17,7 +17,7 @@ RSpec.describe Widget, :type => :model do
       end
 
       it "should set a standard name" do
-        expect(new_widget.name).to eq("Untitled Widget")
+        expect(new_widget.name).to eq("Pitch main performance results for 't3uk'")
       end
 
       it "should set a location" do
@@ -197,7 +197,7 @@ RSpec.describe Widget, :type => :model do
 
 
       def create_second_widget
-        second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id)
+        second_widget = FactoryGirl.create(:widget, query_id: first_widget.query_id, variables: {})
         second_widget
       end
 
