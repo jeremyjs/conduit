@@ -976,10 +976,10 @@ u.password = 'dummy_password'
 u.save
 puts u.errors.full_messages
 
-lrm = LdapRoleMapping.find_or_create_by(ldap_group: "CN=R&D - Dev,OU=Departments,OU=Groups,OU=CORP,DC=enova,DC=com", role: "admin")
+lrm = LdapRoleMapping.find_or_create_by(ldap_group: "CN=R&D - Dev,OU=Departments,OU=Groups,OU=CORP,DC=enova,DC=com", role: "super")
 puts lrm.errors.full_messages
 
-urm = UserRoleMapping.find_or_create_by(user: u, role: "super")
+urm = UserRoleMapping.find_or_create_by(user: u, role: "admin")
 puts urm.errors.full_messages
 
 q = Query.find_or_create_by(command: lead_id_1210)
@@ -1030,10 +1030,16 @@ t.user = u
 t.save
 puts t.errors.full_messages
 
-p = Provider.find_or_create_by(name: "eloansuk")
+p = Provider.find_or_create_by(name: "eloansuk", brand_id: "2")
 puts p.errors.full_messages
 
-p = Provider.find_or_create_by(name: "t3uk")
+p = Provider.find_or_create_by(name: "t3uk", brand_id: "2")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "nortongbi", brand_id: "11")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "eloansgbi", brand_id: "11")
 puts p.errors.full_messages
 
 puts "There are now #{User.count} users, #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Provider.count} providers, #{Table.count} tables, and #{Graph.count} graphs."
