@@ -27,3 +27,4 @@
 #= require jquery.spin
 #= require selectize
 #= require ldap
+#= require users
