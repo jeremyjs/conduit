@@ -6,8 +6,6 @@ $ ->
       data:
         ldap_group: $("#ldap-group-select").val()
         role: $("#role-select").val()
-      complete: (response) ->
-        console.log response
   
   $('#map_users').click ->
     mappings = {}
