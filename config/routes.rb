@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   get '/providers/:brand', to: 'providers#providers_by_brand'
   get '/groups', to: 'ldap#index'
   post '/add_user', to: 'users#add_user'
+  post '/ldap_role_mappings', to: 'ldap#create'
+  patch '/user_role_mappings', to: 'users#update_mappings'
+  delete '/delete_user', to: 'users#destroy'
+  delete '/delete_ldap_mapping', to: 'ldap#destroy'
 end
