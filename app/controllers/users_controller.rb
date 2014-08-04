@@ -23,10 +23,11 @@ class UsersController < ApplicationController
     params['mappings'].each do |email, roles|
       puts "adding to #{email}"
       @user = User.find_by(email: email)
-      @user.roles = []
+      UserRoleMapping.where(user_id: @user.id).destroy_all
       roles.each do |role_name|
         unless role_name == 'nil'
           @user.add_role role_name.to_sym
+          UserRoleMapping.find_or_create_by(user_id: @user.id, role: role_name)
         end
       end
     end
