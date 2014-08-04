@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   get '/providers', to: 'providers#index'
   get '/providers/:brand', to: 'providers#providers_by_brand'
   get '/groups', to: 'ldap#index'
+  post '/add_user', to: 'users#add_user'
 end

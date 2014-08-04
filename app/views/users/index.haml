@@ -1,3 +1,34 @@
+%label{for: '#ldap-group-select'} LDAP Group
+%select.ldap-groups#ldap-group-select
+  - User.get_all_ldap_groups.each do |ldap_group|
+    %option{value:ldap_group}= /CN=(.*?),/.match(ldap_group)[1]
+
+%label{for: '#role-select'} Role
+%select.role-select#role-select
+  - Role.all.each do |role|
+    %option{value:role}= role.name
+
+=button_tag 'Map', type: 'button'
+
+= form_tag '/add_user', remote: true do 
+  .form-group
+    = label_tag "email"
+    = email_field_tag "email", nil, id: "sign_up_email"
+
+  .form-group
+    = label_tag "login"
+    = text_field_tag "login", nil, id: "sign_up_username"
+  
+  .form-group
+    = label_tag "password"
+    = password_field_tag "password", nil, id: "sign_up_password"
+
+  .form-group
+    = label_tag "password_confirmation"
+    = password_field_tag "password_confirmation", nil, id: "sign_up_confirm"
+
+  = submit_tag
+
 %h1 Listing Users
 
 %ul
