@@ -71,7 +71,6 @@ $ ->
       type: 'post'
       data:
         widget:
-          page: window.currentPage
           type: $(this).attr('widget_type')
           name: $(this).attr('widget_name')
           variables:
@@ -128,11 +127,8 @@ $ ->
         else
           $(this).val()
 
-    page_selector = outer.find('.widget-page-selector')
-
     data =
       widget:
-        page: page_selector.val() || page_selector.attr('current_page')
         variables: {}
         display_variables: {}
 

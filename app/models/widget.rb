@@ -15,7 +15,6 @@ class Widget < ActiveRecord::Base
     self.row ||= 1
     self.column ||= 1
     self.query_id ||= 4
-    self.page ||= 2
     self.variables ||= {brand_id: "2", start_time: "2014-05-28 00:00:00", end_time: "2014-05-30 23:59:59", providers: "'t3uk'"}
     self.display_variables ||= {kpis: [ "total_imported"]}
     self.name ||= "Pitch main performance results for #{self.variables[:providers]}"
@@ -42,15 +41,6 @@ class Widget < ActiveRecord::Base
       all << desc.all
     end
     all
-  end
-
-  def self.last_page(user)
-    w = user.widgets.order('page DESC').first
-    if w && w.page
-      w.page
-    else
-      1
-    end
   end
 
   def providers
