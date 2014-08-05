@@ -49,7 +49,7 @@ class WidgetsController < ApplicationController
         variables = params['widget']['variables']
         unless variables.nil?
           variables = params['widget']['variables'].deep_symbolize_keys
-          variables[:providers] = variables[:providers].chomp(", ")
+          variables[:providers] = formatted_providers(variables[:providers])
         end
 
         display_variables = params['widget']['display_variables']
@@ -106,6 +106,13 @@ class WidgetsController < ApplicationController
   end
 
   private
+    def formatted_providers(providers)
+      if providers.tr(" \n\t", "") == "*"
+        Provider.all_providers(@widget.brand)
+      else
+        providers.chomp(", ")
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_widget
       @widget = Widget.find(params[:id])
