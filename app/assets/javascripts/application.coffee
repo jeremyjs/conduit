@@ -28,3 +28,6 @@
 #= require selectize
 #= require ldap
 #= require users
+#= require codemirror
+#= require codemirror/modes/sql
+#= require query

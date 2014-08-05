@@ -25,6 +25,9 @@
 @import 'selectize';
 @import 'selectize.default';
 @import 'selectize-override';
+@import 'codemirror';
+@import 'codemirror/themes/neo';
+@import 'query';
 
 body {
   padding-bottom: 40px;
