@@ -71,6 +71,8 @@ GEM
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
+    codemirror-rails (4.4)
+      railties (>= 3.0, < 5)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -274,6 +276,7 @@ DEPENDENCIES
   activeresource
   bootstrap-sass
   capybara (>= 1.1.2)
+  codemirror-rails
   coffee-rails (~> 4.0.0)
   cucumber-rails (>= 1.2.1)
   database_cleaner
