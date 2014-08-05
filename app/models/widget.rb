@@ -62,7 +62,7 @@ class Widget < ActiveRecord::Base
   end
 
   def extract_variable_names
-    query ? query.variables : []
+    query ? query.get_required_variables : []
   end
 
   def update_variable_hash
@@ -151,6 +151,10 @@ class Widget < ActiveRecord::Base
 
   def variables_other_than_time_match?(complete_query)
     complete_query.variables.except(:start_time, :end_time, :providers) == variables.except(:start_time, :end_time, :providers)
+  end
+
+  def brand
+    variables[:brand_id]
   end
 
   private

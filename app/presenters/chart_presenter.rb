@@ -86,6 +86,16 @@ class ChartPresenter
     @output.values
   end
 
+  def totals
+    @totals = Hash.new { 0 }
+    query_result.each { |row| extract_kpis(row) }
+    @totals
+  end
+
+  def extract_kpis(row)
+    kpis.each { |kpi| @totals[kpi] += row[kpi].to_i }
+  end
+
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
   def to_json
     {
@@ -100,7 +110,8 @@ class ChartPresenter
       filters: [],
       groups: nil,
       example_result_hash: query_result.first,
-      data: process_data
+      data: process_data,
+      totals: totals
     }
   end
 
