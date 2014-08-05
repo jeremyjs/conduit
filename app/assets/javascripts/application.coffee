@@ -30,5 +30,4 @@
 #= require users
 #= require codemirror
 #= require codemirror/modes/sql
-#= require codemirror/keymaps/vim
 #= require query
