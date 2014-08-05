@@ -1,7 +1,9 @@
 %p#notice= notice
+%h1
+  = @query.name
 %p
   %strong Command:
-  = @query.command
+  = text_area_tag 'query_show_command', @query.command
 = link_to 'Edit', edit_query_path(@query)
 |
 \#{link_to 'Back', queries_path}
