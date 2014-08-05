@@ -89,12 +89,12 @@ class ChartPresenter
 
   def totals
     @totals = Hash.new { 0 }
-    total_result.each { |row| extract_kpis(row) }
+    query_result.each { |row| extract_kpis(row) }
     @totals
   end
 
   def extract_kpis(row)
-    kpis.each { |kpi| @totals[kpi] += row[kpi] }
+    kpis.each { |kpi| @totals[kpi] += row[kpi].to_i }
   end
 
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]

@@ -58,7 +58,7 @@ class Widget < ActiveRecord::Base
   end
 
   def extract_variable_names
-    query ? query.variables : []
+    query ? query.get_required_variables : []
   end
 
   def update_variable_hash
