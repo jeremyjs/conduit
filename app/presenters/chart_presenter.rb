@@ -75,8 +75,9 @@ class ChartPresenter
 
   def process_data
     @output = Hash.new { |hash, key| hash[key] = [key] }
-    query_result.sort_by! { |row| row["date"] }
-    query_result.each do |row|
+    selected_provider_data = query_result.select { |row| providers.include? row[provider] }
+    selected_provider_data.sort_by! { |row| row["date"] }
+    selected_provider_data.each do |row|
       populate_row_headers_for(row) if row["date"] != @output["x"][-1]
       extract_data(row)
     end
