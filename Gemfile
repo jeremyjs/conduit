@@ -31,6 +31,7 @@ gem 'font-awesome-sass'
 gem 'figgy'
 gem 'time_difference'
 gem 'rolify', github: 'RolifyCommunity/rolify'
+gem 'codemirror-rails'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.8.1'
