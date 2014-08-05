@@ -884,6 +884,97 @@ provider
 order by provider, tier
 }
 
+pitch_main_query_backup_0211_all_providers = %{
+--pitch_main_query_backup_0211_all_providers
+--Query: Pitch_Main_Query_skhodukin.sql
+--Update QQ Leads queries to no longer double-count issued loans for customers imported from >1 provider
+--Owner: MGreen
+--Written by: Skhodukin
+--11/26/2012
+--Acunote: https://acunote.cashnetusa.com/projects/5251/tasks/611100
+
+drop table if exists temp_lead_pricing;
+
+select l.lead_seller_name
+,l.id as lead_seller_id
+,t.tier_number
+,t.cutoff
+,t.price
+,v.approved_on as eff_start_time
+,case when v2.approved_on is null then current_timestamp else v2.approved_on end as eff_end_time
+into temp temp_lead_pricing
+from lead_sellers l
+left outer join lead_seller_versions v on v.lead_seller_id = l.id
+and v.approved_on is not null
+left outer join lead_seller_versions v2 on v2.id = (select min(id) from lead_seller_versions
+where lead_seller_id = l.id
+and id > v.id
+and approved_on is not null)
+left outer join lead_seller_tiers t on t.lead_seller_version_id = v.id
+order by l.lead_seller_name, v.approved_on, t.tier_number;
+
+
+SELECT
+CASE WHEN (c_s.group_cd is null) or substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9')
+THEN c_s.source_type_cd ELSE c_s.group_cd END as provider
+,CASE when substring(c_s.group_cd from length(c_s.group_cd)) in ('1','2','3','4','5','6','7','8','9')
+then c_s.group_cd ELSE 'other' END AS tier
+,case when (c_s.source_type_cd like '%%cpf%%') then 'cpf'
+else 'cpl' end as lead_type
+,extract(week from c_s.received_time)as week
+,extract(month from c_s.received_time)as month
+,t.price
+,t.eff_start_time::date as pricing_start_time
+,t.eff_end_time::date as pricing_end_time
+,type_cd as type_cd
+,c_s.received_time::date as date
+,sub_type_cd as sub_type_cd
+,count(c_s.received_time) AS total_sent
+,count(distinct c_s.customer_id) AS total_unique_customer
+,count(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import')
+THEN c_s.customer_id ELSE null END) AS total_imported
+,count(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import')
+--AND c_s.confirmed_on IS NOT NULL
+AND l.created_on IS NOT NULL THEN c_s.id ELSE null END) AS applied
+,count(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer', 'lead_reject_import')
+AND c_s.confirmed_on IS NULL THEN c_s.id ELSE null END) AS NOT_confirmed
+,count(distinct CASE WHEN c_s.type_cd IN ('import','pass_active_customer','lead_reject_import')
+and l.status_cd not in ('declined','withdrawn','applied','on_hold')
+AND l.created_on IS NOT NULL THEN c_s.id ELSE null END ) AS issued
+
+FROM customer_sources c_s
+left outer join customers c on c.id=c_s.customer_id
+left outer join loans l on c_s.id = l.customer_source_id and l.customer_source_link_type_id is not null
+and l.customer_id = c.id
+--left outer join loans l ON l.id = (SELECT max(id) FROM loans ll
+-- WHERE c.id = ll.customer_id
+-- AND ll.requested_time between c_s.received_time and c_s.received_time + interval '3 day')
+left outer join temp_lead_pricing t on t.lead_seller_name = c_s.source_type_cd
+and c_s.received_time >= t.eff_start_time and c_s.received_time <= t.eff_end_time
+and case when  lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','t7','t8','t9','1','2','3','4','5','6','7','8','9')
+then cast(substring(c_s.group_cd from length(c_s.group_cd)) as smallint) else null end = t.tier_number
+
+where c_s.country_cd='GB'
+and c_s.incoming_brand_id = '%{brand_id}'
+and c_s.received_time between '%{start_time}' and '%{end_time}'
+
+--and lower(c_s.group_cd) in ('t1','t2','t3','t4','t5','t6','1','2','3',
+--'4','5','6')
+GROUP BY
+provider
+,tier
+,date
+,week
+,month
+,lead_type
+,t.price
+,type_cd
+,sub_type_cd
+,t.eff_start_time
+,t.eff_end_time
+order by provider, tier
+}
+
 tiers_1218 = %{
 --tiers_1218
 --Query: Tiers_0514_smurzin.sql
@@ -989,11 +1080,25 @@ q = Query.find_or_create_by(command: model_lead_source_performance_06_12_2014)
 puts q.errors.full_messages
 
 q = Query.find_or_create_by(command: tiers_1218)
-q.save
 puts q.errors.full_messages
 
 q = Query.find_or_create_by(command: pitch_main_query_backup_0211)
 puts q.errors.full_messages
+
+q = Query.find_or_create_by(command: pitch_main_query_backup_0211_all_providers)
+puts q.errors.full_messages
+
+p = Provider.find_or_create_by(name: "eloansuk", brand_id: "2")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "t3uk", brand_id: "2")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "nortongbi", brand_id: "11")
+puts p.errors.full_messages
+
+p = Provider.find_or_create_by(name: "eloansgbi", brand_id: "11")
+puts p.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Leads sent by t3uk", height: 4, width: 7)
 g.page = 1
@@ -1029,17 +1134,5 @@ t.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013
 t.user = u
 t.save
 puts t.errors.full_messages
-
-p = Provider.find_or_create_by(name: "eloansuk", brand_id: "2")
-puts p.errors.full_messages
-
-p = Provider.find_or_create_by(name: "t3uk", brand_id: "2")
-puts p.errors.full_messages
-
-p = Provider.find_or_create_by(name: "nortongbi", brand_id: "11")
-puts p.errors.full_messages
-
-p = Provider.find_or_create_by(name: "eloansgbi", brand_id: "11")
-puts p.errors.full_messages
 
 puts "There are now #{User.count} users, #{Widget.count} widgets, #{Query.count} queries, #{CompleteQuery.count} complete_queries, #{Provider.count} providers, #{Table.count} tables, and #{Graph.count} graphs."

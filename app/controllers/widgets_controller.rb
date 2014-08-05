@@ -49,7 +49,7 @@ class WidgetsController < ApplicationController
         variables = params['widget']['variables']
         unless variables.nil?
           variables = params['widget']['variables'].deep_symbolize_keys
-          variables[:providers] = variables[:providers].chomp(", ")
+          variables[:providers] = formatted_providers(variables[:providers])
         end
 
         display_variables = params['widget']['display_variables']
@@ -97,7 +97,7 @@ class WidgetsController < ApplicationController
       variables_array = Query.find(query_id).variables
       variables = variables_array.map { |var| [var,nil] }.to_h
     else
-      variables = Query.find(query_id).complete_queries.order(last_executed: :desc).first.variables
+      variables = Query.find(query_id).complete_queries.order(last_executed: :desc).first.get_required_variables
     end
     respond_to do |format|
       format.html { render partial: 'widgets/variables', locals: {new_variables: variables} }
@@ -106,6 +106,13 @@ class WidgetsController < ApplicationController
   end
 
   private
+    def formatted_providers(providers)
+      if providers.tr(" \n\t", "") == "*"
+        Provider.all_providers(@widget.brand)
+      else
+        providers.chomp(", ")
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_widget
       @widget = Widget.find(params[:id])

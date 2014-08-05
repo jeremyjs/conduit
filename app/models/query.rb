@@ -6,6 +6,11 @@ class Query < ActiveRecord::Base
 
   before_save :update_query
 
+  def initialize(attrs = {})
+    super
+    self.name ||= self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
+  end
+
   def has_changed?
     command_changed?
   end
@@ -34,11 +39,7 @@ class Query < ActiveRecord::Base
     result
   end
 
-  def name
-    self.command.gsub(/^$\n/, '').gsub(/^\s*--\s*/, '').lines.first.chomp
-  end
-
-  def variables
+  def get_required_variables
     self.command.scan(/\%{(.*?)}/).flatten
   end
 end
