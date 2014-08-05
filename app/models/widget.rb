@@ -153,6 +153,10 @@ class Widget < ActiveRecord::Base
     complete_query.variables.except(:start_time, :end_time, :providers) == variables.except(:start_time, :end_time, :providers)
   end
 
+  def brand
+    variables[:brand_id]
+  end
+
   private
   def subset?(smaller, larger)
     (smaller-larger).empty?
