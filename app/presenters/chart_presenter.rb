@@ -15,15 +15,11 @@ class ChartPresenter
   end
 
   def headers
-    if query_result && query_result.first
-      query_result.first.keys
-    else
-      []
-    end
+    query_result.first ? query_result.first.keys : []
   end
 
   def providers
-    [ @graph.providers ].flatten
+    [ @graph.display_providers ].flatten
   end
 
   def self.kpi_list
@@ -52,7 +48,7 @@ class ChartPresenter
   end
 
   def query_result
-    @graph.query_result
+    @graph.query_result || []
   end
 
   def query
@@ -73,7 +69,7 @@ class ChartPresenter
   end
   alias :end_date :end_time
 
-  def process_data
+  def formatted_query_results
     @output = Hash.new { |hash, key| hash[key] = [key] }
     selected_provider_data = query_result.select { |row| providers.include? row[provider] }
     selected_provider_data.sort_by! { |row| row["date"] }
@@ -111,7 +107,7 @@ class ChartPresenter
       filters: [],
       groups: nil,
       example_result_hash: query_result.first,
-      data: process_data,
+      data: formatted_query_results,
       totals: totals
     }
   end
