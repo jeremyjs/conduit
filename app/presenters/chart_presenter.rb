@@ -100,6 +100,7 @@ class ChartPresenter
       headers: headers,
       user_defined_headers: user_defined_headers,
       kpis: kpis,
+      meh: group_daily(query_result),
       display_variables: display_variables,
       providers: providers,
       query: query.name,
@@ -128,6 +129,18 @@ class ChartPresenter
 
   def populate_row_headers_for(row)
     fill_in_until_including(row["date"])
+  end
+
+  def group_daily(rows)
+    rows.group_by_day(:date)
+  end
+
+  def group_weekly(rows)
+    rows.group_by_week(:date)
+  end
+
+  def group_biweekly(rows)
+    rows.group_by_week(:date)
   end
 end
 
