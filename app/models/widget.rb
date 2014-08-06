@@ -26,7 +26,6 @@ class Widget < ActiveRecord::Base
       kpis: ["total_sent"],
       providers: ["t3uk"]
     }
-
     self.name ||= "Pitch main performance results for #{self.variables[:providers]}"
   end
 
@@ -51,15 +50,6 @@ class Widget < ActiveRecord::Base
       all << desc.all
     end
     all
-  end
-
-  def self.last_page(user)
-    w = user.widgets.order('page DESC').first
-    if w && w.page
-      w.page
-    else
-      1
-    end
   end
 
   def complete_queries
