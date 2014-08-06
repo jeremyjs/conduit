@@ -9,11 +9,6 @@ class Table < Widget
   end
   alias :display_providers :query_providers
 
-  def execute_new_query
-    variables[:providers] = display_variables[:providers]
-    execute_new_query(variables)
-  end
-
   def as_json(options)
     {
       id: id,
