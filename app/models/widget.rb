@@ -81,7 +81,6 @@ class Widget < ActiveRecord::Base
         return
       elsif times_are_not_nil?(complete_query) &&
       time_is_a_subset_of_complete_query_time?(complete_query) &&
-      providers_are_a_subset_of_complete_query_providers?(complete_query) &&
       variables_other_than_time_match?(complete_query) &&
       complete_query.fresh?
         use_cached_result_with_subset(complete_query)
@@ -89,7 +88,7 @@ class Widget < ActiveRecord::Base
       end
     end
 
-    # If there is no complete_query with matching SQL and variables, execute and cache the query
+    # If there is no complete_query with matching SQL and variables
     execute_and_cache_new_query
   end
 
@@ -101,8 +100,7 @@ class Widget < ActiveRecord::Base
   def use_cached_result_with_subset(complete_query)
     self.query_result = complete_query.query_result.select do |row|
       DateTime.parse(row['date']) >= DateTime.parse(variables[:start_time]) &&
-      DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time]) &&
-      s_to_a(variables[:providers]).include?(row['provider'])
+      DateTime.parse(row['date']) <= DateTime.parse(variables[:end_time])
     end
     self.last_executed = complete_query.last_executed
     CompleteQuery.create(query_id: query.id, variables: variables, query_result: query_result, last_executed: last_executed)
@@ -135,12 +133,8 @@ class Widget < ActiveRecord::Base
     variables[:end_time] <= complete_query.variables[:end_time]
   end
 
-  def providers_are_a_subset_of_complete_query_providers?(complete_query)
-    subset? s_to_a(variables[:providers]), s_to_a(complete_query.variables[:providers])
-  end
-
   def variables_other_than_time_match?(complete_query)
-    complete_query.variables.except(:start_time, :end_time, :providers) == variables.except(:start_time, :end_time, :providers)
+    complete_query.variables.except(:start_time, :end_time) == variables.except(:start_time, :end_time)
   end
 
   def brand
