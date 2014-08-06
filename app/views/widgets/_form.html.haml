@@ -7,15 +7,6 @@
 .tabs-content
   .tabs-pane.active{id: "widget-tab-#{widget.id}"}
     .form-group
-      %label{for: "widget-page-selector-#{widget.id}"} Move to page
-      %select.widget-page-selector{id: "widget-page-selector-#{widget.id}", for_widget: widget.id, current_page: widget.page}
-        - Widget.last_page(current_user).times do |page|
-          - if page+1 == widget.page
-            %option{selected: true, value: page+1} #{page+1}
-          - else
-            %option{value: page+1} #{page+1}
-
-    .form-group
       %label{for: "widget-name-field-#{widget.id}"} Name
       %input.query-name{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
 
