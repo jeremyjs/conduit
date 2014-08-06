@@ -49,12 +49,12 @@ class WidgetsController < ApplicationController
         variables = params['widget']['variables']
         unless variables.nil?
           variables = params['widget']['variables'].deep_symbolize_keys
-          variables[:providers] = formatted_providers(variables[:providers])
         end
 
         display_variables = params['widget']['display_variables']
         unless display_variables.nil?
           display_variables = params['widget']['display_variables'].deep_symbolize_keys
+          display_variables[:providers] = formatted_providers(display_variables[:providers])
           display_variables[:kpis] = display_variables[:kpis]
         end
 

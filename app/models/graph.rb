@@ -1,6 +1,14 @@
 class Graph < Widget
   belongs_to :query
 
+  def display_providers
+    display_variables[:providers] || []
+  end
+
+  def query_providers
+    Provider.all_providers(brand)
+  end
+
   def kpis
     display_variables[:kpis] || []
   end
