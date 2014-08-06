@@ -1108,7 +1108,7 @@ g.user = u
 g.save
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Leads sent and imported by nortongbi", height: 4, width: 7)
+g = Graph.find_or_create_by(name: "Leads sent/imported by nortongbi", height: 4, width: 7)
 g.query_id = 4
 g.variables = {brand_id: "11", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'nortongbi'"}
 g.display_variables = {kpis: ["total_sent" , "total_imported"]}
@@ -1116,7 +1116,7 @@ g.user = u
 g.save
 puts g.errors.full_messages
 
-g = Graph.find_or_create_by(name: "Comparing t3uk and eloansuk on total sent volume", height: 5, width: 7)
+g = Graph.find_or_create_by(name: "Comparing t3uk/eloansuk on total sent", height: 5, width: 7)
 g.query_id = 4
 g.variables = {brand_id: "2", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk', 't3uk'"}
 g.display_variables = {kpis: ["total_sent"]}
