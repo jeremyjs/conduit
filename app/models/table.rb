@@ -1,13 +1,16 @@
 class Table < Widget
 
-  def initialize(attributes = {})
-    self.display_variables[:providers] = attributes[:providers]
+  def update_as_a_child
+    self.variables[:providers] = self.display_variables[:providers]
   end
 
   def display_providers
     display_variables[:providers]
   end
-  alias :display_providers :query_providers
+
+  def query_providers
+    display_providers
+  end
 
   def as_json(options)
     {

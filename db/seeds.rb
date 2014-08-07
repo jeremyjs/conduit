@@ -1102,31 +1102,32 @@ puts p.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Leads sent by t3uk", height: 4, width: 7)
 g.query_id = 4
-g.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
-g.display_variables = {kpis: ["total_sent"]}
+g.variables = { brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59" }
+g.display_variables = { kpis: ["total_sent"], providers: "'t3uk'" }
 g.user = u
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Leads sent/imported by nortongbi", height: 4, width: 7)
 g.query_id = 4
-g.variables = {brand_id: "11", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'nortongbi'"}
-g.display_variables = {kpis: ["total_sent" , "total_imported"]}
+g.variables = { brand_id: "11", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59" }
+g.display_variables = { kpis: ["total_sent" , "total_imported"], providers: "'nortongbi'" }
 g.user = u
 g.save
 puts g.errors.full_messages
 
 g = Graph.find_or_create_by(name: "Comparing t3uk/eloansuk on total sent", height: 5, width: 7)
 g.query_id = 4
-g.variables = {brand_id: "2", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59", providers: "'eloansuk', 't3uk'"}
-g.display_variables = {kpis: ["total_sent"]}
+g.variables = { brand_id: "2", start_time: "2013-05-26 00:00:00", end_time: "2013-06-02 23:59:59" }
+g.display_variables = { kpis: ["total_sent"], providers: "'eloansuk', 't3uk'" }
 g.user = u
 g.save
 puts g.errors.full_messages
 
 t = Table.find_or_create_by(name: "Pitch Main Performance for t3uk", height: 4, width: 7)
 t.query_id = 4
-t.variables = {brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59", providers: "'t3uk'"}
+t.variables = { brand_id: "2", start_time: "2013-05-28 00:00:00", end_time: "2013-05-30 23:59:59"}
+t.display_variables = { providers: "'t3uk'" }
 t.user = u
 t.save
 puts t.errors.full_messages

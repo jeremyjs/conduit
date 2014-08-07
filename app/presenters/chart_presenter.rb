@@ -19,7 +19,7 @@ class ChartPresenter
   end
 
   def providers
-    [ @graph.display_providers ].flatten
+    [ Widget.s_to_a(@graph.display_providers) ].flatten
   end
 
   def self.kpi_list
@@ -69,6 +69,14 @@ class ChartPresenter
   end
   alias :end_date :end_time
 
+  def first_date
+    Date.parse(start_date)
+  end
+
+  def last_date
+    Date.parse(end_date)
+  end
+
   def formatted_query_results
     @output = Hash.new { |hash, key| hash[key] = [key] }
     selected_provider_data = query_result.select { |row| providers.include? row["provider"] }
@@ -100,13 +108,10 @@ class ChartPresenter
       headers: headers,
       user_defined_headers: user_defined_headers,
       kpis: kpis,
-      meh: group_daily(query_result),
+      weekly: group_weekly(formatted_query_results),
       display_variables: display_variables,
       providers: providers,
       query: query.name,
-      id: id,
-      filters: [],
-      groups: nil,
       example_result_hash: query_result.first,
       data: formatted_query_results,
       totals: totals
@@ -131,16 +136,67 @@ class ChartPresenter
     fill_in_until_including(row["date"])
   end
 
-  def group_daily(rows)
-    rows.group_by_day(:date)
-  end
+  def group_weekly(input)
+    # initialize_grouping
+    @interval = 7 # days
+    rows = input
+    date_row = rows.shift
+    headers = rows.map { |row| row.shift }
+    new_date_row = ["x"]
+    new_rows = []
 
-  def group_weekly(rows)
-    rows.group_by_week(:date)
+    (0..num_intervals).each do |new_date_index|
+      new_date_row << formatted_date_label(new_date_index)
+    end
+
+    return new_date_row
+
+    rows.each_with_index do |row, i|
+      new_rows << [headers[i+1]]
+      (1...new_date_row.length).each do |new_date_index|
+        new_rows.last << row_sum(row, new_date_index)
+      end
+      new_rows.last << end_row_sum(row)
+    end
+    new_rows.unshift new_date_row
+    new_rows
   end
 
   def group_biweekly(rows)
     rows.group_by_week(:date)
+  end
+
+  def group_monthly(rows)
+    rows.group_by_week(:date)
+  end
+
+  def num_intervals
+    ((last_date - first_date) / @interval).to_i
+  end
+
+  def first_date_range
+  end
+
+  def row_sum(row, new_date_index)
+    row_segment = row[(new_date_index * @interval)...(new_date_index * (@interval + 1))]
+    row_segment = row[(num_intervals * @interval)..-1] if new_date_index > num_intervals
+
+    row_segment.inject{ |sum, v| sum + v.to_i }
+  end
+
+  def formatted_date_label(new_date_index)
+    first_date_in_interval, second_date_in_interval = nearest_calendar_week(first_date + new_date_index * @interval)
+    first_date_in_interval = first_date if new_date_index == 0
+    second_date_in_interval = last_date if new_date_index == num_intervals
+
+    formatted_first_date  = first_date_in_interval.strftime("%-m/%-d")
+    formatted_second_date = second_date_in_interval.strftime("%-m/%-d")
+
+    "#{formatted_first_date} - #{formatted_second_date}"
+  end
+
+  def nearest_calendar_week(date)
+    [date.beginning_of_week, date.beginning_of_week + 6]
   end
 end
 
