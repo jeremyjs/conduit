@@ -9,6 +9,9 @@
     .form-group
       %label{for: "widget-name-field-#{widget.id}"} Name
       %input.query-name{id: "widget-name-field-#{widget.id}", key: "name", value: widget.name}
+    .form-group
+      = label_tag "user-select", "Copy Widget to User"
+      = select_tag "user-select", options_from_collection_for_select(User.all, "email", "email"), class: 'user-selects', include_blank: true, key: 'user'
 
   .tabs-pane{id: "query-tab-#{widget.id}"}
     %label{for: "widget-query-field-#{widget.id}"} Query
@@ -36,5 +39,5 @@
       Save
   %li.action
     = link_to widget, :class => "btn btn-default delete-widget-btn", :method => :delete , :data => {:confirm => 'Are you sure?'} do
-      = icon('times')
+      = icon('trash-o')
       Delete
