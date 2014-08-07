@@ -66,7 +66,6 @@ class WidgetsController < ApplicationController
         email = params['widget']['user']
         if not email.empty?
           user = User.find_by(email: email)
-          puts "Copying Widget to #{user.email}"
           copy = @widget.dup
           copy.user = user
           copy.save
