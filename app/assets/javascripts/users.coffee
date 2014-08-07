@@ -6,7 +6,7 @@ $ ->
       data:
         ldap_group: $("#ldap-group-select").val()
         role: $("#role-select").val()
-  
+
   $('#map_users').click ->
     mappings = {}
     $('#list_of_users>li>input').each ->
@@ -18,7 +18,7 @@ $ ->
     $.ajax
       type: 'patch'
       url: '/user_role_mappings'
-      data: 
+      data:
         mappings: mappings
 
   $('.delete_user').click ->
@@ -27,9 +27,9 @@ $ ->
       $.ajax
         type: 'delete'
         url: '/delete_user'
-        data: 
+        data:
           email: email
-  
+
   $('.delete_mapping').click ->
     mapping_id = $(this).parent().find('.ldap-mapping-group').attr('mapping_id')
     if confirm('Are you sure you want to delete this LDAP mapping?')

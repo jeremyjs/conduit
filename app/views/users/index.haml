@@ -1,51 +1,69 @@
-%label{for: '#ldap-group-select'} LDAP Group
-%select.ldap-groups#ldap-group-select
-  - @ldap_groups.each do |ldap_group|
-    %option{value:ldap_group}= /CN=(.*?),/.match(ldap_group)[1]
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title Create Non-Enova User
+  .panel-body
+    = form_tag '/add_user', remote: true do
+      .form-group
+        = label_tag "email"
+        = email_field_tag "email", nil, id: "sign_up_email", class: 'form-control'
 
-%label{for: '#role-select'} Role
-%select.role-select#role-select
-  - @roles.each do |role|
-    %option{value:role.name}= role.name
+      .form-group
+        = label_tag "login"
+        = text_field_tag "login", nil, id: "sign_up_username", class: 'form-control'
 
-=button_tag 'Map', type: 'button', id: 'map_roles'
+      .form-group
+        = label_tag "password"
+        = password_field_tag "password", nil, id: "sign_up_password", class: 'form-control'
 
-= form_tag '/add_user', remote: true do 
-  .form-group
-    = label_tag "email"
-    = email_field_tag "email", nil, id: "sign_up_email"
+      .form-group
+        = label_tag "password_confirmation"
+        = password_field_tag "password_confirmation", nil, id: "sign_up_confirm", class: 'form-control'
 
-  .form-group
-    = label_tag "login"
-    = text_field_tag "login", nil, id: "sign_up_username"
-  
-  .form-group
-    = label_tag "password"
-    = password_field_tag "password", nil, id: "sign_up_password"
+      = submit_tag 'Create New User', class: 'btn btn-default'
 
-  .form-group
-    = label_tag "password_confirmation"
-    = password_field_tag "password_confirmation", nil, id: "sign_up_confirm"
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title Map LDAP/ACS Group to Internal Role
+  .panel-body
+    %label{for: '#ldap-group-select'} LDAP Group
+    %select.ldap-groups#ldap-group-select
+      - @ldap_groups.each do |ldap_group|
+        %option{value:ldap_group}= /CN=(.*?),/.match(ldap_group)[1]
 
-  = submit_tag
-
-%ul#list_of_mappings
-  %span.ldap-mapping-group= "LDAP"
-  = icon('arrow-right')
-  %span.ldap-mapped-role= "Role"
-  - @ldap_role_mappings.each do |mapping|
-    %li
-      %span.ldap-mapping-group{mapping_id: mapping.id}= /CN=(.*?),/.match(mapping.ldap_group)[1]
-      = icon('arrow-right')
-      %span.ldap-mapped-role= mapping.role
-      = button_tag 'Delete', type: 'button', class: 'delete_mapping'
-
-%ul#list_of_users
-  - @non_enova_users.each do |user|
-    %li
-      %span.user-email= user.email
+    %label{for: '#role-select'} Role
+    %select.role-select#role-select
       - @roles.each do |role|
-        = label_tag "#{role.name}-#{user.id}", role.name
-        = check_box_tag "#{role.name}-#{user.id}", role.name, user.roles.include?(role), user: user.email
-      = button_tag 'Delete', type: 'button', class: 'delete_user'
-= button_tag 'Save', type: 'button', id: 'map_users'
+        %option{value:role.name}= role.name
+    =button_tag 'Map', type: 'button', id: 'map_roles', class: 'btn btn-default'
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title List of LDAP to Internal Role Mappings
+  .panel-body
+    %ul#list_of_mappings
+      - @ldap_role_mappings.each do |mapping|
+        %li
+          %span.ldap-mapping-group{mapping_id: mapping.id}= /CN=(.*?),/.match(mapping.ldap_group)[1]
+          = icon('arrow-right')
+          %span.ldap-mapped-role= mapping.role
+          = button_tag type: 'button', class: 'delete_mapping btn btn-default btn-xs' do
+            = icon('trash-o')
+            Delete
+
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title Edit Non-Enova User Internal Roles
+  .panel-body
+    %ul#list_of_users
+      - @non_enova_users.each do |user|
+        %li
+          %span.user-email= user.email
+          - @roles.each do |role|
+            = label_tag "#{role.name}-#{user.id}", role.name
+            = check_box_tag "#{role.name}-#{user.id}", role.name, user.roles.include?(role), user: user.email
+          = button_tag type: 'button', class: 'delete_user btn btn-default btn-xs' do
+            = icon('trash-o')
+            Delete
+    = button_tag type: 'button', id: 'map_users', class: 'btn btn-default' do
+      = icon('save')
+      Save
