@@ -1,4 +1,5 @@
 $ ->
+  $('#user-provider-select').selectize()
   $('#map_roles').click ->
     $.ajax
       type: 'post'
@@ -21,7 +22,7 @@ $ ->
       data:
         mappings: mappings
 
-  bind_delete_user_button = () -> 
+  bind_delete_user_button = () ->
     $('.delete_user').click ->
       self = $(this)
       email = $(this).parent().find('.user-email').text()
@@ -42,7 +43,7 @@ $ ->
       $.ajax
         type: 'delete'
         url: '/delete_ldap_mapping'
-        data: 
+        data:
           mapping_id: mapping_id
 
   $('#add_user_form_button').click (event) ->
