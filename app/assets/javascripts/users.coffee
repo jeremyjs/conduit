@@ -1,4 +1,5 @@
 $ ->
+  $('#user-provider-select').selectize()
   $('#map_roles').click ->
     $.ajax
       type: 'post'
@@ -32,7 +33,7 @@ $ ->
       data:
         mappings: mappings
 
-  bind_delete_user_button = () -> 
+  bind_delete_user_button = () ->
     $('.delete_user').click ->
       self = $(this)
       email = $(this).parent().find('.user-email').text()
