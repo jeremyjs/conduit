@@ -112,6 +112,9 @@ class ChartPresenter
       display_variables: display_variables,
       providers: providers,
       query: query.name,
+      id: id,
+      filters: [],
+      groups: nil,
       example_result_hash: query_result.first,
       data: formatted_query_results,
       totals: totals
