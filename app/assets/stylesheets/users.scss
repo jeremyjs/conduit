@@ -1,3 +1,16 @@
-// Place all the styles related to the users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.admin-panel {
+  width: 45%;
+  float: left;
+  padding: 0 5%;
+
+  .panel-body {
+    padding: 20px 10px 5px 10px;
+
+    .form-group {
+      label {
+        font-weight: bold;
+      }
+      padding-bottom: 5px;
+    }
+  }
+}
