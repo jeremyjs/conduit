@@ -15,9 +15,19 @@ class Widget < ActiveRecord::Base
     self.row ||= 1
     self.column ||= 1
     self.query_id ||= 4
-    self.variables ||= {brand_id: "2", start_time: "2014-05-28 00:00:00", end_time: "2014-05-30 23:59:59", providers: "'t3uk'"}
-    self.display_variables ||= {kpis: [ "total_imported"]}
-    self.name ||= "Pitch main performance results for #{self.variables[:providers]}"
+
+    # TODO: could be a merge?
+    self.variables ||= {}
+    self.variables[:brand_id]   ||= "2"
+    self.variables[:start_time] ||= "2014-05-28 00:00:00"
+    self.variables[:end_time]   ||= "2014-05-30 23:59:59"
+
+    # TODO: could be a merge?
+    self.display_variables ||= {}
+    self.display_variables[:providers] ||= "'t3uk'"
+    self.display_variables[:kpis]      ||= ["total_imported"]
+
+    self.name ||= "Pitch main performance results for #{self.display_variables[:providers]}"
   end
 
   def has_changed?
@@ -25,6 +35,7 @@ class Widget < ActiveRecord::Base
   end
 
   def update_widget
+    update_as_a_child
     if has_changed?
       update_variable_hash
       execute_query
@@ -137,17 +148,21 @@ class Widget < ActiveRecord::Base
     complete_query.variables.except(:start_time, :end_time) == variables.except(:start_time, :end_time)
   end
 
-  def brand
-    variables[:brand_id]
+  def brand_id
+    variables[:brand_id].to_s
+  end
+
+  def s_to_a(s)
+    s.gsub("'", "").split(", ")
+  end
+
+  def self.s_to_a(s)
+    s.gsub("'", "").split(", ")
   end
 
   private
   def subset?(smaller, larger)
     (smaller-larger).empty?
-  end
-
-  def s_to_a(s)
-    s.gsub("'", "").split(", ")
   end
 
 end

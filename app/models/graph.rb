@@ -1,12 +1,15 @@
 class Graph < Widget
-  belongs_to :query
+
+  def update_as_a_child
+    self.variables[:providers] = query_providers
+  end
 
   def display_providers
     display_variables[:providers] || []
   end
 
   def query_providers
-    Provider.all_providers(brand)
+    Provider.all_providers(brand_id)
   end
 
   def kpis
