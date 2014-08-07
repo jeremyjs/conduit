@@ -43,7 +43,7 @@ updateProviders = (brand_id, providerSelects, whichProviderSelect) ->
             currentSelectize.addOption
               text: provider.name
               value: provider.name
-              
+
           currentSelectize.refreshOptions()
 
 
@@ -53,9 +53,11 @@ $ ->
   providerSelects = $('.providers').selectize
     plugins: ['remove_button']
 
+  userSelects = $('.user-selects').selectize()
+
   initDatePicker()
 
-  $('.brand-selector').change -> 
+  $('.brand-selector').change ->
     brand = $(this).val()
 
     whichProviderSelect = $(this).parents('.widget-variables-field').find('select.providers').attr('id')
@@ -132,7 +134,7 @@ $ ->
         variables: {}
         display_variables: {}
 
-    widget_fields = 'input.query-name'
+    widget_fields = 'input.query-name, select.user-selects'
     widget_keys = getKeys(widget_fields)
     widget_values = getValues(widget_fields)
 
