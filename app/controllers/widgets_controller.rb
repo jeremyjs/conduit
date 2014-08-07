@@ -62,7 +62,14 @@ class WidgetsController < ApplicationController
         @widget.display_variables = display_variables
         @widget.save
       end
-      if @widget.update(widget_params.except('query_id', 'variables', 'display_variables'))
+      if @widget.update(widget_params.except('query_id', 'user', 'variables', 'display_variables'))
+        email = params['widget']['user']
+        if not email.empty?
+          user = User.find_by(email: email)
+          copy = @widget.dup
+          copy.user = user
+          copy.save
+        end
         format.html { render nothing: true, notice: 'Widget was successfully updated.' }
         format.json { render :show, status: :ok, location: @widget }
       else

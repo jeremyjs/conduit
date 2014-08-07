@@ -8,6 +8,10 @@
         - @query.errors.full_messages.each do |message|
           %li= message
   .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
     = f.label :command
     %br/
     = f.text_area :command

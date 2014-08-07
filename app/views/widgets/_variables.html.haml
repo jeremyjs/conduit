@@ -3,7 +3,20 @@
 - variables.reject{ |k, _| k == :providers }.each do |variable, value|
   - id = SecureRandom.urlsafe_base64(nil, false)
   .form-group
-    - if variable.to_s == "brand_id"
+    - if variable.to_s == "providers"
+      - if not current_user.provider.nil?
+        %label.hidden{for: "#{variable}-#{id}"} #{variable}
+        %select.widget-variables.hidden{id: "#{variable}-#{id}", class: variable, multiple: 'multiple', key: variable}
+          %option{value:current_user.provider.name, selected: true}= current_user.provider.name
+      - else
+        %label{for: "#{variable}-#{id}"} #{variable}
+        %select.widget-variables{id: "#{variable}-#{id}", class: variable, multiple: 'multiple', key: variable}
+          - Provider.where(brand_id: widget.variables[:brand_id]).order(:name).each do |provider|
+            - if widget.variables[:providers].include? provider.name
+              %option{value:provider.name, selected: true}= provider.name
+            - else
+              %option{value:provider.name}= provider.name
+    - elsif variable.to_s == "brand_id"
       %label{for: "#{variable}-#{id}"} Brand
       %select.brand-selector{key: variable, id: "#{variable}-#{id}"}
         - if value.to_s == "2"
