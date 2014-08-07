@@ -57,7 +57,7 @@ $ ->
         li_content = li_content.replace(/ajax_user_email/g, response.email)
         li_content = li_content.replace(/ajax_user_id/g, response.id)
 
-        new_li_element = li_open_tag + li_content + li_close_tag       
+        new_li_element = li_open_tag + li_content + li_close_tag
 
         $('#list_of_users').append(new_li_element)
 
