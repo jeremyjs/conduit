@@ -42,6 +42,12 @@
 
 %ul#list_of_users
   - @non_enova_users.each do |user|
+    %li.hidden
+      %span.user-email ajax_user_email
+      - @roles.each do |role|
+        = label_tag "#{role.name}-ajax_user_id", role.name
+        = check_box_tag "#{role.name}-ajax_user_id", role.name, false, user: "ajax_user_email"
+      = button_tag 'Delete', type: 'button', class: 'delete_user'
     %li
       %span.user-email= user.email
       - @roles.each do |role|
