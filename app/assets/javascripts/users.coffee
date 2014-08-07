@@ -1,4 +1,5 @@
 $ ->
+  $('input.form-control').jvFloat()
   $('#user-provider-select').selectize()
   $('#map_roles').click ->
     $.ajax
@@ -17,6 +18,7 @@ $ ->
 
         new_li_element = li_open_tag + li_content + li_close_tag
         $('#list_of_mappings').append($(new_li_element).hide().fadeIn())
+        $('.delete_mapping').unbind('click')
         bind_delete_mapping_button()
 
   $('#map_users').click ->
@@ -84,6 +86,7 @@ $ ->
         new_li_element = li_open_tag + li_content + li_close_tag
 
         $('#list_of_users').append($(new_li_element).hide().fadeIn())
+        $('.delete_user').unbind('click')
         bind_delete_user_button()
 
   true
