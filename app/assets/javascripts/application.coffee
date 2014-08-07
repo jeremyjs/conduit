@@ -30,3 +30,4 @@
 #= require codemirror
 #= require codemirror/modes/sql
 #= require query
+#= require jvfloat
