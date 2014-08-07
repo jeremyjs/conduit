@@ -16,7 +16,7 @@
         .form-group
           = password_field_tag "password_confirmation", nil, id: "sign_up_confirm", class: 'form-control', placeholder: 'Confirm'
 
-        .form-group
+        .form-group.select-box
           = label_tag "provider"
           %select{name: 'provider', id: 'user-provider-select'}
             - Provider.all.order(:name).each do |provider|
@@ -55,13 +55,13 @@
     .panel-heading
       %h3.panel-title Map LDAP/ACS Group to Internal Role
     .panel-body
-      .form-group
+      .form-group.select-box
         %label{for: '#ldap-group-select'} LDAP Group
         %select.ldap-groups#ldap-group-select
           - @ldap_groups.each do |ldap_group|
             %option{value:ldap_group}= /CN=(.*?),/.match(ldap_group)[1]
 
-      .form-group
+      .form-group.select-box
         %label{for: '#role-select'} Role
         %select.role-select#role-select
           - @roles.each do |role|
