@@ -38,6 +38,12 @@
           type: 'timeseries'
           tick:
             format: '%Y-%m-%d'
+    when "percent"
+      axis:
+        y:
+          type: 'percent'
+          tick:
+            format: d3.format '%'
     else {}
 
 @renderChart = (chart, options = {}) ->

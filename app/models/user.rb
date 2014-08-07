@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :widgets
   has_many :user_role_mappings
+  belongs_to :provider
 
 
   before_validation(on: :create) do

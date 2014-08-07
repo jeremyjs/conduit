@@ -10,8 +10,8 @@ class LdapController < ApplicationController
     @ldap_role_mapping = LdapRoleMapping.new(ldap_group: params['ldap_group'], role: params['role'])
     respond_to do |format|
       if @ldap_role_mapping.save
-        format.json { render json: @ldap_role_mapping.errors}
-        format.js { render json: @ldap_role_mapping.errors}
+        format.json { render json: @ldap_role_mapping }
+        format.js { render json: @ldap_role_mapping }
       else
         format.json { render json: @ldap_role_mapping.errors}
         format.js { render json: @ldap_role_mapping.errors}

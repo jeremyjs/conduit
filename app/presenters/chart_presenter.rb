@@ -39,6 +39,10 @@ class ChartPresenter
     @graph.kpis
   end
 
+  def kpi
+    kpis && kpis.length == 1 && kpis.first || nil
+  end
+
   def variables
     @graph.variables
   end
@@ -78,9 +82,11 @@ class ChartPresenter
   end
 
   def formatted_query_results
+    return @output.values if @output
     @output = Hash.new { |hash, key| hash[key] = [key] }
     selected_provider_data = query_result.select { |row| providers.include? row["provider"] }
     selected_provider_data.sort_by! { |row| row["date"] }
+    p selected_provider_data
     selected_provider_data.each do |row|
       populate_row_headers_for(row) if row["date"] != @output["x"][-1]
       extract_data(row)
@@ -91,16 +97,6 @@ class ChartPresenter
     @output.values
   end
 
-  def totals
-    @totals = Hash.new { 0 }
-    query_result.each { |row| extract_kpis(row) }
-    @totals
-  end
-
-  def extract_kpis(row)
-    kpis.each { |kpi| @totals[kpi] += row[kpi].to_i }
-  end
-
   # data: [["column1", 1, 6... ], ["column2", 2, 5... ]]
   def to_json
     {
@@ -109,19 +105,65 @@ class ChartPresenter
       user_defined_headers: user_defined_headers,
       kpis: kpis,
       weekly: group_weekly(formatted_query_results),
+      totals: totals,
+      percentage: percentagize(formatted_query_results),
       display_variables: display_variables,
       providers: providers,
       query: query.name,
       id: id,
-      filters: [],
+      filters: ["percent"],
       groups: nil,
       example_result_hash: query_result.first,
-      data: formatted_query_results,
-      totals: totals
+      data1: formatted_query_results,
+      data: percentagize(formatted_query_results)
     }
   end
 
   private
+  def totals
+    return @totals if @totals
+    @totals = {}
+    kpi_list.each { |kpi| @totals[kpi] = [0] }
+    sorted_query_result = query_result.sort_by { |row| row["date"] }
+    @date_iterator = formatted_query_results[0][1..-1].each
+    sorted_query_result.each { |row| extract_kpis(row) }
+    @totals
+  end
+
+  def extract_kpis(query_row)
+    while @date_iterator.peek != query_row["date"]
+      puts @date_iterator.peek
+      @date_iterator.next
+      @totals.values.each { |a| a << 0 }
+    end
+    kpi_list.each { |kpi| @totals[kpi][-1] += query_row[kpi].to_i }
+  end
+
+  def percentagize(input)
+    rows = input.clone
+    date_row = rows.shift
+    rows.map! { |row| apply_percentages(row) }
+    rows.unshift date_row
+  end
+
+  def apply_percentages(row)
+    apply_percentages!(row.clone)
+  end
+
+  def apply_percentages!(row)
+    header = row.shift
+    kpi = if kpi_list.include? header
+            header
+          else
+            self.kpi
+          end
+    new_row = row.map.with_index do |v, i|
+      total = totals[kpi][i].to_f
+      total == 0 ? 0 : v/total
+    end
+    new_row.unshift header
+  end
+
   def fill_in_until_including(date)
     date = Date.parse(date) unless date.is_a? Date
     if @output["x"].last == "x"
@@ -139,12 +181,14 @@ class ChartPresenter
     fill_in_until_including(row["date"])
   end
 
-  def group_weekly(input)
-    # initialize_grouping
+  def group_weekly(rows)
+    group_weekly!(rows.clone)
+  end
+
+  def group_weekly!(rows)
     @interval = 7 # days
-    rows = input
-    date_row = rows.shift
-    headers = rows.map { |row| row.shift }
+    rows.shift
+    headers = rows.map { |row| row.clone.shift }
     new_date_row = ["x"]
     new_rows = []
 
@@ -152,14 +196,11 @@ class ChartPresenter
       new_date_row << formatted_date_label(new_date_index)
     end
 
-    return new_date_row
-
     rows.each_with_index do |row, i|
-      new_rows << [headers[i+1]]
+      new_rows << [headers[i]]
       (1...new_date_row.length).each do |new_date_index|
         new_rows.last << row_sum(row, new_date_index)
       end
-      new_rows.last << end_row_sum(row)
     end
     new_rows.unshift new_date_row
     new_rows
@@ -183,7 +224,7 @@ class ChartPresenter
   def row_sum(row, new_date_index)
     row_segment = row[(new_date_index * @interval)...(new_date_index * (@interval + 1))]
     row_segment = row[(num_intervals * @interval)..-1] if new_date_index > num_intervals
-
+    row_segment.shift if row_segment[0].is_a? String
     row_segment.inject{ |sum, v| sum + v.to_i }
   end
 
