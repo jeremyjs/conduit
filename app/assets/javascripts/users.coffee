@@ -21,14 +21,20 @@ $ ->
       data:
         mappings: mappings
 
-  $('.delete_user').click ->
-    email = $(this).parent().find('.user-email').text()
-    if confirm('Are you sure you want to delete '+email+'?')
-      $.ajax
-        type: 'delete'
-        url: '/delete_user'
-        data:
-          email: email
+  bind_delete_user_button = () -> 
+    $('.delete_user').click ->
+      self = $(this)
+      email = $(this).parent().find('.user-email').text()
+      if confirm('Are you sure you want to delete '+email+'?')
+        $.ajax
+          type: 'delete'
+          url: '/delete_user'
+          data:
+            email: email
+          success: () ->
+            self.parent().fadeOut()
+
+  bind_delete_user_button()
 
   $('.delete_mapping').click ->
     mapping_id = $(this).parent().find('.ldap-mapping-group').attr('mapping_id')
@@ -59,6 +65,7 @@ $ ->
 
         new_li_element = li_open_tag + li_content + li_close_tag
 
-        $('#list_of_users').append(new_li_element)
+        $('#list_of_users').append($(new_li_element).hide().fadeIn())
+        bind_delete_user_button()
 
   true
