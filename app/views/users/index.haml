@@ -47,6 +47,13 @@
     %h3.panel-title List of LDAP to Internal Role Mappings
   .panel-body
     %ul#list_of_mappings
+      %li.hidden
+        %span.ldap-mapping-group{mapping_id: 'ajax_mapping_id'} ajax_ldap_name
+        = icon('arrow-right')
+        %span.ldap-mapped-role ajax_mapping_role
+        = button_tag type: 'button', class: 'delete_mapping btn btn-default btn-xs' do
+          = icon('trash-o')
+          Delete
       - @ldap_role_mappings.each do |mapping|
         %li
           %span.ldap-mapping-group{mapping_id: mapping.id}= /CN=(.*?),/.match(mapping.ldap_group)[1]
