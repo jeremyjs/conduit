@@ -67,10 +67,9 @@ $ ->
     event.preventDefault()
     serialized_data = $('#add_user_form').serializeArray()
     form_data = {}
+    form_data["providers"] = []
     for one_serialized_data in serialized_data
-      if one_serialized_data.name of form_data
-        if typeof form_data[one_serialized_data.name] == "string"
-          form_data[one_serialized_data.name] = [form_data[one_serialized_data.name]]
+      if one_serialized_data.name == "providers"
         form_data[one_serialized_data.name].push(one_serialized_data.value)
       else
         form_data[one_serialized_data.name] = one_serialized_data.value
