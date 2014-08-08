@@ -1,5 +1,5 @@
 class Provider < ActiveRecord::Base
-  has_many :users
+  has_and_belongs_to_many :users
 
   # TODO: replace with scope
   def self.all_providers(brand)
