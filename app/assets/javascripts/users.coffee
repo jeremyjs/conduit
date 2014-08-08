@@ -69,8 +69,12 @@ $ ->
     event.preventDefault()
     serialized_data = $('#add_user_form').serializeArray()
     form_data = {}
+    form_data["providers"] = []
     for one_serialized_data in serialized_data
-      form_data[one_serialized_data.name] = one_serialized_data.value
+      if one_serialized_data.name == "providers"
+        form_data[one_serialized_data.name].push(one_serialized_data.value)
+      else
+        form_data[one_serialized_data.name] = one_serialized_data.value
 
     $.ajax
       type: 'post'
