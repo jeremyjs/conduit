@@ -20,8 +20,8 @@
         = password_field_tag "password_confirmation", nil, id: "sign_up_confirm", class: 'form-control'
 
       .form-group
-        = label_tag "provider"
-        %select{name: 'provider', id: 'user-provider-select'}
+        = label_tag "providers"
+        %select{name: 'providers', id: 'user-providers-select', multiple: true}
           - Provider.all.order(:name).each do |provider|
             %option{value:provider.name}= provider.name
 

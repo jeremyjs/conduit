@@ -8,7 +8,10 @@ class UsersController < ApplicationController
 
   def add_user
     @user = User.new({email: params[:email], login: params[:login], password: params[:password], password_confirmation: [:password_confirmation]})
-    @user.provider = Provider.find_by(name: params[:provider])
+    params[:providers].each do |provider_name|
+      provider = Provider.find_by(name: provider_name)
+      @user.providers << provider
+    end
     respond_to do |format|
       if @user.save(validate: false)
         format.json { render json: @user }
