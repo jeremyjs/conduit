@@ -16,6 +16,13 @@
 /log/*.log
 /tmp
 
+# Ignore sensitive db files
+/etc/db.yml
+
+# Ignore secrets
+/config/secrets.yml
+/config/ldap.yml
+
 *.swp
 *.swo
 .DS_Store
